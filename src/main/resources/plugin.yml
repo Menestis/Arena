@@ -1,0 +1,6 @@
+name: pyralia-arena
+version: '${project.version}'
+main: com.pyralia.arena.Main
+api-version: 1.17
+depend:
+  - pyralia-core
