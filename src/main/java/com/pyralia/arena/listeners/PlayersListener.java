@@ -58,7 +58,6 @@ public class PlayersListener implements Listener {
         entitySpawnEvent.setCancelled(true);
     }
 
-
     @EventHandler
     public void onDamage(EntityDamageEvent entityDamageEvent){
         if(entityDamageEvent.getEntity().getLocation().getY() > 100)
