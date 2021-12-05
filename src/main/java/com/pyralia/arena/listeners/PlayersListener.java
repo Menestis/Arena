@@ -2,6 +2,8 @@ package com.pyralia.arena.listeners;
 
 import com.pyralia.arena.Main;
 import com.pyralia.core.common.ItemCreator;
+import com.pyralia.core.spigot.CorePlugin;
+import com.pyralia.core.spigot.player.PyraliaPlayer;
 import org.bukkit.Bukkit;
 
 import org.bukkit.GameMode;
@@ -39,7 +41,14 @@ public class PlayersListener implements Listener {
         String message = asyncPlayerChatEvent.getMessage();
         asyncPlayerChatEvent.setCancelled(true);
 
-        Bukkit.broadcastMessage("§8❘ §5" + player.getName() + " §8» §f" + message);
+        PyraliaPlayer pyraliaPlayer = CorePlugin.getPyraliaPlayer(player);
+        if(pyraliaPlayer.getPyraliaMute().isMute()){
+            player.sendMessage(pyraliaPlayer.getPyraliaMute().getMuteMessage());
+            return;
+        }
+
+
+        Bukkit.broadcastMessage(pyraliaPlayer.getRank().getTabPrefix() + " " + player.getName() + " §8» §f" + message);
     }
 
     @EventHandler
