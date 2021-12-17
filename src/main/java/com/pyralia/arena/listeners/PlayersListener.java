@@ -4,8 +4,8 @@ import com.pyralia.arena.Main;
 import com.pyralia.core.common.ItemCreator;
 import com.pyralia.core.spigot.CorePlugin;
 import com.pyralia.core.spigot.player.PyraliaPlayer;
-import org.bukkit.Bukkit;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
@@ -88,6 +88,8 @@ public class PlayersListener implements Listener {
     public void onInteract(PlayerInteractEvent playerDropItemEvent){
         if(playerDropItemEvent.getPlayer().getLocation().getY() > 100 && playerDropItemEvent.getItem() != null && playerDropItemEvent.getItem().getType() == Material.DIAMOND_SWORD && playerDropItemEvent.getAction().name().contains("RIGHT"))
             instance.getGameManager().joinArena(playerDropItemEvent.getPlayer());
+        if(playerDropItemEvent.getPlayer().getLocation().getY() > 100 && playerDropItemEvent.getItem() != null && playerDropItemEvent.getItem().getType() == Material.ENDER_PORTAL_FRAME && playerDropItemEvent.getAction().name().contains("RIGHT"))
+            instance.getGuiManager().getSelectKitInventory().open(playerDropItemEvent.getPlayer());
     }
 
     @EventHandler
@@ -129,17 +131,18 @@ public class PlayersListener implements Listener {
         player.getInventory().setBoots(air);
 
         player.getInventory().setItem(4, new ItemCreator(Material.DIAMOND_SWORD).name("§8» §7Rentrer dans l'Arène").lore("", "§8» §7Cliquez ici pour rejoindre le combat !").get());
+        player.getInventory().setItem(0, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Choisir un Kit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
+
 
         player.setMaxHealth(20);
         player.setHealth(player.getMaxHealth());
-
+        player.setAllowFlight(false);
         player.setFoodLevel(20);
     }
 
     @EventHandler
     public void onDeath(PlayerDeathEvent playerDeathEvent){
         playerDeathEvent.setDeathMessage(null);
-
         Player player = playerDeathEvent.getEntity();
 
         if(player.getKiller() != null){
@@ -149,13 +152,13 @@ public class PlayersListener implements Listener {
             Bukkit.broadcastMessage("§6§lPyralia §8» §3" + player.getName() + "§7 est mort tout seul !");
 
         playerDeathEvent.getDrops().clear();
-        playerDeathEvent.getDrops().add(new ItemStack(Material.GOLDEN_APPLE, 2));
-        playerDeathEvent.getDrops().add(new ItemStack(Material.ARROW, 16));
+        player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.GOLDEN_APPLE, 2));
+        player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.ARROW, 16));
 
-        player.spigot().respawn();
         Bukkit.getScheduler().runTaskLater(instance, ()->{
-            player.teleport(instance.getGameManager().getLobbyLocation());
+            player.spigot().respawn();
 
+            player.teleport(instance.getGameManager().getLobbyLocation());
             player.getInventory().clear();
             ItemStack air = new ItemStack(Material.AIR);
             player.getInventory().setHelmet(air);
@@ -164,9 +167,11 @@ public class PlayersListener implements Listener {
             player.getInventory().setBoots(air);
 
             player.getInventory().setItem(4, new ItemCreator(Material.DIAMOND_SWORD).name("§8» §7Rentrer dans l'Arène").lore("", "§8» §7Cliquez ici pour rejoindre le combat !").get());
+            player.getInventory().setItem(0, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Choisir un Kit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
 
             player.setMaxHealth(20);
             player.setHealth(player.getMaxHealth());
+            player.setAllowFlight(false);
 
             player.setFoodLevel(20);
         }, 3);
@@ -177,10 +182,11 @@ public class PlayersListener implements Listener {
         playerJoinEvent.setJoinMessage(null);
         Player player = playerJoinEvent.getPlayer();
         Bukkit.broadcastMessage("§6§lPyralia §8» §a" + player.getName() + "§7 a rejoint l'Arène.");
+        Main.registerPlayer(player);
 
         Bukkit.getScheduler().runTaskLater(instance, ()->{
             player.teleport(instance.getGameManager().getLobbyLocation());
-
+            player.setGameMode(GameMode.SURVIVAL);
             player.getInventory().clear();
             ItemStack air = new ItemStack(Material.AIR);
             player.getInventory().setHelmet(air);
@@ -189,6 +195,8 @@ public class PlayersListener implements Listener {
             player.getInventory().setBoots(air);
 
             player.getInventory().setItem(4, new ItemCreator(Material.DIAMOND_SWORD).name("§8» §7Rentrer dans l'Arène").lore("", "§8» §7Cliquez ici pour rejoindre le combat !").get());
+            player.getInventory().setItem(0, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Choisir un Kit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
+
             player.sendMessage("");
             player.sendMessage("§6§lPyralia §8» §7Bienvenue dans l'Arène, ici vous pourrez combattre d'autres joueurs librement !");
             player.sendMessage("");
@@ -201,7 +209,7 @@ public class PlayersListener implements Listener {
 
             player.setMaxHealth(20);
             player.setHealth(player.getMaxHealth());
-
+            player.setAllowFlight(false);
             player.setFoodLevel(20);
         }, 3);
     }
