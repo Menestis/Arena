@@ -12,7 +12,11 @@ import org.bukkit.inventory.ItemStack;
  */
 public class DefaultKit extends Kit {
     public DefaultKit() {
-        super("Kit par défaut", new ItemStack(Material.BREAD), "§fLe kit de base");
+        super("Kit par défaut", new ItemStack(Material.BREAD),
+                "§8» §7Mode : §c/",
+                "§8» §7Type : §e/",
+                "§8» §7Pouvoirs:",
+                "§f- §7Vous avez une canne à pêche dans votre kit.");
     }
 
     @Override

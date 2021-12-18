@@ -85,8 +85,8 @@ public final class Main extends JavaPlugin {
         }, 20, 20);
 
         getServer().getScheduler().runTaskTimer(this, ()->{
-            Bukkit.broadcastMessage("§6§lPyralia §8» §7Tous les blocs et entitées vont être retirés dans §c30§7 secondes.");
-        }, 20, 290*20);
+            Bukkit.broadcastMessage("§6§lPyralia §8» §7Tous les blocs et entitées vont être retirés dans §c1§7 minute.");
+        }, 20, 20*60*4);
 
         getServer().getScheduler().runTaskTimer(this, ()->{
             Bukkit.broadcastMessage("§6§lPyralia §8» §7Tous les blocs et entitées ont été retirés !");

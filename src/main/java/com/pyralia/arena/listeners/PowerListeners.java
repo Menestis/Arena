@@ -33,7 +33,11 @@ public class PowerListeners implements Listener {
                 ErenKit erenKit = ((ErenKit) kit);
                 erenKit.use(kPlayer);
 
-            }  else if(kit instanceof ChainsawKit){
+            } else if(kit instanceof RuiKit && itemStack.getType() == Material.STRING){
+                RuiKit ruiKit = ((RuiKit) kit);
+                ruiKit.use(kPlayer);
+
+            } else if(kit instanceof ChainsawKit){
                 ChainsawKit chainsawKit = ((ChainsawKit) kit);
                  if(itemStack.getType() == Material.FEATHER){
                     chainsawKit.use(kPlayer);

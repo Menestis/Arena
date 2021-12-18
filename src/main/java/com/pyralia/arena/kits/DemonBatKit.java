@@ -16,7 +16,13 @@ import org.bukkit.inventory.ItemStack;
  */
 public class DemonBatKit extends KitSchedule {
     public DemonBatKit() {
-        super("Kit de Démon Bat", new ItemStack(Material.DRAGON_EGG), "§fKit basé sur le démon bat en démon chainsaw.");
+        super("Kit de Démon Bat", new ItemStack(Material.DRAGON_EGG),
+                "§8» §7Mode : §cChainsawMan-UHC",
+                "§8» §7Type : §eOffensif",
+                "§8» §7Pouvoirs:",
+                "§f- §7Vous n'avez que §c8 coeurs permanents§7 aulieu de 10.",
+                "§f- §7Vous pourrez voler pendant §e13 secondes§7. (§a55 secondes de cooldown§7)"
+        );
         super.setSecondsDelay(55);
     }
 
@@ -27,8 +33,7 @@ public class DemonBatKit extends KitSchedule {
         if(player != null){
             player.setAllowFlight(true);
             player.playSound(player.getLocation(), Sound.BAT_HURT, 1, 1);
-            player.sendMessage("§6§lPyralia §8§l» §7Vous avez activé le pouvoir du §cDémon-Bat§7 ! Celui-ci vous octroie §620 secondes§7 de Fly !");
-            Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> player.setAllowFlight(false), 20*20);
+            Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> player.setAllowFlight(false), 13*20);
         }
     }
 

@@ -22,7 +22,12 @@ public class TanjiroKit extends KitSchedule {
     private final PotionEffect strenghtEffect = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20*30, 0, false, false);
 
     public TanjiroKit() {
-        super("Kit de Tanjiro", new ItemStack(Material.BLAZE_ROD), "§fTanjiro de demon slayer !");
+        super("Kit de Tanjiro", new ItemStack(Material.BLAZE_ROD),
+                "§8» §7Mode : §3Démon-Slayer",
+                "§8» §7Type : §eOffensif",
+                "§8» §7Pouvoirs:",
+                "§f- §7Gagnez les effets §bSpeed II §7et §5Force I§7 pendant 30 secondes. (§a55s de cooldown§7)",
+                "§f- §7Quand votre pouvoir sera fini, vous perdrez §c2 coeurs permanents§7.");
         super.setSecondsDelay(55);
     }
 

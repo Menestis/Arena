@@ -21,6 +21,7 @@ public class KitManager {
         this.kitList.add(new TanjiroKit());
         this.kitList.add(new ChainsawKit());
         this.kitList.add(new ErenKit());
+        this.kitList.add(new RuiKit());
 
         this.defaultKit = defaultKit;
     }

@@ -23,8 +23,21 @@ public class ChainsawKit extends KitSchedule {
     private final PotionEffect strenghtEffect = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0, false, false);
 
     public ChainsawKit() {
-        super("Kit de Chainsaw man", new ItemStack(Material.QUARTZ), "§fKit basé sur le Démon chainsaw");
-        super.setSecondsDelay(15);
+        super("Kit de Chainsaw man", new ItemStack(Material.QUARTZ),
+                "§8» §7Mode : §cChainsawMan-UHC",
+                "§8» §7Type : §eOffensif",
+                "§8» §7Pouvoirs:",
+                "§f- §7Vous pourrez vous propulser d'une 10aine de blocs. (§a16s de cooldown§7)",
+                "§f- §7Vous pourrez changer, quand vous voudrez, de mode:",
+                "  §8» §7Mode Chainsaw:",
+                "   §f- §7Vous avez une tête spéciale, donc plus de casque en diamant.",
+                "   §f- §7Vous gagnez les effets §bSpeed I§7 et §5Force I§7.",
+                "  §8» §7Mode Normal:",
+                "   §f- §7Vous n'avez plus la tête spéciale, et donc de nouveau votre casque.",
+                "   §f- §7Vous n'aurez plus vos effets.",
+                ""
+        );
+        super.setSecondsDelay(16);
     }
 
     public void activate(Player player){

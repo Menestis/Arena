@@ -18,14 +18,20 @@ import org.bukkit.potion.PotionEffectType;
  */
 public class ErenKit extends KitSchedule {
 
-    private final PotionEffect strenghtEffect = new PotionEffect(PotionEffectType.INCREASE_DAMAGE,30*20, 0, false, false);
-    private final PotionEffect resistanceEffect = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 30*20, 0, false, false);
-    private final PotionEffect slownessEffect = new PotionEffect(PotionEffectType.SLOW, 5*20, 200, false, false);
-    private final PotionEffect jumpEffect = new PotionEffect(PotionEffectType.JUMP, 5*20, 240, false, false);
+    private final PotionEffect strenghtEffect = new PotionEffect(PotionEffectType.INCREASE_DAMAGE,23*20, 0, false, false);
+    private final PotionEffect resistanceEffect = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 23*20, 0, false, false);
+    private final PotionEffect slownessEffect = new PotionEffect(PotionEffectType.SLOW, 4*20, 200, false, false);
+    private final PotionEffect jumpEffect = new PotionEffect(PotionEffectType.JUMP, 4*20, 240, false, false);
 
     public ErenKit(){
-        super("Eren", new ItemStack(Material.DEAD_BUSH), "Eren dans SNK");
-        super.setSecondsDelay(62);
+        super("Eren", new ItemStack(Material.DEAD_BUSH),
+                "§8» §7Mode : §eAOTv3",
+                "§8» §7Type : §eOffensif",
+                "§8» §7Pouvoirs:",
+                "§f- §7Gagnez les effets §bSpeed I§7 et §5Force I§7 pendant §e23 secondes§7. (§a48s de cooldown§7)",
+                "§f- §7Quand vous utiliserez vos effets, vous §cempêcherez§7 les joueurs dans un rayon de 10 blocs",
+                " §7de bouger pendant §e4 secondes§7, et vous serez §dsoigné§7.");
+        super.setSecondsDelay(48);
     }
 
     @Override
