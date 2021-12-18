@@ -15,13 +15,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
-import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 
 /**
@@ -99,6 +98,9 @@ public class PlayersListener implements Listener {
             blockPlaceEvent.getPlayer().sendMessage("§6§lPyralia §8» §cVous ne pouvez pas placer de block si haut !");
         }
 
+        if(blockPlaceEvent.getPlayer().getInventory().getItemInHand().hasItemMeta())
+            blockPlaceEvent.setCancelled(true);
+
         instance.getGameManager().getLocationList().add(blockPlaceEvent.getBlock().getLocation());
     }
 
@@ -130,6 +132,8 @@ public class PlayersListener implements Listener {
         player.getInventory().setLeggings(air);
         player.getInventory().setBoots(air);
 
+        player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
+
         player.getInventory().setItem(4, new ItemCreator(Material.DIAMOND_SWORD).name("§8» §7Rentrer dans l'Arène").lore("", "§8» §7Cliquez ici pour rejoindre le combat !").get());
         player.getInventory().setItem(0, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Choisir un Kit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
 
@@ -148,12 +152,12 @@ public class PlayersListener implements Listener {
         if(player.getKiller() != null){
             Bukkit.broadcastMessage("§6§lPyralia §8» §3" + player.getName() + "§7 est mort par le joueur §3" + player.getKiller().getName() + "§8 [§f" + ((int) player.getKiller().getHealth()) / 2 + "§f ♥§8]");
             player.getKiller().setStatistic(Statistic.PLAYER_KILLS, player.getKiller().getStatistic(Statistic.PLAYER_KILLS) + 1);
+            player.getKiller().getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 2));
+            player.getKiller().getInventory().addItem(new ItemStack(Material.ARROW, 16));
         } else
             Bukkit.broadcastMessage("§6§lPyralia §8» §3" + player.getName() + "§7 est mort tout seul !");
 
         playerDeathEvent.getDrops().clear();
-        player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.GOLDEN_APPLE, 2));
-        player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.ARROW, 16));
 
         Bukkit.getScheduler().runTaskLater(instance, ()->{
             player.spigot().respawn();
@@ -165,6 +169,8 @@ public class PlayersListener implements Listener {
             player.getInventory().setChestplate(air);
             player.getInventory().setLeggings(air);
             player.getInventory().setBoots(air);
+
+            player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
 
             player.getInventory().setItem(4, new ItemCreator(Material.DIAMOND_SWORD).name("§8» §7Rentrer dans l'Arène").lore("", "§8» §7Cliquez ici pour rejoindre le combat !").get());
             player.getInventory().setItem(0, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Choisir un Kit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
@@ -194,6 +200,8 @@ public class PlayersListener implements Listener {
             player.getInventory().setLeggings(air);
             player.getInventory().setBoots(air);
 
+            player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
+
             player.getInventory().setItem(4, new ItemCreator(Material.DIAMOND_SWORD).name("§8» §7Rentrer dans l'Arène").lore("", "§8» §7Cliquez ici pour rejoindre le combat !").get());
             player.getInventory().setItem(0, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Choisir un Kit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
 
@@ -221,6 +229,38 @@ public class PlayersListener implements Listener {
 
         Bukkit.broadcastMessage("§6§lPyralia §8» §c" + player.getName() + "§7 a quitté l'Arène.");
     }
+
+    private int strengthRate = 30;
+    private int resistanceRate = 15;
+
+    @EventHandler
+    private void onPatchPotion(EntityDamageByEntityEvent event) {
+        event.setDamage(event.getDamage() * 0.90);
+
+        if (!(event.getEntity() instanceof Player))
+            return;
+
+        if (!(event.getDamager() instanceof Player))
+            return;
+        Player damager = (Player) event.getDamager();
+        Player player = (Player) event.getEntity();
+
+        if (damager.hasPotionEffect(PotionEffectType.INCREASE_DAMAGE)) {
+
+            if (damager.getActivePotionEffects().stream().filter(potionEffect -> potionEffect.getType().equals(PotionEffectType.INCREASE_DAMAGE)).map(PotionEffect::getAmplifier).findFirst().orElse(-1) == 0) {
+                event.setDamage(event.getDamage() / 2.3f *
+                        (1 + strengthRate / 100f));
+            } else event.setDamage(event.getDamage() *
+                    (1 + strengthRate / 100f));
+        }
+        if (player.hasPotionEffect(PotionEffectType.DAMAGE_RESISTANCE)) {
+            if (resistanceRate >= 100) {
+                event.setCancelled(true);
+            }
+            event.setDamage(event.getDamage() * (100 - resistanceRate) / 80f);
+        }
+    }
+
 
 
 }

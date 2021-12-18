@@ -1,8 +1,6 @@
 package com.pyralia.arena.manager;
 
-import com.pyralia.arena.kits.DefaultKit;
-import com.pyralia.arena.kits.DemonBatKit;
-import com.pyralia.arena.kits.Kit;
+import com.pyralia.arena.kits.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +18,9 @@ public class KitManager {
 
         this.kitList.add(defaultKit);
         this.kitList.add(new DemonBatKit());
+        this.kitList.add(new TanjiroKit());
+        this.kitList.add(new ChainsawKit());
+        this.kitList.add(new ErenKit());
 
         this.defaultKit = defaultKit;
     }

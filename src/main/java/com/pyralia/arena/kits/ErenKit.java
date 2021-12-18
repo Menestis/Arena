@@ -6,40 +6,52 @@ import com.pyralia.arena.utils.PlayerUtils;
 import com.pyralia.core.common.ItemCreator;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * @author Ariloxe
  */
-public class DemonBatKit extends KitSchedule {
-    public DemonBatKit() {
-        super("Kit de Démon Bat", new ItemStack(Material.DRAGON_EGG), "§fKit basé sur le démon bat en démon chainsaw.");
-        super.setSecondsDelay(55);
+public class ErenKit extends KitSchedule {
+
+    private final PotionEffect strenghtEffect = new PotionEffect(PotionEffectType.INCREASE_DAMAGE,30*20, 0, false, false);
+    private final PotionEffect resistanceEffect = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 30*20, 0, false, false);
+    private final PotionEffect slownessEffect = new PotionEffect(PotionEffectType.SLOW, 5*20, 200, false, false);
+    private final PotionEffect jumpEffect = new PotionEffect(PotionEffectType.JUMP, 5*20, 240, false, false);
+
+    public ErenKit(){
+        super("Eren", new ItemStack(Material.DEAD_BUSH), "Eren dans SNK");
+        super.setSecondsDelay(62);
     }
 
     @Override
     public void power(KPlayer kPlayer) {
         Player player = kPlayer.getBukkitPlayer();
-
         if(player != null){
-            player.setAllowFlight(true);
-            player.playSound(player.getLocation(), Sound.BAT_HURT, 1, 1);
-            player.sendMessage("§6§lPyralia §8§l» §7Vous avez activé le pouvoir du §cDémon-Bat§7 ! Celui-ci vous octroie §620 secondes§7 de Fly !");
-            Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> player.setAllowFlight(false), 20*20);
+            player.getWorld().strikeLightningEffect(player.getLocation());
+            player.addPotionEffect(strenghtEffect);
+            player.addPotionEffect(resistanceEffect);
+            player.setHealth(20);
+
+            Bukkit.getOnlinePlayers().stream().filter(target -> target.getLocation().distance(player.getLocation()) < 10).filter(target -> target != player).forEach(target -> {
+                target.addPotionEffect(slownessEffect);
+                target.addPotionEffect(jumpEffect);
+            });
         }
     }
 
     @Override
-    public void onEquip(Player player) {
+    public void onEquip(Player player){
         player.getInventory().clear();
-        player.setMaxHealth(16);
+        player.setMaxHealth(20);
         player.setHealth(player.getMaxHealth());
 
         player.getInventory().setItem(0, new ItemCreator(Material.DIAMOND_SWORD).enchant(Enchantment.DAMAGE_ALL, 2).get());
-        player.getInventory().setItem(1, new ItemCreator(Material.FEATHER).name("§7Pacte du §cdémon-Bat").lore("", "§fVous permet d'activer le pouvoir du pacte fort", "§fdu démon bat toutes les 45s.").get());
+        player.getInventory().setItem(1, new ItemCreator(Material.DEAD_BUSH).name("§7Transformation titanesque").lore("", "§fVous permet de vous transfomer", "§fTransfomation toutes les 62 secondes.").get());
         player.getInventory().setItem(2, new ItemStack(Material.GOLDEN_APPLE, 9));
         player.getInventory().setItem(3, new ItemCreator(Material.DIAMOND_PICKAXE).enchant(Enchantment.DIG_SPEED, 3).get());
         player.getInventory().setItem(4, new ItemStack(Material.WATER_BUCKET));
@@ -55,4 +67,7 @@ public class DemonBatKit extends KitSchedule {
 
         Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> PlayerUtils.teleportPlayer(player), 3);
     }
+
+
+
 }

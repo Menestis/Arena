@@ -10,36 +10,42 @@ import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * @author Ariloxe
  */
-public class DemonBatKit extends KitSchedule {
-    public DemonBatKit() {
-        super("Kit de Démon Bat", new ItemStack(Material.DRAGON_EGG), "§fKit basé sur le démon bat en démon chainsaw.");
+public class TanjiroKit extends KitSchedule {
+
+    private final PotionEffect speedEffect = new PotionEffect(PotionEffectType.SPEED, 20*30, 1, false, false);
+    private final PotionEffect strenghtEffect = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20*30, 0, false, false);
+
+    public TanjiroKit() {
+        super("Kit de Tanjiro", new ItemStack(Material.BLAZE_ROD), "§fTanjiro de demon slayer !");
         super.setSecondsDelay(55);
     }
 
     @Override
-    public void power(KPlayer kPlayer) {
+    public void power(KPlayer kPlayer){
         Player player = kPlayer.getBukkitPlayer();
-
         if(player != null){
-            player.setAllowFlight(true);
-            player.playSound(player.getLocation(), Sound.BAT_HURT, 1, 1);
-            player.sendMessage("§6§lPyralia §8§l» §7Vous avez activé le pouvoir du §cDémon-Bat§7 ! Celui-ci vous octroie §620 secondes§7 de Fly !");
-            Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> player.setAllowFlight(false), 20*20);
+            player.addPotionEffect(speedEffect);
+            player.addPotionEffect(strenghtEffect);
+            player.playSound(player.getLocation(), Sound.BLAZE_BREATH, 1, 1);
+            player.sendMessage("§6§lPyralia §8§l» §7Vous avez activé votre §6Danse du dieu du feu§7 ! Vous perdrez §62 coeurs permanents§7 à la fin de votre pouvoir.");
+            Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> player.setMaxHealth(player.getMaxHealth() - 4), 20*30);
         }
     }
 
     @Override
-    public void onEquip(Player player) {
+    public void onEquip(Player player){
         player.getInventory().clear();
-        player.setMaxHealth(16);
+        player.setMaxHealth(20);
         player.setHealth(player.getMaxHealth());
 
         player.getInventory().setItem(0, new ItemCreator(Material.DIAMOND_SWORD).enchant(Enchantment.DAMAGE_ALL, 2).get());
-        player.getInventory().setItem(1, new ItemCreator(Material.FEATHER).name("§7Pacte du §cdémon-Bat").lore("", "§fVous permet d'activer le pouvoir du pacte fort", "§fdu démon bat toutes les 45s.").get());
+        player.getInventory().setItem(1, new ItemCreator(Material.BLAZE_ROD).name("§7Danse du dieu du feu").lore("", "§fVous permet d'activer le pouvoir de la danse", "§fdu dieu du feu toutes les 55s.").get());
         player.getInventory().setItem(2, new ItemStack(Material.GOLDEN_APPLE, 9));
         player.getInventory().setItem(3, new ItemCreator(Material.DIAMOND_PICKAXE).enchant(Enchantment.DIG_SPEED, 3).get());
         player.getInventory().setItem(4, new ItemStack(Material.WATER_BUCKET));

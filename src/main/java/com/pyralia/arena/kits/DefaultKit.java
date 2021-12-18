@@ -1,6 +1,8 @@
 package com.pyralia.arena.kits;
 
+import com.pyralia.arena.Main;
 import com.pyralia.arena.utils.PlayerUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -19,7 +21,8 @@ public class DefaultKit extends Kit {
         player.setMaxHealth(20);
         player.setHealth(player.getMaxHealth());
         PlayerUtils.giveDefaultKit(player);
-        PlayerUtils.teleportPlayer(player);
+
+        Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> PlayerUtils.teleportPlayer(player), 3);
     }
 
 }

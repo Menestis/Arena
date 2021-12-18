@@ -7,6 +7,7 @@ import com.pyralia.arena.manager.GuiManager;
 import com.pyralia.arena.manager.KitManager;
 import com.pyralia.arena.player.KPlayer;
 import com.pyralia.arena.scoreboard.ScoreboardManager;
+import com.pyralia.arena.utils.FileUtils;
 import fr.blendman974.kinventory.KInventoryManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -16,6 +17,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -32,6 +35,31 @@ public final class Main extends JavaPlugin {
 
     private ScheduledExecutorService executorMonoThread;
     private ScheduledExecutorService scheduledExecutorService;
+
+
+    @Override
+    public void onLoad(){
+        instance = this;
+
+        File worldContainer = this.getServer().getWorldContainer();
+        File worldFolder = new File(worldContainer, "world");
+        File copyFolder = new File(worldContainer, "Arena");
+
+        if(!copyFolder.exists()) {
+            getLogger().info("Can't find copied world 'world_save'");
+            return;
+        }
+
+        Bukkit.unloadWorld("world", false);
+        FileUtils.delete(worldFolder);
+        try {
+            FileUtils.copyFolder(copyFolder, worldFolder);
+            getLogger().info("World copied.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public void onEnable() {
