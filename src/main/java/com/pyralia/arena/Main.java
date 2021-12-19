@@ -1,5 +1,6 @@
 package com.pyralia.arena;
 
+import com.mongodb.BasicDBObject;
 import com.pyralia.arena.listeners.PlayersListener;
 import com.pyralia.arena.listeners.PowerListeners;
 import com.pyralia.arena.manager.GameManager;
@@ -8,6 +9,7 @@ import com.pyralia.arena.manager.KitManager;
 import com.pyralia.arena.player.KPlayer;
 import com.pyralia.arena.scoreboard.ScoreboardManager;
 import com.pyralia.arena.utils.FileUtils;
+import com.pyralia.arena.utils.mongo.DatabaseManager;
 import fr.blendman974.kinventory.KInventoryManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -36,6 +38,7 @@ public final class Main extends JavaPlugin {
     private ScheduledExecutorService executorMonoThread;
     private ScheduledExecutorService scheduledExecutorService;
 
+    private DatabaseManager databaseManager;
 
     @Override
     public void onLoad(){
@@ -68,6 +71,8 @@ public final class Main extends JavaPlugin {
 
         this.scheduledExecutorService = Executors.newScheduledThreadPool(16);
         this.executorMonoThread = Executors.newScheduledThreadPool(1);
+
+        this.databaseManager = new DatabaseManager();
 
         this.gameManager = new GameManager();
         this.kitManager = new KitManager();
@@ -109,7 +114,17 @@ public final class Main extends JavaPlugin {
     public static void registerPlayer(Player player){
         UUID uuid = player.getUniqueId();
         if(!uuidkPlayerMap.containsKey(uuid)){
-            KPlayer kPlayer = new KPlayer(uuid, player.getName());
+            int kills = 0;
+            int deaths = 0;
+
+            if(getInstance().getDatabaseManager().getArenaCollection().find(new BasicDBObject("uuid", uuid.toString())).one() != null){
+                kills = (int)getInstance().getDatabaseManager().getFromArenaCollection(player.getUniqueId(), "kills");
+                deaths = (int)getInstance().getDatabaseManager().getFromArenaCollection(player.getUniqueId(), "deaths");
+            } else
+                getInstance().getDatabaseManager().createProfile(player.getUniqueId());
+
+
+            KPlayer kPlayer = new KPlayer(uuid, player.getName(), kills, deaths);
             kPlayer.setKit(getInstance().getKitManager().getDefaultKit());
             uuidkPlayerMap.put(uuid, kPlayer);
         }
@@ -129,6 +144,10 @@ public final class Main extends JavaPlugin {
 
     public KitManager getKitManager() {
         return kitManager;
+    }
+
+    public DatabaseManager getDatabaseManager() {
+        return databaseManager;
     }
 
     public ScheduledExecutorService getExecutorMonoThread() {

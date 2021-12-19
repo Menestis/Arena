@@ -1,6 +1,7 @@
 package com.pyralia.arena.scoreboard;
 
 import com.pyralia.arena.Main;
+import com.pyralia.arena.player.KPlayer;
 import com.pyralia.arena.scoreboard.tools.ObjectiveSign;
 import com.pyralia.core.spigot.CorePlugin;
 import com.pyralia.core.spigot.player.PyraliaPlayer;
@@ -46,15 +47,19 @@ public class PersonalScoreboard {
 
     public void setLines(String ip) {
         Player player = Bukkit.getPlayer(this.player);
+        KPlayer kPlayer = Main.getkPlayer(player);
 
         this.objectiveSign.setDisplayName("§6§lPyralia - Arène");
         this.objectiveSign.setLine(0, "§a");
-        this.objectiveSign.setLine(1, "§8» §7Kills : §f" + player.getStatistic(Statistic.PLAYER_KILLS));
-        this.objectiveSign.setLine(2, "§8» §7Morts : §f" + player.getStatistic(Statistic.DEATHS));
-        this.objectiveSign.setLine(3, "§c");
-        this.objectiveSign.setLine(4, "§8» §7Connecté(s) : §f" + Bukkit.getOnlinePlayers().size());
-        this.objectiveSign.setLine(5, "§d");
-        this.objectiveSign.setLine(6, "§8§l❯ §6" + ip);
+        this.objectiveSign.setLine(1, " §8┃ §7Kills : §f" + kPlayer.getKills());
+        this.objectiveSign.setLine(2, " §8┃ §7Morts : §f" + kPlayer.getDeaths());
+        this.objectiveSign.setLine(3, "§b");
+        this.objectiveSign.setLine(4, " §8┃ §7Kit : §f" + kPlayer.getKit().getName());
+        this.objectiveSign.setLine(5, " §8┃ §7Équipe : §cN/a");
+        this.objectiveSign.setLine(6, "§c");
+        this.objectiveSign.setLine(7, " §8┃ §7Connecté(s) : §f" + Bukkit.getOnlinePlayers().size());
+        this.objectiveSign.setLine(8, "§d");
+        this.objectiveSign.setLine(9, "§8§l❯ §6" + ip);
 
         this.objectiveSign.updateLines();
     }

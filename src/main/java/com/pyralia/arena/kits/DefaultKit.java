@@ -21,12 +21,14 @@ public class DefaultKit extends Kit {
 
     @Override
     public void onEquip(Player player) {
-        player.getInventory().clear();
-        player.setMaxHealth(20);
-        player.setHealth(player.getMaxHealth());
-        PlayerUtils.giveDefaultKit(player);
+        PlayerUtils.teleportPlayer(player);
 
-        Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> PlayerUtils.teleportPlayer(player), 3);
+        Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> {
+            player.getInventory().clear();
+            player.setMaxHealth(20);
+            player.setHealth(player.getMaxHealth());
+            PlayerUtils.giveDefaultKit(player);
+        }, 3);
     }
 
 }

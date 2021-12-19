@@ -1,14 +1,18 @@
 package com.pyralia.arena.listeners;
 
 import com.pyralia.arena.Main;
+import com.pyralia.arena.player.KPlayer;
 import com.pyralia.core.common.ItemCreator;
 import com.pyralia.core.spigot.CorePlugin;
 import com.pyralia.core.spigot.player.PyraliaPlayer;
 
+import net.minecraft.server.v1_8_R3.ChatComponentText;
+import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,6 +25,8 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import java.lang.reflect.Field;
 
 
 /**
@@ -45,7 +51,6 @@ public class PlayersListener implements Listener {
             player.sendMessage(pyraliaPlayer.getPyraliaMute().getMuteMessage());
             return;
         }
-
 
         Bukkit.broadcastMessage(pyraliaPlayer.getRank().getTabPrefix() + " " + player.getName() + " §8» §f" + message);
     }
@@ -148,17 +153,19 @@ public class PlayersListener implements Listener {
     public void onDeath(PlayerDeathEvent playerDeathEvent){
         playerDeathEvent.setDeathMessage(null);
         Player player = playerDeathEvent.getEntity();
+        Main.getkPlayer(player).setDeaths(Main.getkPlayer(player).getDeaths() + 1);
 
         if(player.getKiller() != null){
-            Bukkit.broadcastMessage("§6§lPyralia §8» §3" + player.getName() + "§7 est mort par le joueur §3" + player.getKiller().getName() + "§8 [§f" + ((int) player.getKiller().getHealth()) / 2 + "§f ♥§8]");
-            player.getKiller().setStatistic(Statistic.PLAYER_KILLS, player.getKiller().getStatistic(Statistic.PLAYER_KILLS) + 1);
-            player.getKiller().getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 2));
+            Bukkit.broadcastMessage("§6§lPyralia §8» §3" + player.getName() + "§7 est mort par le joueur §3" + player.getKiller().getName() + "§8 [§f" + ((int) player.getKiller().getHealth()) / 2 + "§f ❤§8]");
+            Main.getkPlayer(player.getKiller()).setKills(Main.getkPlayer(player.getKiller()).getKills() + 1);
+            player.getKiller().getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 3));
             player.getKiller().getInventory().addItem(new ItemStack(Material.ARROW, 16));
+
+            player.getKiller().setHealth(Math.min(player.getKiller().getHealth() + 4, player.getKiller().getMaxHealth()));
         } else
             Bukkit.broadcastMessage("§6§lPyralia §8» §3" + player.getName() + "§7 est mort tout seul !");
 
         playerDeathEvent.getDrops().clear();
-
         Bukkit.getScheduler().runTaskLater(instance, ()->{
             player.spigot().respawn();
 
@@ -189,6 +196,23 @@ public class PlayersListener implements Listener {
         Player player = playerJoinEvent.getPlayer();
         Bukkit.broadcastMessage("§6§lPyralia §8» §a" + player.getName() + "§7 a rejoint l'Arène.");
         Main.registerPlayer(player);
+
+        PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
+        try {
+            Field a = packet.getClass().getDeclaredField("a");
+            a.setAccessible(true);
+            Field b = packet.getClass().getDeclaredField("b");
+            b.setAccessible(true);
+
+            Object header1 = new ChatComponentText("\n §6§lPyralia Network \n \n" + "      §c♨ §7Vous êtes actuellement sur le §fARENA §c♨\n");
+            a.set(packet, header1);
+            Object footer = new ChatComponentText(" \n   §e§lmc.pyralia.com §f--- §b@PyraliaNetwork \n");
+            b.set(packet, footer);
+
+            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+        } catch (NoSuchFieldException | IllegalAccessException ee) {
+            System.out.println("ERREUR TAB LIST");
+        }
 
         Bukkit.getScheduler().runTaskLater(instance, ()->{
             player.teleport(instance.getGameManager().getLobbyLocation());
@@ -227,6 +251,7 @@ public class PlayersListener implements Listener {
         playerQuitEvent.setQuitMessage(null);
         Player player = playerQuitEvent.getPlayer();
 
+        Main.getkPlayer(player).refreshStats();
         Bukkit.broadcastMessage("§6§lPyralia §8» §c" + player.getName() + "§7 a quitté l'Arène.");
     }
 
