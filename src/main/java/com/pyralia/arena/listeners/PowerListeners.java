@@ -37,7 +37,14 @@ public class PowerListeners implements Listener {
                 RuiKit ruiKit = ((RuiKit) kit);
                 ruiKit.use(kPlayer);
 
-            } else if(kit instanceof ChainsawKit){
+            } else if(kit instanceof FreezKit && itemStack.getType() == Material.PACKED_ICE){
+                FreezKit freezKit = ((FreezKit) kit);
+                freezKit.use(kPlayer);
+
+            } else if(kit instanceof SukunaKit && itemStack.getType() == Material.NETHER_STAR){
+                SukunaKit sukunaKit = ((SukunaKit) kit);
+                sukunaKit.use(kPlayer);
+            }  else if(kit instanceof ChainsawKit){
                 ChainsawKit chainsawKit = ((ChainsawKit) kit);
                  if(itemStack.getType() == Material.FEATHER){
                     chainsawKit.use(kPlayer);

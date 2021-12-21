@@ -22,6 +22,8 @@ public class KitManager {
         this.kitList.add(new ChainsawKit());
         this.kitList.add(new ErenKit());
         this.kitList.add(new RuiKit());
+        this.kitList.add(new FreezKit());
+        this.kitList.add(new SukunaKit());
 
         this.defaultKit = defaultKit;
     }
