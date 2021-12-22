@@ -34,6 +34,11 @@ public class Structure {
         kPlayerListMap.put(kPlayer, new ArrayList<>());
 
         for(Block block : BlockUtils.circle(kPlayer.getBukkitPlayer().getLocation(), 4.5, 5.0, true, true, 2)){
+            if(storageList.containsKey(block))
+                continue;
+            if(kPlayerListMap.get(kPlayer).contains(block))
+                continue;
+
             Material material;
             if(materialList.size() > 1)
                 material = materialList.get(new Random().nextInt(materialList.size()));
