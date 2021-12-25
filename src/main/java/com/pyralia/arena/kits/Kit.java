@@ -1,6 +1,6 @@
 package com.pyralia.arena.kits;
 
-import com.pyralia.arena.Main;
+import com.pyralia.arena.ArenaAPI;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -24,7 +24,7 @@ public abstract class Kit {
     }
 
     public void onEquip(Player player){
-        player.teleport(Main.getInstance().getGameManager().getLocationList().get(new Random().nextInt(Main.getInstance().getGameManager().getLocationList().size())));
+        player.teleport(ArenaAPI.getApi().getGameManager().getLocationList().get(new Random().nextInt(ArenaAPI.getApi().getGameManager().getLocationList().size())));
     }
 
     public ItemStack getItemStack() {

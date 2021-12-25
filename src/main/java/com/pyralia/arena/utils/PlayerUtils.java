@@ -1,6 +1,6 @@
 package com.pyralia.arena.utils;
 
-import com.pyralia.arena.Main;
+import com.pyralia.arena.ArenaAPI;
 import com.pyralia.core.common.ItemCreator;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -15,7 +15,7 @@ import java.util.Random;
 public class PlayerUtils {
 
     public static void teleportPlayer(Player player){
-        player.teleport(Main.getInstance().getGameManager().getLocationList().get(new Random().nextInt(Main.getInstance().getGameManager().getLocationList().size())));
+        player.teleport(ArenaAPI.getApi().getGameManager().getLocationList().get(new Random().nextInt(ArenaAPI.getApi().getGameManager().getLocationList().size())));
     }
 
     public static void giveDefaultKit(Player player){

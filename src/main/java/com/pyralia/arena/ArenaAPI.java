@@ -27,9 +27,9 @@ import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-public final class Main extends JavaPlugin {
+public final class ArenaAPI extends JavaPlugin {
 
-    private static Main instance;
+    private static ArenaAPI instance;
 
     private GameManager gameManager;
     private KitManager kitManager;
@@ -117,15 +117,15 @@ public final class Main extends JavaPlugin {
             int kills = 0;
             int deaths = 0;
 
-            if(getInstance().getDatabaseManager().getArenaCollection().find(new BasicDBObject("uuid", uuid.toString())).one() != null){
-                kills = (int)getInstance().getDatabaseManager().getFromArenaCollection(player.getUniqueId(), "kills");
-                deaths = (int)getInstance().getDatabaseManager().getFromArenaCollection(player.getUniqueId(), "deaths");
+            if(getApi().getDatabaseManager().getArenaCollection().find(new BasicDBObject("uuid", uuid.toString())).one() != null){
+                kills = (int) getApi().getDatabaseManager().getFromArenaCollection(player.getUniqueId(), "kills");
+                deaths = (int) getApi().getDatabaseManager().getFromArenaCollection(player.getUniqueId(), "deaths");
             } else
-                getInstance().getDatabaseManager().createProfile(player.getUniqueId());
+                getApi().getDatabaseManager().createProfile(player.getUniqueId());
 
 
             KPlayer kPlayer = new KPlayer(uuid, player.getName(), kills, deaths);
-            kPlayer.setKit(getInstance().getKitManager().getDefaultKit());
+            kPlayer.setKit(getApi().getKitManager().getDefaultKit());
             uuidkPlayerMap.put(uuid, kPlayer);
         }
     }
@@ -157,7 +157,7 @@ public final class Main extends JavaPlugin {
         return this.scheduledExecutorService;
     }
 
-    public static Main getInstance() {
+    public static ArenaAPI getApi() {
         return instance;
     }
 }

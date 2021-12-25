@@ -1,6 +1,6 @@
 package com.pyralia.arena.manager;
 
-import com.pyralia.arena.Main;
+import com.pyralia.arena.ArenaAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -36,7 +36,7 @@ public class GameManager {
     }
 
     public void joinArena(Player player){
-        Main.getkPlayer(player).getKit().onEquip(player);
+        ArenaAPI.getkPlayer(player).getKit().onEquip(player);
     }
 
 }

@@ -24,6 +24,9 @@ public class KitManager {
         this.kitList.add(new RuiKit());
         this.kitList.add(new FreezKit());
         this.kitList.add(new SukunaKit());
+        this.kitList.add(new InosukeKit());
+        this.kitList.add(new DemonRequinKit());
+        this.kitList.add(new OursKit());
 
         this.defaultKit = defaultKit;
     }

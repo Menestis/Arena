@@ -1,7 +1,6 @@
 package com.pyralia.arena.listeners;
 
-import com.pyralia.arena.Main;
-import com.pyralia.arena.player.KPlayer;
+import com.pyralia.arena.ArenaAPI;
 import com.pyralia.core.common.ItemCreator;
 import com.pyralia.core.spigot.CorePlugin;
 import com.pyralia.core.spigot.player.PyraliaPlayer;
@@ -11,7 +10,6 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.Statistic;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,11 +32,17 @@ import java.lang.reflect.Field;
  */
 public class PlayersListener implements Listener {
 
-    private Main instance;
+    private ArenaAPI instance;
 
-    public PlayersListener(Main instance){
+    public PlayersListener(ArenaAPI instance){
         this.instance = instance;
     }
+
+    @EventHandler
+    public void onLiquid(BlockFromToEvent blockSpreadEvent) {
+        blockSpreadEvent.setCancelled(true);
+    }
+
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent asyncPlayerChatEvent){
@@ -153,11 +157,11 @@ public class PlayersListener implements Listener {
     public void onDeath(PlayerDeathEvent playerDeathEvent){
         playerDeathEvent.setDeathMessage(null);
         Player player = playerDeathEvent.getEntity();
-        Main.getkPlayer(player).setDeaths(Main.getkPlayer(player).getDeaths() + 1);
+        ArenaAPI.getkPlayer(player).setDeaths(ArenaAPI.getkPlayer(player).getDeaths() + 1);
 
         if(player.getKiller() != null){
             Bukkit.broadcastMessage("§6§lPyralia §8» §3" + player.getName() + "§7 est mort par le joueur §3" + player.getKiller().getName() + "§8 [§f" + ((int) player.getKiller().getHealth()) / 2 + "§f ❤§8]");
-            Main.getkPlayer(player.getKiller()).setKills(Main.getkPlayer(player.getKiller()).getKills() + 1);
+            ArenaAPI.getkPlayer(player.getKiller()).setKills(ArenaAPI.getkPlayer(player.getKiller()).getKills() + 1);
             player.getKiller().getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 3));
             player.getKiller().getInventory().addItem(new ItemStack(Material.ARROW, 16));
 
@@ -195,7 +199,7 @@ public class PlayersListener implements Listener {
         playerJoinEvent.setJoinMessage(null);
         Player player = playerJoinEvent.getPlayer();
         Bukkit.broadcastMessage("§6§lPyralia §8» §a" + player.getName() + "§7 a rejoint l'Arène.");
-        Main.registerPlayer(player);
+        ArenaAPI.registerPlayer(player);
 
         PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
         try {
@@ -251,7 +255,7 @@ public class PlayersListener implements Listener {
         playerQuitEvent.setQuitMessage(null);
         Player player = playerQuitEvent.getPlayer();
 
-        Main.getkPlayer(player).refreshStats();
+        ArenaAPI.getkPlayer(player).refreshStats();
         Bukkit.broadcastMessage("§6§lPyralia §8» §c" + player.getName() + "§7 a quitté l'Arène.");
     }
 

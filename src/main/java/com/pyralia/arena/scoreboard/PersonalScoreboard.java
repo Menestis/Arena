@@ -1,12 +1,9 @@
 package com.pyralia.arena.scoreboard;
 
-import com.pyralia.arena.Main;
+import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.player.KPlayer;
 import com.pyralia.arena.scoreboard.tools.ObjectiveSign;
-import com.pyralia.core.spigot.CorePlugin;
-import com.pyralia.core.spigot.player.PyraliaPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -28,11 +25,11 @@ import java.util.UUID;
  * along with Hub.  If not, see <http://www.gnu.org/licenses/>.
  */
 public class PersonalScoreboard {
-    private final Main hub;
+    private final ArenaAPI hub;
     private final UUID player;
     private final ObjectiveSign objectiveSign;
 
-    PersonalScoreboard(Main hub, Player player) {
+    PersonalScoreboard(ArenaAPI hub, Player player) {
         this.hub = hub;
         this.player = player.getUniqueId();
 
@@ -47,7 +44,7 @@ public class PersonalScoreboard {
 
     public void setLines(String ip) {
         Player player = Bukkit.getPlayer(this.player);
-        KPlayer kPlayer = Main.getkPlayer(player);
+        KPlayer kPlayer = ArenaAPI.getkPlayer(player);
 
         this.objectiveSign.setDisplayName("§6§lPyralia - Arène");
         this.objectiveSign.setLine(0, "§a");

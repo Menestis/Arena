@@ -1,6 +1,6 @@
 package com.pyralia.arena.kits;
 
-import com.pyralia.arena.Main;
+import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.player.KPlayer;
 import com.pyralia.arena.utils.PlayerUtils;
 import com.pyralia.core.common.ItemCreator;
@@ -45,7 +45,7 @@ public class RuiKit extends KitSchedule {
             });
             player.playSound(player.getLocation(), Sound.SPIDER_IDLE, 1, 1);
 
-            Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> blockList.forEach(location -> {
+            Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()-> blockList.forEach(location -> {
                 Block block = location.getBlock();
                 if(block.getType() == Material.WEB)
                     block.setType(Material.AIR);
@@ -57,7 +57,7 @@ public class RuiKit extends KitSchedule {
     public void onEquip(Player player){
         PlayerUtils.teleportPlayer(player);
 
-        Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> {
+        Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()-> {
             player.getInventory().clear();
             player.setMaxHealth(20);
             player.setHealth(player.getMaxHealth());

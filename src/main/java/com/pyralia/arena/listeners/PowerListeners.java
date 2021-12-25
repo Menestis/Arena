@@ -1,6 +1,6 @@
 package com.pyralia.arena.listeners;
 
-import com.pyralia.arena.Main;
+import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.kits.*;
 import com.pyralia.arena.player.KPlayer;
 import org.bukkit.Material;
@@ -17,40 +17,30 @@ public class PowerListeners implements Listener {
 
     @EventHandler
     public void onRightclick(PlayerInteractEvent playerInteractEvent){
-        if(playerInteractEvent.getItem() != null && playerInteractEvent.getItem().hasItemMeta() && playerInteractEvent.getItem().getItemMeta().getDisplayName() != null && playerInteractEvent.getPlayer().getLocation().getBlockY() < 120){
+        if(playerInteractEvent.getItem() != null && playerInteractEvent.getItem().hasItemMeta() && playerInteractEvent.getItem().getItemMeta().getDisplayName() != null && playerInteractEvent.getPlayer().getLocation().getBlockY() < 100){
             Player player = playerInteractEvent.getPlayer();
+            if(player.getLocation().getBlockY() > 110)
+                return;
+
             String name = playerInteractEvent.getItem().getItemMeta().getDisplayName();
+            if(name.contains("Choisir") || name.contains("Rentrer dans"))
+                return;
+
             ItemStack itemStack = playerInteractEvent.getItem();
-            KPlayer kPlayer = Main.getkPlayer(player);
-            Kit kit = Main.getkPlayer(player).getKit();
-            if(kit instanceof DemonBatKit && itemStack.getType() == Material.FEATHER){
-                DemonBatKit demonBatKit = ((DemonBatKit) kit);
-                demonBatKit.use(kPlayer);
-            } else if(kit instanceof TanjiroKit && itemStack.getType() == Material.BLAZE_ROD){
-                TanjiroKit tanjiroKit = ((TanjiroKit) kit);
-                tanjiroKit.use(kPlayer);
-            } else if(kit instanceof ErenKit && itemStack.getType() == Material.DEAD_BUSH){
-                ErenKit erenKit = ((ErenKit) kit);
-                erenKit.use(kPlayer);
+            KPlayer kPlayer = ArenaAPI.getkPlayer(player);
+            Kit kit = ArenaAPI.getkPlayer(player).getKit();
 
-            } else if(kit instanceof RuiKit && itemStack.getType() == Material.STRING){
-                RuiKit ruiKit = ((RuiKit) kit);
-                ruiKit.use(kPlayer);
-
-            } else if(kit instanceof FreezKit && itemStack.getType() == Material.PACKED_ICE){
-                FreezKit freezKit = ((FreezKit) kit);
-                freezKit.use(kPlayer);
-
-            } else if(kit instanceof SukunaKit && itemStack.getType() == Material.NETHER_STAR){
-                SukunaKit sukunaKit = ((SukunaKit) kit);
-                sukunaKit.use(kPlayer);
-            }  else if(kit instanceof ChainsawKit){
+            if(kit instanceof ChainsawKit){
                 ChainsawKit chainsawKit = ((ChainsawKit) kit);
-                 if(itemStack.getType() == Material.FEATHER){
+                if(itemStack.getType() == Material.FEATHER){
                     chainsawKit.use(kPlayer);
-                 } else if(itemStack.getType() == Material.ENDER_PORTAL_FRAME){
-                     chainsawKit.activate(player);
-                 }
+                } else if(itemStack.getType() == Material.ENDER_PORTAL_FRAME){
+                    chainsawKit.activate(player);
+                }
+            } else {
+                if(kit instanceof KitSchedule){
+                    ((KitSchedule) kit).use(kPlayer);
+                }
             }
         }
     }

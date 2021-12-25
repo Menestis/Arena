@@ -1,6 +1,6 @@
 package com.pyralia.arena.kits;
 
-import com.pyralia.arena.Main;
+import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.player.KPlayer;
 import com.pyralia.arena.utils.MathUtils;
 import com.pyralia.arena.utils.PacketUtils;
@@ -10,7 +10,6 @@ import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
@@ -57,9 +56,9 @@ public class FreezKit extends KitSchedule {
                     if(!kPlayerLocationMap.containsKey(kPlayer))
                         cancel();
                 }
-            }.runTaskTimer(Main.getInstance(), 0, 1);
+            }.runTaskTimer(ArenaAPI.getApi(), 0, 1);
 
-            Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> {
+            Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()-> {
                 kPlayerLocationMap.remove(kPlayer);
                 kPlayerVectorMap.remove(kPlayer);
                 clearBlizzard(player);
@@ -71,7 +70,7 @@ public class FreezKit extends KitSchedule {
     public void onEquip(Player player){
         PlayerUtils.teleportPlayer(player);
 
-        Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> {
+        Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()-> {
             player.getInventory().clear();
             player.setMaxHealth(20);
             player.setHealth(player.getMaxHealth());
@@ -139,7 +138,7 @@ public class FreezKit extends KitSchedule {
             PacketUtils.send(players, new PacketPlayOutEntityEquipment(as.getId(), 4, CraftItemStack.asNMSCopy(new ItemStack(Material.PACKED_ICE))));
         }
 
-       Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+       Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), () -> {
             for (Player pl : player.getWorld().getPlayers())
                 PacketUtils.send(pl, new PacketPlayOutEntityDestroy(as.getId()));
 
@@ -152,7 +151,7 @@ public class FreezKit extends KitSchedule {
                 ((Player) ent).damage(6);
                 ((Player) ent).addPotionEffect(potionEffect);
                 cooldownJump.add(ent);
-                Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> cooldownJump.remove(ent), 20L);
+                Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), () -> cooldownJump.remove(ent), 20L);
             }
         }
     }

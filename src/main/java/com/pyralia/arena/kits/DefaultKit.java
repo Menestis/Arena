@@ -1,6 +1,6 @@
 package com.pyralia.arena.kits;
 
-import com.pyralia.arena.Main;
+import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.utils.PlayerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -23,7 +23,7 @@ public class DefaultKit extends Kit {
     public void onEquip(Player player) {
         PlayerUtils.teleportPlayer(player);
 
-        Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> {
+        Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()-> {
             player.getInventory().clear();
             player.setMaxHealth(20);
             player.setHealth(player.getMaxHealth());

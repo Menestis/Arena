@@ -1,6 +1,6 @@
 package com.pyralia.arena.player;
 
-import com.pyralia.arena.Main;
+import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.kits.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -47,8 +47,8 @@ public class KPlayer {
     }
 
     public void refreshStats(){
-        Main.getInstance().getDatabaseManager().setArenaCollection(this.uuid, "kills", this.kills);
-        Main.getInstance().getDatabaseManager().setArenaCollection(this.uuid, "deaths", this.deaths);
+        ArenaAPI.getApi().getDatabaseManager().setArenaCollection(this.uuid, "kills", this.kills);
+        ArenaAPI.getApi().getDatabaseManager().setArenaCollection(this.uuid, "deaths", this.deaths);
     }
 
 

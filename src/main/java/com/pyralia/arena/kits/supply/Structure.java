@@ -1,6 +1,6 @@
 package com.pyralia.arena.kits.supply;
 
-import com.pyralia.arena.Main;
+import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.player.KPlayer;
 import com.pyralia.arena.utils.BlockUtils;
 import com.pyralia.arena.utils.ParticleEffect;
@@ -52,7 +52,7 @@ public class Structure {
 
         }
 
-        Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()->{
+        Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()->{
             kPlayerListMap.get(kPlayer).forEach(block -> {
                 block.setType(storageList.get(block));
                 storageList.remove(block);

@@ -1,6 +1,6 @@
 package com.pyralia.arena.kits;
 
-import com.pyralia.arena.Main;
+import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.player.KPlayer;
 import com.pyralia.arena.utils.PlayerUtils;
 import com.pyralia.core.common.ItemCreator;
@@ -9,7 +9,6 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -54,7 +53,7 @@ public class ErenKit extends KitSchedule {
     public void onEquip(Player player){
         PlayerUtils.teleportPlayer(player);
 
-        Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> {
+        Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()-> {
             player.getInventory().clear();
             player.setMaxHealth(20);
             player.setHealth(player.getMaxHealth());

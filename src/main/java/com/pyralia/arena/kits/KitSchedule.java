@@ -1,6 +1,6 @@
 package com.pyralia.arena.kits;
 
-import com.pyralia.arena.Main;
+import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.player.KPlayer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -36,7 +36,7 @@ public abstract class KitSchedule extends Kit {
                     });
                 }
             }
-        }.runTaskTimer(Main.getInstance(), 0, 20);
+        }.runTaskTimer(ArenaAPI.getApi(), 0, 20);
     }
 
     public void power(KPlayer kPlayer){

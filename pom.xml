@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.pyralia</groupId>
-    <artifactId>arena</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>arena-api</artifactId>
+    <version>0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>pyralia-arena</name>
+    <name>arena-api</name>
 
     <properties>
         <java.version>1.8</java.version>

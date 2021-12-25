@@ -1,11 +1,9 @@
 package com.pyralia.arena.utils.mongo;
 
 import com.mongodb.*;
-import com.pyralia.arena.Main;
-import com.pyralia.core.common.ranks.Rank;
+import com.pyralia.arena.ArenaAPI;
 import org.bukkit.Bukkit;
 
-import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -54,7 +52,7 @@ public class DatabaseManager {
         if(arenaCollection.find(new BasicDBObject("uuid", uuid.toString())).one() != null)
             return;
         try {
-            Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+            Bukkit.getScheduler().runTaskAsynchronously(ArenaAPI.getApi(), () -> {
                 DBObject profile = new BasicDBObject("_id", uuid.toString())
                         .append("uuid", uuid.toString())
                         .append("kills", 0)
@@ -62,7 +60,7 @@ public class DatabaseManager {
                 arenaCollection.insert(profile);
             });
         } catch (Exception e) {
-            Main.getInstance().getLogger().severe("Failed to create a profile for " + uuid + "...");
+            ArenaAPI.getApi().getLogger().severe("Failed to create a profile for " + uuid + "...");
             e.printStackTrace();
         }
     }

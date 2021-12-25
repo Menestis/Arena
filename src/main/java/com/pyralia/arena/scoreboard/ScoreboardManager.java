@@ -1,6 +1,6 @@
 package com.pyralia.arena.scoreboard;
 
-import com.pyralia.arena.Main;
+import com.pyralia.arena.ArenaAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 
 public class ScoreboardManager implements Listener {
 
@@ -22,9 +21,9 @@ public class ScoreboardManager implements Listener {
     public final ScheduledFuture glowingTask;
     public int ipCharIndex;
     public int cooldown;
-    private final Main hub;
+    private final ArenaAPI hub;
 
-    public ScoreboardManager(Main hub) {
+    public ScoreboardManager(ArenaAPI hub) {
 
         this.hub = hub;
 

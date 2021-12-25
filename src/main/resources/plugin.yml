@@ -1,6 +1,7 @@
-name: pyralia-arena
+name: arena-api
 version: '${project.version}'
-main: com.pyralia.arena.Main
+main: com.pyralia.arena.ArenaAPI
 api-version: 1.17
+author: Ariloxe
 depend:
   - pyralia-core

@@ -1,6 +1,6 @@
 package com.pyralia.arena.kits;
 
-import com.pyralia.arena.Main;
+import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.player.KPlayer;
 import com.pyralia.arena.utils.PlayerUtils;
 import com.pyralia.core.common.ItemCreator;
@@ -33,7 +33,7 @@ public class DemonBatKit extends KitSchedule {
         if(player != null){
             player.setAllowFlight(true);
             player.playSound(player.getLocation(), Sound.BAT_HURT, 1, 1);
-            Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> player.setAllowFlight(false), 13*20);
+            Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()-> player.setAllowFlight(false), 13*20);
         }
     }
 
@@ -41,7 +41,7 @@ public class DemonBatKit extends KitSchedule {
     public void onEquip(Player player) {
         PlayerUtils.teleportPlayer(player);
 
-        Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> {
+        Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()-> {
             player.getInventory().clear();
             player.setMaxHealth(16);
             player.setHealth(player.getMaxHealth());

@@ -1,6 +1,6 @@
 package com.pyralia.arena.kits;
 
-import com.pyralia.arena.Main;
+import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.player.KPlayer;
 import com.pyralia.arena.utils.PlayerUtils;
 import com.pyralia.core.common.ItemCreator;
@@ -39,7 +39,7 @@ public class TanjiroKit extends KitSchedule {
             player.addPotionEffect(strenghtEffect);
             player.playSound(player.getLocation(), Sound.BLAZE_BREATH, 1, 1);
             player.sendMessage("§6§lPyralia §8§l» §7Vous avez activé votre §6Danse du dieu du feu§7 ! Vous perdrez §62 coeurs permanents§7 à la fin de votre pouvoir.");
-            Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> player.setMaxHealth(player.getMaxHealth() - 4), 20*30);
+            Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()-> player.setMaxHealth(player.getMaxHealth() - 4), 20*30);
         }
     }
 
@@ -47,7 +47,7 @@ public class TanjiroKit extends KitSchedule {
     public void onEquip(Player player){
         PlayerUtils.teleportPlayer(player);
 
-        Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> {
+        Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()-> {
             player.getInventory().clear();
             player.setMaxHealth(20);
             player.setHealth(player.getMaxHealth());
