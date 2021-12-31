@@ -45,28 +45,6 @@ public class TanjiroKit extends KitSchedule {
 
     @Override
     public void onEquip(Player player){
-        PlayerUtils.teleportPlayer(player);
-
-        Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()-> {
-            player.getInventory().clear();
-            player.setMaxHealth(20);
-            player.setHealth(player.getMaxHealth());
-
-            player.getInventory().setItem(0, new ItemCreator(Material.DIAMOND_SWORD).enchant(Enchantment.DAMAGE_ALL, 2).get());
-            player.getInventory().setItem(1, new ItemCreator(Material.BLAZE_ROD).name("§7Danse du dieu du feu").lore("", "§fVous permet d'activer le pouvoir de la danse", "§fdu dieu du feu toutes les 55s.").get());
-            player.getInventory().setItem(2, new ItemStack(Material.GOLDEN_APPLE, 9));
-            player.getInventory().setItem(3, new ItemCreator(Material.DIAMOND_PICKAXE).enchant(Enchantment.DIG_SPEED, 3).get());
-            player.getInventory().setItem(4, new ItemStack(Material.WATER_BUCKET));
-            player.getInventory().setItem(5, new ItemStack(Material.COBBLESTONE, 64));
-            player.getInventory().setItem(6, new ItemStack(Material.ARROW, 32));
-            player.getInventory().setItem(7, new ItemCreator(Material.BOW).enchant(Enchantment.ARROW_DAMAGE, 2).get());
-            player.getInventory().setItem(8, new ItemStack(Material.COBBLESTONE, 64));
-
-            player.getInventory().setHelmet(new ItemCreator(Material.DIAMOND_HELMET).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).get());
-            player.getInventory().setChestplate(new ItemCreator(Material.DIAMOND_CHESTPLATE).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).get());
-            player.getInventory().setLeggings(new ItemCreator(Material.IRON_LEGGINGS).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).get());
-            player.getInventory().setBoots(new ItemCreator(Material.DIAMOND_BOOTS).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).get());
-
-        }, 3);
+        player.getInventory().setItem(1, new ItemCreator(Material.BLAZE_ROD).name("§7Danse du dieu du feu").lore("", "§fVous permet d'activer le pouvoir de la danse", "§fdu dieu du feu toutes les 55s.").get());
     }
 }

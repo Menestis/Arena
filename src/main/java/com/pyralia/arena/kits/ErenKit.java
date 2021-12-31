@@ -1,12 +1,9 @@
 package com.pyralia.arena.kits;
 
-import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.player.KPlayer;
-import com.pyralia.arena.utils.PlayerUtils;
 import com.pyralia.core.common.ItemCreator;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -17,10 +14,9 @@ import org.bukkit.potion.PotionEffectType;
  */
 public class ErenKit extends KitSchedule {
 
-    private final PotionEffect strenghtEffect = new PotionEffect(PotionEffectType.INCREASE_DAMAGE,23*20, 0, false, false);
     private final PotionEffect resistanceEffect = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 23*20, 0, false, false);
-    private final PotionEffect slownessEffect = new PotionEffect(PotionEffectType.SLOW, 4*20, 200, false, false);
-    private final PotionEffect jumpEffect = new PotionEffect(PotionEffectType.JUMP, 4*20, 240, false, false);
+    private final PotionEffect slownessEffect = new PotionEffect(PotionEffectType.SLOW, 2*20, 200, false, false);
+    private final PotionEffect jumpEffect = new PotionEffect(PotionEffectType.JUMP, 2*20, 240, false, false);
 
     public ErenKit(){
         super("Eren", new ItemStack(Material.DEAD_BUSH),
@@ -38,7 +34,6 @@ public class ErenKit extends KitSchedule {
         Player player = kPlayer.getBukkitPlayer();
         if(player != null){
             player.getWorld().strikeLightningEffect(player.getLocation());
-            player.addPotionEffect(strenghtEffect);
             player.addPotionEffect(resistanceEffect);
             player.setHealth(20);
 
@@ -51,30 +46,6 @@ public class ErenKit extends KitSchedule {
 
     @Override
     public void onEquip(Player player){
-        PlayerUtils.teleportPlayer(player);
-
-        Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()-> {
-            player.getInventory().clear();
-            player.setMaxHealth(20);
-            player.setHealth(player.getMaxHealth());
-
-            player.getInventory().setItem(0, new ItemCreator(Material.DIAMOND_SWORD).enchant(Enchantment.DAMAGE_ALL, 2).get());
-            player.getInventory().setItem(1, new ItemCreator(Material.DEAD_BUSH).name("§7Transformation titanesque").lore("", "§fVous permet de vous transfomer", "§fTransfomation toutes les 62 secondes.").get());
-            player.getInventory().setItem(2, new ItemStack(Material.GOLDEN_APPLE, 9));
-            player.getInventory().setItem(3, new ItemCreator(Material.DIAMOND_PICKAXE).enchant(Enchantment.DIG_SPEED, 3).get());
-            player.getInventory().setItem(4, new ItemStack(Material.WATER_BUCKET));
-            player.getInventory().setItem(5, new ItemStack(Material.COBBLESTONE, 64));
-            player.getInventory().setItem(6, new ItemStack(Material.ARROW, 32));
-            player.getInventory().setItem(7, new ItemCreator(Material.BOW).enchant(Enchantment.ARROW_DAMAGE, 2).get());
-            player.getInventory().setItem(8, new ItemStack(Material.COBBLESTONE, 64));
-
-            player.getInventory().setHelmet(new ItemCreator(Material.DIAMOND_HELMET).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).get());
-            player.getInventory().setChestplate(new ItemCreator(Material.DIAMOND_CHESTPLATE).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).get());
-            player.getInventory().setLeggings(new ItemCreator(Material.IRON_LEGGINGS).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).get());
-            player.getInventory().setBoots(new ItemCreator(Material.DIAMOND_BOOTS).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).get());
-        }, 3);
+        player.getInventory().setItem(1, new ItemCreator(Material.DEAD_BUSH).name("§7Transformation titanesque").lore("", "§fVous permet de vous transfomer", "§fTransfomation toutes les 62 secondes.").get());
     }
-
-
-
 }

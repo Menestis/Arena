@@ -20,15 +20,6 @@ public class DefaultKit extends Kit {
     }
 
     @Override
-    public void onEquip(Player player) {
-        PlayerUtils.teleportPlayer(player);
-
-        Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()-> {
-            player.getInventory().clear();
-            player.setMaxHealth(20);
-            player.setHealth(player.getMaxHealth());
-            PlayerUtils.giveDefaultKit(player);
-        }, 3);
-    }
+    public void onEquip(Player player) {}
 
 }

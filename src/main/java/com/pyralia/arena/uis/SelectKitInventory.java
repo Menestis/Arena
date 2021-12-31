@@ -1,9 +1,11 @@
 package com.pyralia.arena.uis;
 
 import com.pyralia.arena.ArenaAPI;
+import com.pyralia.arena.utils.PlayerUtils;
 import com.pyralia.core.common.ItemCreator;
 import fr.blendman974.kinventory.inventories.KInventory;
 import fr.blendman974.kinventory.inventories.KItem;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,10 +26,15 @@ public class SelectKitInventory {
     public void open(Player kPlayer){
         AtomicInteger p = new AtomicInteger(0);
         arenaAPI.getKitManager().getKitList().forEach(kit -> {
-            KItem kItem = new KItem(new ItemCreator(kit.getItemStack()).name(kit.getName()).lore(kit.getDescription()).get());
+            KItem kItem = new KItem(new ItemCreator(kit.getItemStack()).name("§7§l" + kit.getName()).lore(kit.getDescription()).get());
             kItem.addCallback((kInventoryRepresentation, itemStack, player, kInventoryClickContext) -> {
                 ArenaAPI.getkPlayer(player).setKit(kit);
                 player.sendMessage("§6§lPyralia §8§l» §7Vous avez §béquipé§7 le " + kit.getName());
+                Location location = ArenaAPI.getApi().getGameManager().getLocationList().get(ArenaAPI.getApi().getGameManager().getLocationList().size());
+
+                PlayerUtils.giveDefaultKit(player);
+                ArenaAPI.getApi().getGameManager().joinArena(player);
+                player.teleport(location);
             });
             this.kInventory.setElement(p.get(), kItem);
             p.getAndIncrement();

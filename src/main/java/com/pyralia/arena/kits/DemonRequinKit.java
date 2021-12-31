@@ -55,7 +55,7 @@ public class DemonRequinKit extends KitSchedule {
 
             final Location location = kPlayer.getBukkitPlayer().getLocation();
 
-            for(Block block : BlockUtils.circle(location, 7.5, 7.5, false, true, 3)){
+            for(Block block : BlockUtils.circle(location, 10.0, 10.0, false, true, 3)){
                 if(block.getType() == Material.AIR && block.getLocation().getBlockY() > 48){
                     kPlayerListMap.get(kPlayer).add(block);
                     block.setType(Material.STATIONARY_WATER);
@@ -72,27 +72,7 @@ public class DemonRequinKit extends KitSchedule {
 
     @Override
     public void onEquip(Player player) {
-        PlayerUtils.teleportPlayer(player);
-
-        Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()-> {
-            player.getInventory().clear();
-            player.setMaxHealth(16);
-            player.setHealth(player.getMaxHealth());
-
-            player.getInventory().setItem(0, new ItemCreator(Material.DIAMOND_SWORD).enchant(Enchantment.DAMAGE_ALL, 2).get());
-            player.getInventory().setItem(1, new ItemCreator(Material.WATER_LILY).name("§7Pacte du §cdémon-Requin").lore("", "§fVous permet d'activer le pouvoir du pacte fort", "§fdu démon requin toutes les 61s.").get());
-            player.getInventory().setItem(2, new ItemStack(Material.GOLDEN_APPLE, 9));
-            player.getInventory().setItem(3, new ItemCreator(Material.DIAMOND_PICKAXE).enchant(Enchantment.DIG_SPEED, 3).get());
-            player.getInventory().setItem(4, new ItemStack(Material.WATER_BUCKET));
-            player.getInventory().setItem(5, new ItemStack(Material.COBBLESTONE, 64));
-            player.getInventory().setItem(6, new ItemStack(Material.ARROW, 32));
-            player.getInventory().setItem(7, new ItemCreator(Material.BOW).enchant(Enchantment.ARROW_DAMAGE, 2).get());
-            player.getInventory().setItem(8, new ItemStack(Material.COBBLESTONE, 64));
-
-            player.getInventory().setHelmet(new ItemCreator(Material.DIAMOND_HELMET).enchant(Enchantment.OXYGEN, 5).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).get());
-            player.getInventory().setChestplate(new ItemCreator(Material.DIAMOND_CHESTPLATE).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).get());
-            player.getInventory().setLeggings(new ItemCreator(Material.IRON_LEGGINGS).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).get());
-            player.getInventory().setBoots(new ItemCreator(Material.DIAMOND_BOOTS).enchant(Enchantment.DEPTH_STRIDER, 5).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).get());
-        }, 3);
+        player.setMaxHealth(16);
+        player.getInventory().setItem(1, new ItemCreator(Material.WATER_LILY).name("§7Pacte du §cdémon-Requin").lore("", "§fVous permet d'activer le pouvoir du pacte fort", "§fdu démon requin toutes les 61s.").get());
     }
 }

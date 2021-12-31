@@ -23,9 +23,7 @@ public abstract class Kit {
         this.description = Arrays.asList(description);
     }
 
-    public void onEquip(Player player){
-        player.teleport(ArenaAPI.getApi().getGameManager().getLocationList().get(new Random().nextInt(ArenaAPI.getApi().getGameManager().getLocationList().size())));
-    }
+    public void onEquip(Player player){}
 
     public ItemStack getItemStack() {
         return itemStack;

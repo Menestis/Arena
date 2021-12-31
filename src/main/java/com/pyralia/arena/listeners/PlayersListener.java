@@ -94,8 +94,6 @@ public class PlayersListener implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent playerDropItemEvent){
-        if(playerDropItemEvent.getPlayer().getLocation().getY() > 100 && playerDropItemEvent.getItem() != null && playerDropItemEvent.getItem().getType() == Material.DIAMOND_SWORD && playerDropItemEvent.getAction().name().contains("RIGHT"))
-            instance.getGameManager().joinArena(playerDropItemEvent.getPlayer());
         if(playerDropItemEvent.getPlayer().getLocation().getY() > 100 && playerDropItemEvent.getItem() != null && playerDropItemEvent.getItem().getType() == Material.ENDER_PORTAL_FRAME && playerDropItemEvent.getAction().name().contains("RIGHT"))
             instance.getGuiManager().getSelectKitInventory().open(playerDropItemEvent.getPlayer());
     }
@@ -143,8 +141,7 @@ public class PlayersListener implements Listener {
 
         player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
 
-        player.getInventory().setItem(4, new ItemCreator(Material.DIAMOND_SWORD).name("§8» §7Rentrer dans l'Arène").lore("", "§8» §7Cliquez ici pour rejoindre le combat !").get());
-        player.getInventory().setItem(0, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Choisir un Kit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
+       player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Choisir un Kit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
 
 
         player.setMaxHealth(20);
@@ -182,9 +179,7 @@ public class PlayersListener implements Listener {
             player.getInventory().setBoots(air);
 
             player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
-
-            player.getInventory().setItem(4, new ItemCreator(Material.DIAMOND_SWORD).name("§8» §7Rentrer dans l'Arène").lore("", "§8» §7Cliquez ici pour rejoindre le combat !").get());
-            player.getInventory().setItem(0, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Choisir un Kit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
+            player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Choisir un Kit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
 
             player.setMaxHealth(20);
             player.setHealth(player.getMaxHealth());
@@ -230,8 +225,7 @@ public class PlayersListener implements Listener {
 
             player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
 
-            player.getInventory().setItem(4, new ItemCreator(Material.DIAMOND_SWORD).name("§8» §7Rentrer dans l'Arène").lore("", "§8» §7Cliquez ici pour rejoindre le combat !").get());
-            player.getInventory().setItem(0, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Choisir un Kit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
+            player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Choisir un Kit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
 
             player.sendMessage("");
             player.sendMessage("§6§lPyralia §8» §7Bienvenue dans l'Arène, ici vous pourrez combattre d'autres joueurs librement !");

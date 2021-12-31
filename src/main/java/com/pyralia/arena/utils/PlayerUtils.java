@@ -19,6 +19,10 @@ public class PlayerUtils {
     }
 
     public static void giveDefaultKit(Player player){
+        player.getInventory().clear();
+        player.setMaxHealth(20);
+        player.setHealth(player.getMaxHealth());
+
         player.getInventory().setItem(0, new ItemCreator(Material.DIAMOND_SWORD).enchant(Enchantment.DAMAGE_ALL, 2).get());
         player.getInventory().setItem(1, new ItemCreator(Material.FISHING_ROD).get());
         player.getInventory().setItem(2, new ItemStack(Material.GOLDEN_APPLE, 9));

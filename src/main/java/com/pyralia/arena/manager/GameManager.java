@@ -15,11 +15,13 @@ import java.util.List;
 public class GameManager {
 
     private final Location lobbyLocation = new Location(Bukkit.getWorld("world"), -80, 114, -80);
-    private final List<Location> locationList = new ArrayList<>();
+    private final List<Location> locationList;
 
 
     public GameManager(){
         World world = Bukkit.getWorld("world");
+        locationList =  new ArrayList<>();
+
         locationList.add(new Location(world, -58, 57, -115));
         locationList.add(new Location(world, -43, 53, -33));
         locationList.add(new Location(world, -122, 56, -22));
