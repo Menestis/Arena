@@ -11,6 +11,8 @@ import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
@@ -24,7 +26,8 @@ public class OursKit extends KitSchedule {
                 "§8» §7Type : §eOffensif",
                 "§8» §7Pouvoirs:",
                 "§f- §7Effectuez une rotation qui infligera des dégats à tous les joueurs",
-                "    §7autour de vous. (§a21 secondes de cooldown§7)");
+                "    §7autour de vous. (§a21 secondes de cooldown§7)",
+                "§f- §7Obtenez l'effet de Résistance permanent.");
         super.setSecondsDelay(21);
     }
 
@@ -46,17 +49,23 @@ public class OursKit extends KitSchedule {
                         }
                     });
 
-
                     if (time <= 0)
                         cancel();
+
                     this.time--;
                 }
             }).runTaskTimer(ArenaAPI.getApi(), 0L, 4);
         }
     }
 
+    private final PotionEffect potionEffect = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0, false, false);
+
     @Override
     public void onEquip(Player player){
+        player.setMaxHealth(22);
+        player.setHealth(player.getMaxHealth());
+
+        player.addPotionEffect(potionEffect);
         player.getInventory().setItem(1, new ItemCreator(Material.STICK).name("§7Retourné de l'Ours").lore("", "§fVous permet de faire un 3/6 noscope !").get());
     }
 }

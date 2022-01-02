@@ -15,18 +15,17 @@ import java.util.List;
 public class GameManager {
 
     private final Location lobbyLocation = new Location(Bukkit.getWorld("world"), -80, 114, -80);
-    private final List<Location> locationList;
+    private final List<Location> spawnLocations = new ArrayList<>();
+    private final List<Location> locationList=  new ArrayList<>();
 
 
     public GameManager(){
         World world = Bukkit.getWorld("world");
-        locationList =  new ArrayList<>();
-
-        locationList.add(new Location(world, -58, 57, -115));
-        locationList.add(new Location(world, -43, 53, -33));
-        locationList.add(new Location(world, -122, 56, -22));
-        locationList.add(new Location(world, -18, 56, -47));
-        locationList.add(new Location(world, -117, 55, -39));
+        spawnLocations.add(new Location(world, -58, 57, -115));
+        spawnLocations.add(new Location(world, -43, 53, -33));
+        spawnLocations.add(new Location(world, -122, 56, -22));
+        spawnLocations.add(new Location(world, -18, 56, -47));
+        spawnLocations.add(new Location(world, -117, 55, -39));
     }
 
     public List<Location> getLocationList() {
@@ -35,6 +34,10 @@ public class GameManager {
 
     public Location getLobbyLocation() {
         return lobbyLocation;
+    }
+
+    public List<Location> getSpawnLocations() {
+        return spawnLocations;
     }
 
     public void joinArena(Player player){

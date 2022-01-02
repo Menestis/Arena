@@ -160,6 +160,7 @@ public class PlayersListener implements Listener {
             Bukkit.broadcastMessage("§6§lPyralia §8» §3" + player.getName() + "§7 est mort par le joueur §3" + player.getKiller().getName() + "§8 [§f" + ((int) player.getKiller().getHealth()) / 2 + "§f ❤§8]");
             ArenaAPI.getkPlayer(player.getKiller()).setKills(ArenaAPI.getkPlayer(player.getKiller()).getKills() + 1);
             player.getKiller().getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 3));
+            player.getKiller().getInventory().addItem(new ItemStack(Material.COBBLESTONE, 20));
             player.getKiller().getInventory().addItem(new ItemStack(Material.ARROW, 16));
 
             player.getKiller().setHealth(Math.min(player.getKiller().getHealth() + 4, player.getKiller().getMaxHealth()));

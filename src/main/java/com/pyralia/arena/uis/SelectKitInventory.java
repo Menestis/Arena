@@ -8,6 +8,7 @@ import fr.blendman974.kinventory.inventories.KItem;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -30,7 +31,7 @@ public class SelectKitInventory {
             kItem.addCallback((kInventoryRepresentation, itemStack, player, kInventoryClickContext) -> {
                 ArenaAPI.getkPlayer(player).setKit(kit);
                 player.sendMessage("§6§lPyralia §8§l» §7Vous avez §béquipé§7 le " + kit.getName());
-                Location location = ArenaAPI.getApi().getGameManager().getLocationList().get(ArenaAPI.getApi().getGameManager().getLocationList().size());
+                Location location = ArenaAPI.getApi().getGameManager().getSpawnLocations().get(new Random().nextInt(ArenaAPI.getApi().getGameManager().getSpawnLocations().size()));
 
                 PlayerUtils.giveDefaultKit(player);
                 ArenaAPI.getApi().getGameManager().joinArena(player);

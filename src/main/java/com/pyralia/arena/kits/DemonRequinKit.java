@@ -74,5 +74,8 @@ public class DemonRequinKit extends KitSchedule {
     public void onEquip(Player player) {
         player.setMaxHealth(16);
         player.getInventory().setItem(1, new ItemCreator(Material.WATER_LILY).name("§7Pacte du §cdémon-Requin").lore("", "§fVous permet d'activer le pouvoir du pacte fort", "§fdu démon requin toutes les 61s.").get());
+
+        player.getInventory().setHelmet(new ItemCreator(Material.DIAMOND_HELMET).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).enchant(Enchantment.OXYGEN, 9).unbreakable(true).get());
+       player.getInventory().setBoots(new ItemCreator(Material.DIAMOND_BOOTS).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).enchant(Enchantment.DEPTH_STRIDER, 5).unbreakable(true).get());
     }
 }

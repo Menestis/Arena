@@ -27,7 +27,7 @@ public class TanjiroKit extends KitSchedule {
                 "§8» §7Type : §eOffensif",
                 "§8» §7Pouvoirs:",
                 "§f- §7Gagnez les effets §bSpeed II §7et §5Force I§7 pendant 30 secondes. (§a55s de cooldown§7)",
-                "§f- §7Quand votre pouvoir sera fini, vous perdrez §c2 coeurs permanents§7.");
+                "§f- §7Quand votre pouvoir sera fini, vous perdrez §c0 coeur permanent§7.");
         super.setSecondsDelay(55);
     }
 
@@ -38,8 +38,8 @@ public class TanjiroKit extends KitSchedule {
             player.addPotionEffect(speedEffect);
             player.addPotionEffect(strenghtEffect);
             player.playSound(player.getLocation(), Sound.BLAZE_BREATH, 1, 1);
-            player.sendMessage("§6§lPyralia §8§l» §7Vous avez activé votre §6Danse du dieu du feu§7 ! Vous perdrez §62 coeurs permanents§7 à la fin de votre pouvoir.");
-            Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()-> player.setMaxHealth(player.getMaxHealth() - 4), 20*30);
+            player.sendMessage("§6§lPyralia §8§l» §7Vous avez activé votre §6Danse du dieu du feu§7 ! Vous perdrez §61 coeurs permanents§7 à la fin de votre pouvoir.");
+            Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()-> player.setMaxHealth(player.getMaxHealth() - 2), 20*30);
         }
     }
 

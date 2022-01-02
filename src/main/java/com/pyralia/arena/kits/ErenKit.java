@@ -23,9 +23,9 @@ public class ErenKit extends KitSchedule {
                 "§8» §7Mode : §eAOTv3",
                 "§8» §7Type : §eOffensif",
                 "§8» §7Pouvoirs:",
-                "§f- §7Gagnez les effets §bSpeed I§7 et §5Force I§7 pendant §e23 secondes§7. (§a48s de cooldown§7)",
+                "§f- §7Gagnez les effets §fRésistance 1§7 pendant §e23 secondes§7. (§a48s de cooldown§7)",
                 "§f- §7Quand vous utiliserez vos effets, vous §cempêcherez§7 les joueurs dans un rayon de 10 blocs",
-                " §7de bouger pendant §e4 secondes§7, et vous serez §dsoigné§7.");
+                " §7de bouger pendant §e2 secondes§7, et vous serez §dsoigné§7 de 3 coeurs.");
         super.setSecondsDelay(48);
     }
 
@@ -35,7 +35,10 @@ public class ErenKit extends KitSchedule {
         if(player != null){
             player.getWorld().strikeLightningEffect(player.getLocation());
             player.addPotionEffect(resistanceEffect);
-            player.setHealth(20);
+            if(player.getHealth() + 6 < player.getMaxHealth())
+                player.setHealth(player.getHealth() + 6);
+            else
+                player.setHealth(20);
 
             Bukkit.getOnlinePlayers().stream().filter(target -> target.getLocation().distance(player.getLocation()) < 10).filter(target -> target != player).forEach(target -> {
                 target.addPotionEffect(slownessEffect);
