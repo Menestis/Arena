@@ -130,7 +130,7 @@ public class PlayersListener implements Listener {
     public void onRespawn(PlayerRespawnEvent playerRespawnEvent){
         Player player = playerRespawnEvent.getPlayer();
 
-        player.teleport(instance.getGameManager().getLobbyLocation());
+        player.teleport(instance.getGameManager().getSpecialWorld().getLobbyLocation());
 
         player.getInventory().clear();
         ItemStack air = new ItemStack(Material.AIR);
@@ -171,7 +171,7 @@ public class PlayersListener implements Listener {
         Bukkit.getScheduler().runTaskLater(instance, ()->{
             player.spigot().respawn();
 
-            player.teleport(instance.getGameManager().getLobbyLocation());
+            player.teleport(instance.getGameManager().getSpecialWorld().getLobbyLocation());
             player.getInventory().clear();
             ItemStack air = new ItemStack(Material.AIR);
             player.getInventory().setHelmet(air);
@@ -215,7 +215,7 @@ public class PlayersListener implements Listener {
         }
 
         Bukkit.getScheduler().runTaskLater(instance, ()->{
-            player.teleport(instance.getGameManager().getLobbyLocation());
+            player.teleport(instance.getGameManager().getSpecialWorld().getLobbyLocation());
             player.setGameMode(GameMode.SURVIVAL);
             player.getInventory().clear();
             ItemStack air = new ItemStack(Material.AIR);

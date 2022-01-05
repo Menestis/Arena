@@ -1,6 +1,7 @@
 package com.pyralia.arena;
 
 import com.mongodb.BasicDBObject;
+import com.pyralia.arena.commands.CarteCommand;
 import com.pyralia.arena.listeners.PlayersListener;
 import com.pyralia.arena.listeners.PowerListeners;
 import com.pyralia.arena.manager.GameManager;
@@ -10,9 +11,11 @@ import com.pyralia.arena.player.KPlayer;
 import com.pyralia.arena.scoreboard.ScoreboardManager;
 import com.pyralia.arena.utils.FileUtils;
 import com.pyralia.arena.utils.mongo.DatabaseManager;
+import com.pyralia.core.spigot.utils.CommandUtils;
 import fr.blendman974.kinventory.KInventoryManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.WorldCreator;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -48,19 +51,17 @@ public final class ArenaAPI extends JavaPlugin {
         File worldFolder = new File(worldContainer, "world");
         File copyFolder = new File(worldContainer, "Arena");
 
-        if(!copyFolder.exists()) {
-            getLogger().info("Can't find copied world 'world_save'");
-            return;
+        if(copyFolder.exists()){
+            Bukkit.unloadWorld("nakimeArena", false);
+            FileUtils.delete(worldFolder);
+            try {
+                FileUtils.copyFolder(copyFolder, worldFolder);
+                getLogger().info("World copied.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
-        Bukkit.unloadWorld("world", false);
-        FileUtils.delete(worldFolder);
-        try {
-            FileUtils.copyFolder(copyFolder, worldFolder);
-            getLogger().info("World copied.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 
@@ -68,6 +69,38 @@ public final class ArenaAPI extends JavaPlugin {
     public void onEnable() {
         instance = this;
         KInventoryManager.init(this);
+
+        File worldContainer = this.getServer().getWorldContainer();
+
+        File worldFolderNaki = new File(worldContainer, "nakimeArena");
+        File copyFolderNaki = new File(worldContainer, "nakimeWorld");
+
+        File worldFolderEnfer = new File(worldContainer, "enferArena");
+        File copyFolderEnfer = new File(worldContainer, "enferWorld");
+        if(copyFolderNaki.exists()){
+            Bukkit.unloadWorld("nakimeArena", false);
+            FileUtils.delete(worldFolderNaki);
+            try {
+                FileUtils.copyFolder(copyFolderNaki, worldFolderNaki);
+                new WorldCreator("nakimeArena").createWorld();
+                getLogger().info("World copied.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(copyFolderEnfer.exists()){
+            Bukkit.unloadWorld("world", false);
+            FileUtils.delete(worldFolderEnfer);
+            try {
+                FileUtils.copyFolder(copyFolderEnfer, worldFolderEnfer);
+                new WorldCreator("enferArena").createWorld();
+                getLogger().info("World copied.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
 
         this.scheduledExecutorService = Executors.newScheduledThreadPool(16);
         this.executorMonoThread = Executors.newScheduledThreadPool(1);
@@ -83,6 +116,7 @@ public final class ArenaAPI extends JavaPlugin {
         pluginManager.registerEvents(new PlayersListener(this), this);
         pluginManager.registerEvents(new ScoreboardManager(this), this);
         pluginManager.registerEvents(new PowerListeners(), this);
+        CommandUtils.registerCommand("arena", new CarteCommand());
 
         getServer().getScheduler().runTaskTimer(this, ()->{
             if(!Bukkit.getOnlinePlayers().isEmpty())
@@ -91,15 +125,23 @@ public final class ArenaAPI extends JavaPlugin {
 
         getServer().getScheduler().runTaskTimer(this, ()->{
             Bukkit.broadcastMessage("§6§lPyralia §8» §7Tous les blocs et entitées vont être retirés dans §c1§7 minute.");
+
+            getServer().getScheduler().runTaskLater(this, ()->{
+                Bukkit.broadcastMessage("§6§lPyralia §8» §7Tous les blocs et entitées ont été retirés !");
+                if(!Bukkit.getWorld("world").getEntities().isEmpty())
+                    Bukkit.getWorld("world").getEntities().stream().filter(entity -> !(entity instanceof Player)).forEach(Entity::remove);
+                if(!getGameManager().getLocationList().isEmpty())
+                    getGameManager().getLocationList().forEach(location -> location.getBlock().setType(Material.AIR));
+            }, 20*60);
+
         }, 20, 20*60*4);
 
         getServer().getScheduler().runTaskTimer(this, ()->{
-            Bukkit.broadcastMessage("§6§lPyralia §8» §7Tous les blocs et entitées ont été retirés !");
-            if(!Bukkit.getWorld("world").getEntities().isEmpty())
-                Bukkit.getWorld("world").getEntities().stream().filter(entity -> !(entity instanceof Player)).forEach(Entity::remove);
-            if(!getGameManager().getLocationList().isEmpty())
-                getGameManager().getLocationList().forEach(location -> location.getBlock().setType(Material.AIR));
-        }, 20, 20*60*5);
+            Bukkit.getOnlinePlayers().stream().filter(player -> player.getLocation().getBlockY() < 0).forEach(player -> {
+                player.damage(40);
+                player.sendMessage("§cNe vous éloignez pas trop :o");
+            });
+        }, 20, 5);
 
     }
 

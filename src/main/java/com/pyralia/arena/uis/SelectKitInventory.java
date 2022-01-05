@@ -31,7 +31,7 @@ public class SelectKitInventory {
             kItem.addCallback((kInventoryRepresentation, itemStack, player, kInventoryClickContext) -> {
                 ArenaAPI.getkPlayer(player).setKit(kit);
                 player.sendMessage("§6§lPyralia §8§l» §7Vous avez §béquipé§7 le " + kit.getName());
-                Location location = ArenaAPI.getApi().getGameManager().getSpawnLocations().get(new Random().nextInt(ArenaAPI.getApi().getGameManager().getSpawnLocations().size()));
+                Location location = ArenaAPI.getApi().getGameManager().getSpecialWorld().getArenaLocations().get(new Random().nextInt(ArenaAPI.getApi().getGameManager().getSpecialWorld().getArenaLocations().size()));
 
                 PlayerUtils.giveDefaultKit(player);
                 ArenaAPI.getApi().getGameManager().joinArena(player);
