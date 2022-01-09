@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -285,6 +286,40 @@ public class PlayersListener implements Listener {
         }
     }
 
+    @EventHandler
+    public void onPlayerDamaging(EntityDamageByEntityEvent entityDamageByEntityEvent){
+        if(entityDamageByEntityEvent.getDamager() instanceof Arrow && entityDamageByEntityEvent.getEntity() instanceof Player && ((Arrow)entityDamageByEntityEvent.getDamager()).getShooter() instanceof Player){
+            Player player = ((Player) ((Arrow) entityDamageByEntityEvent.getDamager()).getShooter());
+            Player victim = ((Player) entityDamageByEntityEvent.getEntity());
+            Bukkit.getScheduler().runTaskLater(instance, ()-> player.sendMessage("§6§lPyralia §8§l» §7" + victim.getName() + " §8§l» " + makePercentColor(victim.getHealth()) + "% §8[§6" + makePercent(entityDamageByEntityEvent.getDamage()) + "%§8]"), 2);
+        }
+    }
+
+    private String makePercentColor(double health) {
+        double hearts = health / 2;
+        double percent = hearts * 10;
+
+        if (percent >= 66) {
+            return "§a" + ((int) percent);
+        } else if (percent >= 33) {
+            return "§e" + ((int) percent);
+        } else if (percent == 0) {
+            return "§0" + (0);
+        } else {
+            return "§c" + ((int) percent);
+        }
+    }
+
+    private String makePercent(double health) {
+        double hearts = health / 2;
+        double percent = hearts * 10;
+
+        if (percent == 0) {
+            return "" + (0);
+        } else {
+            return "" + ((int) percent);
+        }
+    }
 
 
 }

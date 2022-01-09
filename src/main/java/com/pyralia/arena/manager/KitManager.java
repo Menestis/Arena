@@ -26,7 +26,7 @@ public class KitManager {
         this.kitList.add(new SukunaKit());
         this.kitList.add(new InosukeKit());
         this.kitList.add(new DemonRequinKit());
-        this.kitList.add(new OursKit());
+        //this.kitList.add(new OursKit());
         this.kitList.add(new TengenKit());
 
         this.defaultKit = defaultKit;

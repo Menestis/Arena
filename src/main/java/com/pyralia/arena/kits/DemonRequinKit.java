@@ -56,7 +56,7 @@ public class DemonRequinKit extends KitSchedule {
             final Location location = kPlayer.getBukkitPlayer().getLocation();
 
             for(Block block : BlockUtils.circle(location, 10.0, 10.0, false, true, 3)){
-                if(block.getType() == Material.AIR && block.getLocation().getBlockY() > 48){
+                if(block.getType() == Material.AIR){
                     kPlayerListMap.get(kPlayer).add(block);
                     block.setType(Material.STATIONARY_WATER);
                 }

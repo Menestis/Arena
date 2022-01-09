@@ -48,15 +48,17 @@ public class PersonalScoreboard {
 
         this.objectiveSign.setDisplayName("§6§lPyralia - Arène");
         this.objectiveSign.setLine(0, "§a");
-        this.objectiveSign.setLine(1, " §8┃ §7Kills : §f" + kPlayer.getKills());
-        this.objectiveSign.setLine(2, " §8┃ §7Morts : §f" + kPlayer.getDeaths());
-        this.objectiveSign.setLine(3, "§b");
-        this.objectiveSign.setLine(4, " §8┃ §7Kit : §f" + kPlayer.getKit().getName());
-        this.objectiveSign.setLine(5, " §8┃ §7Équipe : §cN/a");
-        this.objectiveSign.setLine(6, "§c");
-        this.objectiveSign.setLine(7, " §8┃ §7Connecté(s) : §f" + Bukkit.getOnlinePlayers().size());
+        this.objectiveSign.setLine(1, " §8┃ §cCrossteam interdit");
+        this.objectiveSign.setLine(2, "§b");
+        this.objectiveSign.setLine(3, " §8┃ §7Kills : §f" + kPlayer.getKills());
+        this.objectiveSign.setLine(4, " §8┃ §7Morts : §f" + kPlayer.getDeaths());
+        this.objectiveSign.setLine(5, "§c");
+        this.objectiveSign.setLine(6, " §8┃ §7Kit : §f" + kPlayer.getKit().getName());
+        this.objectiveSign.setLine(7, " §8┃ §7Carte : §a" + hub.getGameManager().getSpecialWorld().getName());
         this.objectiveSign.setLine(8, "§d");
-        this.objectiveSign.setLine(9, "§8§l❯ §6" + ip);
+        this.objectiveSign.setLine(9, " §8┃ §7Connecté(s) : §f" + Bukkit.getOnlinePlayers().size());
+        this.objectiveSign.setLine(10, "§e");
+        this.objectiveSign.setLine(11, "§8§l❯ §6" + ip);
 
         this.objectiveSign.updateLines();
     }
