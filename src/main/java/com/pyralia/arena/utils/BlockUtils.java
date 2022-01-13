@@ -54,5 +54,27 @@ public class BlockUtils {
         return circleblocks;
     }
 
+    public static List<Location> generateSphere(final Location centerBlock, final int radius, final boolean hollow) {
+        if (centerBlock == null) {
+            return new ArrayList<Location>();
+        }
+        final List<Location> circleBlocks = new ArrayList<Location>();
+        final int bx = centerBlock.getBlockX();
+        final int by = centerBlock.getBlockY();
+        final int bz = centerBlock.getBlockZ();
+        for (int x = bx - radius; x <= bx + radius; ++x) {
+            for (int y = by - radius; y <= by + radius; ++y) {
+                for (int z = bz - radius; z <= bz + radius; ++z) {
+                    final double distance = (bx - x) * (bx - x) + (bz - z) * (bz - z) + (by - y) * (by - y);
+                    if (distance < radius * radius && (!hollow || distance >= (radius - 1) * (radius - 1))) {
+                        final Location l = new Location(centerBlock.getWorld(), x, y, z);
+                        circleBlocks.add(l);
+                    }
+                }
+            }
+        }
+        return circleBlocks;
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package com.pyralia.arena.manager;
 
 import com.pyralia.arena.kits.*;
+import com.pyralia.arena.kits.release.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public class KitManager {
         this.kitList.add(new DemonRequinKit());
         //this.kitList.add(new OursKit());
         this.kitList.add(new TengenKit());
+        this.kitList.add(new MadaraKit());
 
         this.defaultKit = defaultKit;
     }

@@ -7,8 +7,9 @@ import com.pyralia.arena.listeners.PowerListeners;
 import com.pyralia.arena.manager.GameManager;
 import com.pyralia.arena.manager.GuiManager;
 import com.pyralia.arena.manager.KitManager;
+import com.pyralia.arena.manager.PerksManager;
 import com.pyralia.arena.player.KPlayer;
-import com.pyralia.arena.scoreboard.ScoreboardManager;
+import com.pyralia.arena.utils.scoreboard.ScoreboardManager;
 import com.pyralia.arena.utils.FileUtils;
 import com.pyralia.arena.utils.mongo.DatabaseManager;
 import com.pyralia.core.spigot.utils.CommandUtils;
@@ -37,6 +38,7 @@ public final class ArenaAPI extends JavaPlugin {
     private GameManager gameManager;
     private KitManager kitManager;
     private GuiManager guiManager;
+    private PerksManager perksManager;
 
     private ScheduledExecutorService executorMonoThread;
     private ScheduledExecutorService scheduledExecutorService;
@@ -109,6 +111,7 @@ public final class ArenaAPI extends JavaPlugin {
 
         this.gameManager = new GameManager();
         this.kitManager = new KitManager();
+        this.perksManager = new PerksManager();
         this.guiManager = new GuiManager(this);
 
         PluginManager pluginManager = getServer().getPluginManager();
@@ -190,6 +193,10 @@ public final class ArenaAPI extends JavaPlugin {
 
     public DatabaseManager getDatabaseManager() {
         return databaseManager;
+    }
+
+    public PerksManager getPerksManager() {
+        return perksManager;
     }
 
     public ScheduledExecutorService getExecutorMonoThread() {

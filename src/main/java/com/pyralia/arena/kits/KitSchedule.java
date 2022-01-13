@@ -19,21 +19,21 @@ public abstract class KitSchedule extends Kit {
     private final List<KPlayer> kPlayerRemainsList = new ArrayList<>();
     private int secondsDelay;
 
-    public KitSchedule(String name, ItemStack itemStack, String... description) {
-        super(name, itemStack, description);
+    public KitSchedule(String name, KitType kitType, ItemStack itemStack, String... description) {
+        super(name, kitType, itemStack, description);
         new BukkitRunnable() {
             @Override
             public void run() {
                 if(!kPlayerRemainsList.isEmpty()){
-                    kPlayerRemainsList.forEach(kPlayer -> {
+                    for (KPlayer kPlayer : kPlayerRemainsList){
                         if (playerIntegerMap.get(kPlayer) > 0)
                             playerIntegerMap.replace(kPlayer, playerIntegerMap.get(kPlayer), playerIntegerMap.get(kPlayer) - 1);
                         else {
-                            kPlayer.sendMessage("§6§lPyralia §8§l» §7Vous pouvez de nouveau utiliser le pouvoir du " + name);
+                            kPlayer.sendMessage("§6§lPyralia §8§l» §aVous pouvez de nouveau utiliser le pouvoir du kit " + name);
                             playerIntegerMap.remove(kPlayer);
                             kPlayerRemainsList.remove(kPlayer);
                         }
-                    });
+                    }
                 }
             }
         }.runTaskTimer(ArenaAPI.getApi(), 0, 20);
