@@ -5,3 +5,4 @@ api-version: 1.17
 author: Ariloxe
 depend:
   - pyralia-core
+  - eline-core

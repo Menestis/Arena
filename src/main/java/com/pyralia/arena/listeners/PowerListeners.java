@@ -2,19 +2,34 @@ package com.pyralia.arena.listeners;
 
 import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.kits.*;
+import com.pyralia.arena.kits.release.ChainsawKit;
+import com.pyralia.arena.kits.release.LibeKit;
+import com.pyralia.arena.kits.release.MadaraKit;
 import com.pyralia.arena.player.KPlayer;
-import org.bukkit.Material;
+import com.pyralia.arena.utils.BlockUtils;
+import com.pyralia.arena.utils.PlayerUtils;
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
+
+import java.util.*;
 
 /**
  * @author Ariloxe
  */
 public class PowerListeners implements Listener {
 
+    // GENERAL
     @EventHandler
     public void onRightclick(PlayerInteractEvent playerInteractEvent){
         if(playerInteractEvent.getItem() != null && playerInteractEvent.getItem().hasItemMeta() && playerInteractEvent.getItem().getItemMeta().getDisplayName() != null && playerInteractEvent.getPlayer().getLocation().getBlockY() < 100){
@@ -23,7 +38,7 @@ public class PowerListeners implements Listener {
                 return;
 
             String name = playerInteractEvent.getItem().getItemMeta().getDisplayName();
-            if(name.contains("Choisir") || name.contains("Rentrer dans"))
+            if(name.contains("Choisir") || name.contains("Rentrer dans") || name.contains("Perks") || name.contains("Lobby") || name.contains("Retour au"))
                 return;
 
             ItemStack itemStack = playerInteractEvent.getItem();
@@ -44,4 +59,75 @@ public class PowerListeners implements Listener {
             }
         }
     }
+
+    //MADARA
+    @EventHandler
+    public void onBlockUpdate(EntityChangeBlockEvent event) {
+        Block block = event.getBlock();
+        if (event.getEntity() instanceof FallingBlock) {
+            FallingBlock fallingBlock = (FallingBlock) event.getEntity();
+            if (fallingBlock.getCustomName() != null) {
+                if (fallingBlock.getCustomName().equals(MadaraKit.METEORE_KEY)) {
+                    block.setType(Material.AIR);
+                    Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(),()-> BlockUtils.getBlocksInRadius(block.getLocation().clone().subtract(0, 5, 0), 20, false).stream().filter(block1 -> block1.getType() == Material.BEDROCK).forEach(block1 -> block1.setType(Material.AIR)), 20*2);
+
+                    for (Player players : Bukkit.getOnlinePlayers()) {
+                        if (players.getWorld() == fallingBlock.getWorld()) {
+                            if (players.getGameMode() != GameMode.SPECTATOR) {
+                                if (players.getLocation().distance(fallingBlock.getLocation()) <= 10){
+                                    players.damage(10);
+                                    players.playSound(players.getLocation(), Sound.EXPLODE, 1, 1);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //LIBE
+    private Map<UUID, Double> lastDamage = new HashMap<>();
+    private Map<UUID, Boolean> canHit = new HashMap<>();
+
+    @EventHandler
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+        if (!(event.getDamager() instanceof Player))
+            return;
+
+        lastDamage.put(event.getDamager().getUniqueId(), event.getDamage());
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        KPlayer kPlayer = ArenaAPI.getkPlayer(player);
+        Action action = event.getAction();
+        if (action.name().contains("RIGHT"))
+            return;
+        if(!event.getPlayer().getItemInHand().getType().equals(Material.DIAMOND_SWORD))
+            return;
+        if (!(kPlayer.getKit() instanceof LibeKit))
+            return;
+        if(!PlayerUtils.getCardinalDirection(player).equals("Sud"))
+            return;
+
+        Bukkit.getOnlinePlayers().stream().filter(p -> p.getLocation().distance(player.getLocation()) <= 4).forEach(p -> {
+            if (getLookingAt(player, p) && canHit.getOrDefault(player.getUniqueId(), true)) {
+                p.damage(1);
+                p.setVelocity(player.getLocation().getDirection().multiply(0.9).setY(0.3));
+                canHit.put(player.getUniqueId(), false);
+                Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), () -> canHit.put(player.getUniqueId(), true), 10);
+            }
+        });
+    }
+
+    private boolean getLookingAt(Player player, Player player1) {
+        Location eye = player.getEyeLocation();
+        Vector toEntity = player1.getEyeLocation().toVector().subtract(eye.toVector());
+        double dot = toEntity.normalize().dot(eye.getDirection());
+
+        return dot > 0.59D;
+    }
+
 }

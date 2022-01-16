@@ -1,6 +1,6 @@
 package com.pyralia.arena.utils;
 
-import com.pyralia.arena.scoreboard.tools.Reflection;
+import com.pyralia.arena.utils.scoreboard.tools.Reflection;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;

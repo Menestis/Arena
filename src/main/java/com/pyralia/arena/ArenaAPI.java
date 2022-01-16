@@ -4,11 +4,10 @@ import com.mongodb.BasicDBObject;
 import com.pyralia.arena.commands.CarteCommand;
 import com.pyralia.arena.listeners.PlayersListener;
 import com.pyralia.arena.listeners.PowerListeners;
-import com.pyralia.arena.manager.GameManager;
-import com.pyralia.arena.manager.GuiManager;
-import com.pyralia.arena.manager.KitManager;
+import com.pyralia.arena.listeners.task.TabTask;
+import com.pyralia.arena.manager.*;
 import com.pyralia.arena.player.KPlayer;
-import com.pyralia.arena.scoreboard.ScoreboardManager;
+import com.pyralia.arena.utils.scoreboard.ScoreboardManager;
 import com.pyralia.arena.utils.FileUtils;
 import com.pyralia.arena.utils.mongo.DatabaseManager;
 import com.pyralia.core.spigot.utils.CommandUtils;
@@ -37,6 +36,7 @@ public final class ArenaAPI extends JavaPlugin {
     private GameManager gameManager;
     private KitManager kitManager;
     private GuiManager guiManager;
+    private PerksManager perksManager;
 
     private ScheduledExecutorService executorMonoThread;
     private ScheduledExecutorService scheduledExecutorService;
@@ -109,40 +109,18 @@ public final class ArenaAPI extends JavaPlugin {
 
         this.gameManager = new GameManager();
         this.kitManager = new KitManager();
+        this.perksManager = new PerksManager();
         this.guiManager = new GuiManager(this);
+
+        new TaskManager();
 
         PluginManager pluginManager = getServer().getPluginManager();
 
         pluginManager.registerEvents(new PlayersListener(this), this);
         pluginManager.registerEvents(new ScoreboardManager(this), this);
         pluginManager.registerEvents(new PowerListeners(), this);
+
         CommandUtils.registerCommand("arena", new CarteCommand());
-
-        getServer().getScheduler().runTaskTimer(this, ()->{
-            if(!Bukkit.getOnlinePlayers().isEmpty())
-                Bukkit.getOnlinePlayers().forEach(player -> ((CraftPlayer) player).getHandle().getDataWatcher().watch(9, (byte) 0));
-        }, 20, 20);
-
-        getServer().getScheduler().runTaskTimer(this, ()->{
-            Bukkit.broadcastMessage("§6§lPyralia §8» §7Tous les blocs et entitées vont être retirés dans §c1§7 minute.");
-
-            getServer().getScheduler().runTaskLater(this, ()->{
-                Bukkit.broadcastMessage("§6§lPyralia §8» §7Tous les blocs et entitées ont été retirés !");
-                if(!Bukkit.getWorld("world").getEntities().isEmpty())
-                    Bukkit.getWorld("world").getEntities().stream().filter(entity -> !(entity instanceof Player)).forEach(Entity::remove);
-                if(!getGameManager().getLocationList().isEmpty())
-                    getGameManager().getLocationList().forEach(location -> location.getBlock().setType(Material.AIR));
-            }, 20*60);
-
-        }, 20, 20*60*4);
-
-        getServer().getScheduler().runTaskTimer(this, ()->{
-            Bukkit.getOnlinePlayers().stream().filter(player -> player.getLocation().getBlockY() < 0).forEach(player -> {
-                player.damage(40);
-                player.sendMessage("§cNe vous éloignez pas trop :o");
-            });
-        }, 20, 5);
-
     }
 
     @Override
@@ -190,6 +168,10 @@ public final class ArenaAPI extends JavaPlugin {
 
     public DatabaseManager getDatabaseManager() {
         return databaseManager;
+    }
+
+    public PerksManager getPerksManager() {
+        return perksManager;
     }
 
     public ScheduledExecutorService getExecutorMonoThread() {

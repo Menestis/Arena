@@ -1,10 +1,15 @@
 package com.pyralia.arena.listeners;
 
 import com.pyralia.arena.ArenaAPI;
+import com.pyralia.arena.listeners.task.TabTask;
+import com.pyralia.arena.player.KPlayer;
 import com.pyralia.core.common.ItemCreator;
+import com.pyralia.core.common.redis.messaging.MessageWrapper;
 import com.pyralia.core.spigot.CorePlugin;
 import com.pyralia.core.spigot.player.PyraliaPlayer;
 
+import fr.ariloxe.eline.Eline;
+import fr.ariloxe.eline.player.ElinePlayer;
 import net.minecraft.server.v1_8_R3.ChatComponentText;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
 import org.bukkit.Bukkit;
@@ -26,6 +31,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.lang.reflect.Field;
+import java.util.Random;
 
 
 /**
@@ -52,8 +58,9 @@ public class PlayersListener implements Listener {
         asyncPlayerChatEvent.setCancelled(true);
 
         PyraliaPlayer pyraliaPlayer = CorePlugin.getPyraliaPlayer(player);
-        if(pyraliaPlayer.getPyraliaMute().isMute()){
-            player.sendMessage(pyraliaPlayer.getPyraliaMute().getMuteMessage());
+        ElinePlayer elinePlayer = Eline.get().getPlayerService().getElinePlayer(player);
+        if(elinePlayer.getPyraliaMute().isMute()){
+            player.sendMessage(elinePlayer.getPyraliaMute().getMuteMessage());
             return;
         }
 
@@ -95,8 +102,16 @@ public class PlayersListener implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent playerDropItemEvent){
-        if(playerDropItemEvent.getPlayer().getLocation().getY() > 100 && playerDropItemEvent.getItem() != null && playerDropItemEvent.getItem().getType() == Material.ENDER_PORTAL_FRAME && playerDropItemEvent.getAction().name().contains("RIGHT"))
-            instance.getGuiManager().getSelectKitInventory().open(playerDropItemEvent.getPlayer());
+
+        if(playerDropItemEvent.getPlayer().getLocation().getY() > 100 && playerDropItemEvent.getItem() != null && playerDropItemEvent.getAction().name().contains("RIGHT")){
+            if(playerDropItemEvent.getItem().getType() == Material.ENDER_PORTAL_FRAME)
+                instance.getGuiManager().getSelectKitInventory().open(playerDropItemEvent.getPlayer());
+            else if(playerDropItemEvent.getItem().getType() == Material.CHEST)
+                instance.getGuiManager().getPerksMainInventory().open(playerDropItemEvent.getPlayer());
+            else if(playerDropItemEvent.getItem().getType() == Material.BED)
+                MessageWrapper.sendToHub(playerDropItemEvent.getPlayer());
+
+        }
     }
 
     @EventHandler
@@ -142,8 +157,9 @@ public class PlayersListener implements Listener {
 
         player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
 
-       player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Choisir un Kit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
-
+        player.getInventory().setItem(0, new ItemCreator(Material.CHEST).name("§8» §7Perks §8«").lore("", "§8» §7Cliquez ici pour choisir vos perks !").get());
+        player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Entrer dans l'Arène §8«").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
+        player.getInventory().setItem(8, new ItemCreator(Material.BED).name("§8» §7Retour au Lobby §8«").lore("", "§8» §7Cliquez ici pour retourner au lobby !").get());
 
         player.setMaxHealth(20);
         player.setHealth(player.getMaxHealth());
@@ -155,16 +171,29 @@ public class PlayersListener implements Listener {
     public void onDeath(PlayerDeathEvent playerDeathEvent){
         playerDeathEvent.setDeathMessage(null);
         Player player = playerDeathEvent.getEntity();
-        ArenaAPI.getkPlayer(player).setDeaths(ArenaAPI.getkPlayer(player).getDeaths() + 1);
+        KPlayer kPlayer = ArenaAPI.getkPlayer(player);
+        kPlayer.setDeaths(ArenaAPI.getkPlayer(player).getDeaths() + 1);
 
         if(player.getKiller() != null){
-            Bukkit.broadcastMessage("§6§lPyralia §8» §3" + player.getName() + "§7 est mort par le joueur §3" + player.getKiller().getName() + "§8 [§f" + ((int) player.getKiller().getHealth()) / 2 + "§f ❤§8]");
+            KPlayer kAttacker = ArenaAPI.getkPlayer(player.getKiller());
+            if(kAttacker.getkPlayerPerks().getDeathBroadcast() != null){
+                kAttacker.getkPlayerPerks().getDeathBroadcast().paste(player.getLocation());
+            }
+
+            Bukkit.broadcastMessage("§6§lPyralia §8» " + kAttacker.getkPlayerPerks().getDeathMessagePerks().getDeathMessage().replaceAll("<victim>", player.getName()).replaceAll("<attacker>", player.getKiller().getName()) + " §8[§f" + ((int) player.getKiller().getHealth()) / 2 + "§f ❤§8]");
+
             ArenaAPI.getkPlayer(player.getKiller()).setKills(ArenaAPI.getkPlayer(player.getKiller()).getKills() + 1);
             player.getKiller().getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 3));
             player.getKiller().getInventory().addItem(new ItemStack(Material.COBBLESTONE, 20));
             player.getKiller().getInventory().addItem(new ItemStack(Material.ARROW, 16));
 
             player.getKiller().setHealth(Math.min(player.getKiller().getHealth() + 4, player.getKiller().getMaxHealth()));
+            int a = new Random().nextInt(3);
+            if(a == 1){
+                player.getKiller().sendMessage("§7Vous reçevez §d3 Crédits §7(§eExécution§7) §cx1.0");
+                CorePlugin.getPyraliaPlayer(player.getKiller()).setCredits(CorePlugin.getPyraliaPlayer(player.getKiller()).getCredits() + 3);
+            }
+
         } else
             Bukkit.broadcastMessage("§6§lPyralia §8» §3" + player.getName() + "§7 est mort tout seul !");
 
@@ -181,7 +210,10 @@ public class PlayersListener implements Listener {
             player.getInventory().setBoots(air);
 
             player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
-            player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Choisir un Kit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
+
+            player.getInventory().setItem(0, new ItemCreator(Material.CHEST).name("§8» §7Perks §8«").lore("", "§8» §7Cliquez ici pour choisir vos perks !").get());
+            player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Entrer dans l'Arène §8«").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
+            player.getInventory().setItem(8, new ItemCreator(Material.BED).name("§8» §7Retour au Lobby §8«").lore("", "§8» §7Cliquez ici pour retourner au lobby !").get());
 
             player.setMaxHealth(20);
             player.setHealth(player.getMaxHealth());
@@ -198,23 +230,6 @@ public class PlayersListener implements Listener {
         Bukkit.broadcastMessage("§6§lPyralia §8» §a" + player.getName() + "§7 a rejoint l'Arène.");
         ArenaAPI.registerPlayer(player);
 
-        PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
-        try {
-            Field a = packet.getClass().getDeclaredField("a");
-            a.setAccessible(true);
-            Field b = packet.getClass().getDeclaredField("b");
-            b.setAccessible(true);
-
-            Object header1 = new ChatComponentText("\n §6§lPyralia Network \n \n" + "      §c♨ §7Vous êtes actuellement sur le §fARENA §c♨\n");
-            a.set(packet, header1);
-            Object footer = new ChatComponentText(" \n   §e§lmc.pyralia.com §f--- §b@PyraliaNetwork \n");
-            b.set(packet, footer);
-
-            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
-        } catch (NoSuchFieldException | IllegalAccessException ee) {
-            System.out.println("ERREUR TAB LIST");
-        }
-
         Bukkit.getScheduler().runTaskLater(instance, ()->{
             player.teleport(instance.getGameManager().getSpecialWorld().getLobbyLocation());
             player.setGameMode(GameMode.SURVIVAL);
@@ -227,7 +242,10 @@ public class PlayersListener implements Listener {
 
             player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
 
-            player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Choisir un Kit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
+            player.getInventory().setItem(0, new ItemCreator(Material.CHEST).name("§8» §7Perks §8«").lore("", "§8» §7Cliquez ici pour choisir vos perks !").get());
+            player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Entrer dans l'Arène §8«").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
+            player.getInventory().setItem(8, new ItemCreator(Material.BED).name("§8» §7Retour au Lobby §8«").lore("", "§8» §7Cliquez ici pour retourner au lobby !").get());
+
 
             player.sendMessage("");
             player.sendMessage("§6§lPyralia §8» §7Bienvenue dans l'Arène, ici vous pourrez combattre d'autres joueurs librement !");

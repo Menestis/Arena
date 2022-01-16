@@ -14,6 +14,7 @@ public class KPlayer {
 
     private final UUID uuid;
     private final String name;
+    private final KPlayerPerks kPlayerPerks;
     private Kit kit;
 
     private int kills;
@@ -23,6 +24,7 @@ public class KPlayer {
     public KPlayer(UUID uuid, String name, int kills, int deaths) {
         this.uuid = uuid;
         this.name = name;
+        this.kPlayerPerks = new KPlayerPerks(this);
 
         this.kills = kills;
         this.deaths = deaths;
@@ -51,6 +53,9 @@ public class KPlayer {
         ArenaAPI.getApi().getDatabaseManager().setArenaCollection(this.uuid, "deaths", this.deaths);
     }
 
+    public KPlayerPerks getkPlayerPerks() {
+        return kPlayerPerks;
+    }
 
     public void setKills(int kills) {
         this.kills = kills;
