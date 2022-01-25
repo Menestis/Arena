@@ -13,7 +13,7 @@ import java.util.List;
 public class NakimeWorld extends SpecialWorld {
 
     public NakimeWorld() {
-        super("§f§lChateau de l'Infini", new Location(Bukkit.getWorld("nakimeArena"), 7, 180, 35));
+        super("§c§lNakime", new Location(Bukkit.getWorld("nakimeArena"), 7, 180, 35));
 
         List<Location> spawnLocations = new ArrayList<>();
         World world = Bukkit.getWorld("nakimeArena");

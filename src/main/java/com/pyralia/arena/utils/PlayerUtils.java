@@ -123,4 +123,20 @@ public class PlayerUtils {
             return "n/A";
 
     }
+
+    public static Player getNearestPlayer(Player checkNear) {
+        Player nearest = null;
+        for (Player p : checkNear.getWorld().getPlayers()) {
+            if(p == checkNear)
+                continue;
+            if (p.getLocation().getBlockY() > 100)
+                continue;
+
+            if (nearest == null)
+                nearest = p;
+            else if (p.getLocation().distance(checkNear.getLocation()) < nearest.getLocation().distance(checkNear.getLocation()))
+                nearest = p;
+        }
+        return nearest;
+    }
 }

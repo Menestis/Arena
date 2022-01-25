@@ -1,13 +1,16 @@
 package com.pyralia.arena.listeners;
 
 import com.pyralia.arena.ArenaAPI;
+import com.pyralia.arena.kits.release.LibeKit;
 import com.pyralia.arena.listeners.task.TabTask;
 import com.pyralia.arena.player.KPlayer;
 import com.pyralia.core.common.ItemCreator;
+import com.pyralia.core.common.ranks.Rank;
 import com.pyralia.core.common.redis.messaging.MessageWrapper;
 import com.pyralia.core.spigot.CorePlugin;
 import com.pyralia.core.spigot.player.PyraliaPlayer;
 
+import fr.ariloxe.api.utils.IdentityChanger;
 import fr.ariloxe.eline.Eline;
 import fr.ariloxe.eline.player.ElinePlayer;
 import net.minecraft.server.v1_8_R3.ChatComponentText;
@@ -110,7 +113,10 @@ public class PlayersListener implements Listener {
                 instance.getGuiManager().getPerksMainInventory().open(playerDropItemEvent.getPlayer());
             else if(playerDropItemEvent.getItem().getType() == Material.BED)
                 MessageWrapper.sendToHub(playerDropItemEvent.getPlayer());
-
+            else if(playerDropItemEvent.getItem().getType() == Material.PAPER)
+                Bukkit.dispatchCommand(playerDropItemEvent.getPlayer(), "pyralialink getlink");
+            else if(playerDropItemEvent.getItem().getType() == Material.BOOK)
+                Bukkit.dispatchCommand(playerDropItemEvent.getPlayer(), "pyralialink config");
         }
     }
 
@@ -158,7 +164,9 @@ public class PlayersListener implements Listener {
         player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
 
         player.getInventory().setItem(0, new ItemCreator(Material.CHEST).name("§8» §7Perks §8«").lore("", "§8» §7Cliquez ici pour choisir vos perks !").get());
+        player.getInventory().setItem(2, new ItemCreator(Material.PAPER).name("§8» §7Rejoindre le Mumble §8«").lore("", "§8» §7Cliquez ici pour rejoindre le mumble !").get());
         player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Entrer dans l'Arène §8«").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
+        player.getInventory().setItem(6, new ItemCreator(Material.BOOK).name("§8» §7Configurer le Mumble §8«").lore("", "§8» §7Cliquez ici pour configurer le mumble !").get());
         player.getInventory().setItem(8, new ItemCreator(Material.BED).name("§8» §7Retour au Lobby §8«").lore("", "§8» §7Cliquez ici pour retourner au lobby !").get());
 
         player.setMaxHealth(20);
@@ -173,6 +181,10 @@ public class PlayersListener implements Listener {
         Player player = playerDeathEvent.getEntity();
         KPlayer kPlayer = ArenaAPI.getkPlayer(player);
         kPlayer.setDeaths(ArenaAPI.getkPlayer(player).getDeaths() + 1);
+        if(kPlayer.getKit() instanceof LibeKit)
+            IdentityChanger.changeSkin(player, ((LibeKit) kPlayer.getKit()).getSkinsMap().get(kPlayer));
+
+
 
         if(player.getKiller() != null){
             KPlayer kAttacker = ArenaAPI.getkPlayer(player.getKiller());
@@ -190,8 +202,23 @@ public class PlayersListener implements Listener {
             player.getKiller().setHealth(Math.min(player.getKiller().getHealth() + 4, player.getKiller().getMaxHealth()));
             int a = new Random().nextInt(3);
             if(a == 1){
-                player.getKiller().sendMessage("§7Vous reçevez §d3 Crédits §7(§eExécution§7) §cx1.0");
-                CorePlugin.getPyraliaPlayer(player.getKiller()).setCredits(CorePlugin.getPyraliaPlayer(player.getKiller()).getCredits() + 3);
+                PyraliaPlayer pyraliaPlayer = CorePlugin.getPyraliaPlayer(player.getKiller());
+                Rank rank = pyraliaPlayer.getRank();
+                int creditsWon = 3;
+                double multiplicateur = 0.0;
+
+                if(rank == Rank.JOUEUR)
+                    multiplicateur = 1.0;
+                else if(rank == Rank.STAR || rank == Rank.NITRO)
+                    multiplicateur = 1.5;
+                else if(rank == Rank.MOON || rank == Rank.ADMIN)
+                    multiplicateur = 3.0;
+                else
+                    multiplicateur = 2.0;
+
+                creditsWon = (int)(creditsWon * multiplicateur);
+                pyraliaPlayer.getBukkitPlayer().sendMessage("§7Vous reçevez §d" + creditsWon + " Crédits §7(§eExécution§7) §cx" + multiplicateur);
+                pyraliaPlayer.setCredits(pyraliaPlayer.getCredits() + creditsWon);
             }
 
         } else
@@ -212,7 +239,9 @@ public class PlayersListener implements Listener {
             player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
 
             player.getInventory().setItem(0, new ItemCreator(Material.CHEST).name("§8» §7Perks §8«").lore("", "§8» §7Cliquez ici pour choisir vos perks !").get());
+            player.getInventory().setItem(2, new ItemCreator(Material.PAPER).name("§8» §7Rejoindre le Mumble §8«").lore("", "§8» §7Cliquez ici pour rejoindre le mumble !").get());
             player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Entrer dans l'Arène §8«").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
+            player.getInventory().setItem(6, new ItemCreator(Material.BOOK).name("§8» §7Configurer le Mumble §8«").lore("", "§8» §7Cliquez ici pour configurer le mumble !").get());
             player.getInventory().setItem(8, new ItemCreator(Material.BED).name("§8» §7Retour au Lobby §8«").lore("", "§8» §7Cliquez ici pour retourner au lobby !").get());
 
             player.setMaxHealth(20);
@@ -220,6 +249,12 @@ public class PlayersListener implements Listener {
             player.setAllowFlight(false);
 
             player.setFoodLevel(20);
+
+            if(kPlayer.getKit() instanceof LibeKit){
+                IdentityChanger.changeSkin(player, ((LibeKit) kPlayer.getKit()).getSkinsMap().get(kPlayer));
+                ((LibeKit) kPlayer.getKit()).getSkinsMap().remove(kPlayer);
+            }
+
         }, 3);
     }
 
@@ -243,9 +278,10 @@ public class PlayersListener implements Listener {
             player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
 
             player.getInventory().setItem(0, new ItemCreator(Material.CHEST).name("§8» §7Perks §8«").lore("", "§8» §7Cliquez ici pour choisir vos perks !").get());
+            player.getInventory().setItem(2, new ItemCreator(Material.PAPER).name("§8» §7Rejoindre le Mumble §8«").lore("", "§8» §7Cliquez ici pour rejoindre le mumble !").get());
             player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Entrer dans l'Arène §8«").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
+            player.getInventory().setItem(6, new ItemCreator(Material.BOOK).name("§8» §7Configurer le Mumble §8«").lore("", "§8» §7Cliquez ici pour configurer le mumble !").get());
             player.getInventory().setItem(8, new ItemCreator(Material.BED).name("§8» §7Retour au Lobby §8«").lore("", "§8» §7Cliquez ici pour retourner au lobby !").get());
-
 
             player.sendMessage("");
             player.sendMessage("§6§lPyralia §8» §7Bienvenue dans l'Arène, ici vous pourrez combattre d'autres joueurs librement !");

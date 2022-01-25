@@ -77,12 +77,28 @@ public final class ArenaAPI extends JavaPlugin {
 
         File worldFolderEnfer = new File(worldContainer, "enferArena");
         File copyFolderEnfer = new File(worldContainer, "enferWorld");
+
+        File worldFolderOriginal = new File(worldContainer, "originalArena");
+        File copyFolderOriginal = new File(worldContainer, "originalWorld");
+
         if(copyFolderNaki.exists()){
             Bukkit.unloadWorld("nakimeArena", false);
             FileUtils.delete(worldFolderNaki);
             try {
                 FileUtils.copyFolder(copyFolderNaki, worldFolderNaki);
                 new WorldCreator("nakimeArena").createWorld();
+                getLogger().info("World copied.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(copyFolderOriginal.exists()){
+            Bukkit.unloadWorld("originalArena", false);
+            FileUtils.delete(worldFolderOriginal);
+            try {
+                FileUtils.copyFolder(copyFolderOriginal, worldFolderOriginal);
+                new WorldCreator("originalArena").createWorld();
                 getLogger().info("World copied.");
             } catch (IOException e) {
                 e.printStackTrace();

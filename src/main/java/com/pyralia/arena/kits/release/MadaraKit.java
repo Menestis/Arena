@@ -28,7 +28,8 @@ public class MadaraKit extends KitSchedule {
         super("Madara", KitType.TANK, new ItemStack(Material.BEDROCK),
                 "§8» §7Mode : §eNaruto UHC",
                 "§8» §7Pouvoirs:",
-                "§f- §7Crée une météorite au dessus du joueur. (§a48s de cooldown§7)");
+                "§f- §7Crée une météorite au dessus de vous, qui infligera",
+                "    §75 coeurs de dégâts. (§a48s de cooldown§7)");
 
         setSecondsDelay(48);
     }

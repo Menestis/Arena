@@ -34,6 +34,9 @@ public class Structure {
         kPlayerListMap.put(kPlayer, new ArrayList<>());
 
         for(Block block : BlockUtils.circle(kPlayer.getBukkitPlayer().getLocation(), 4.5, 5.0, true, true, 2)){
+            if(block.getType() != Material.AIR)
+                continue;
+
             if(storageList.containsKey(block))
                 continue;
             if(kPlayerListMap.get(kPlayer).contains(block))

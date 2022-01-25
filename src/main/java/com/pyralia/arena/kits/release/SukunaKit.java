@@ -20,13 +20,13 @@ import org.bukkit.potion.PotionEffectType;
 public class SukunaKit extends KitSchedule {
 
     private final PotionEffect weaknessEffects = new PotionEffect(PotionEffectType.WEAKNESS,6*20, 1, false, false);
-    private final Structure structure = new Structure(7, 6, ParticleEffect.REDSTONE, Material.NETHER_BRICK, Material.NETHERRACK, Material.NETHERRACK);
+    private final Structure structure = new Structure(9, 6, ParticleEffect.REDSTONE, Material.NETHER_BRICK, Material.NETHERRACK, Material.NETHERRACK);
 
     public SukunaKit(){
         super("Sukuna", KitType.TANK, SkullList.ITADORI.getItemStack(),
                 "§8» §7Mode : §5JJK",
                 "§8» §7Pouvoirs:",
-                "§f- §7Extendez votre territoire et donnez §9Weakness II§7 pendant §b6 secondes§7 aux",
+                "§f- §7Extendez votre territoire et donnez §9Weakness II§7 pendant §b9 secondes§7 aux",
                 "§7joueurs dedans en téléportant tous les joueurs dans un rayon de §e10 blocs§7 dans",
                 "§7votre extension. (§a53s de cooldown§7)",
                 "§f- §7Vous aurez §cun coeur§7 permanent supplémentaire.");

@@ -1,17 +1,30 @@
 package com.pyralia.arena.kits.release;
 
+import com.mojang.authlib.properties.Property;
+import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.kits.Kit;
 import com.pyralia.arena.kits.KitType;
+import com.pyralia.arena.player.KPlayer;
 import com.pyralia.arena.utils.skull.SkullList;
+import com.pyralia.arena.utils.skull.skin.LibeSkin;
 import com.pyralia.core.common.ItemCreator;
+import fr.ariloxe.api.utils.IdentityChanger;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Ariloxe
  */
 public class LibeKit extends Kit {
+
+    private final LibeSkin libeSkin = new LibeSkin();
+    private final Map<KPlayer, Property> kPlayerPropertyMap = new HashMap<>();
+
     public LibeKit() {
         super("Libe_", KitType.DPS, SkullList.LIBE.getItemStack(),
                 "§8» §7Mode : §c/",
@@ -22,7 +35,14 @@ public class LibeKit extends Kit {
 
     @Override
     public void onEquip(Player player){
+        kPlayerPropertyMap.put(ArenaAPI.getkPlayer(player), IdentityChanger.getPlayerTextures(player));
         player.getInventory().setItem(1, new ItemCreator(Material.WATER_BUCKET).get());
+        Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()->{
+            IdentityChanger.changeSkin(player, libeSkin);
+        }, 20);
     }
 
+    public Map<KPlayer, Property> getSkinsMap() {
+        return kPlayerPropertyMap;
+    }
 }

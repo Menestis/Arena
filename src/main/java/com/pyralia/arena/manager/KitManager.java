@@ -31,6 +31,7 @@ public class KitManager {
         this.kitList.add(new TengenKit());
         this.kitList.add(new MadaraKit());
         this.kitList.add(new LibeKit());
+        this.kitList.add(new AkazaKit());
 
         this.defaultKit = defaultKit;
     }

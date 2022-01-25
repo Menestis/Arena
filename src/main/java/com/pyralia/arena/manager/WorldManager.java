@@ -1,9 +1,6 @@
 package com.pyralia.arena.manager;
 
-import com.pyralia.arena.maps.EnferWorld;
-import com.pyralia.arena.maps.ForestWorld;
-import com.pyralia.arena.maps.NakimeWorld;
-import com.pyralia.arena.maps.SpecialWorld;
+import com.pyralia.arena.maps.*;
 import com.pyralia.core.common.ItemCreator;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -24,6 +21,7 @@ public class WorldManager {
         specialWorlds.add(forestWorld);
         specialWorlds.add(new NakimeWorld());
         specialWorlds.add(new EnferWorld());
+        specialWorlds.add(new OriginalWorld());
 
         this.gameManager = gameManager;
     }
