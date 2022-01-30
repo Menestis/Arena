@@ -2,6 +2,7 @@ package com.pyralia.arena;
 
 import com.mongodb.BasicDBObject;
 import com.pyralia.arena.commands.CarteCommand;
+import com.pyralia.arena.listeners.CombatLog;
 import com.pyralia.arena.listeners.PlayersListener;
 import com.pyralia.arena.listeners.PowerListeners;
 import com.pyralia.arena.listeners.task.TabTask;
@@ -117,7 +118,6 @@ public final class ArenaAPI extends JavaPlugin {
             }
         }
 
-
         this.scheduledExecutorService = Executors.newScheduledThreadPool(16);
         this.executorMonoThread = Executors.newScheduledThreadPool(1);
 
@@ -135,6 +135,7 @@ public final class ArenaAPI extends JavaPlugin {
         pluginManager.registerEvents(new PlayersListener(this), this);
         pluginManager.registerEvents(new ScoreboardManager(this), this);
         pluginManager.registerEvents(new PowerListeners(), this);
+        pluginManager.registerEvents(new CombatLog(), this);
 
         CommandUtils.registerCommand("arena", new CarteCommand());
     }

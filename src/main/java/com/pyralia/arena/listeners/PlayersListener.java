@@ -239,9 +239,9 @@ public class PlayersListener implements Listener {
             player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
 
             player.getInventory().setItem(0, new ItemCreator(Material.CHEST).name("§8» §7Perks §8«").lore("", "§8» §7Cliquez ici pour choisir vos perks !").get());
-            player.getInventory().setItem(2, new ItemCreator(Material.PAPER).name("§8» §7Rejoindre le Mumble §8«").lore("", "§8» §7Cliquez ici pour rejoindre le mumble !").get());
+            //player.getInventory().setItem(2, new ItemCreator(Material.PAPER).name("§8» §7Rejoindre le Mumble §8«").lore("", "§8» §7Cliquez ici pour rejoindre le mumble !").get());
             player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Entrer dans l'Arène §8«").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
-            player.getInventory().setItem(6, new ItemCreator(Material.BOOK).name("§8» §7Configurer le Mumble §8«").lore("", "§8» §7Cliquez ici pour configurer le mumble !").get());
+            //player.getInventory().setItem(6, new ItemCreator(Material.BOOK).name("§8» §7Configurer le Mumble §8«").lore("", "§8» §7Cliquez ici pour configurer le mumble !").get());
             player.getInventory().setItem(8, new ItemCreator(Material.BED).name("§8» §7Retour au Lobby §8«").lore("", "§8» §7Cliquez ici pour retourner au lobby !").get());
 
             player.setMaxHealth(20);
@@ -278,9 +278,9 @@ public class PlayersListener implements Listener {
             player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
 
             player.getInventory().setItem(0, new ItemCreator(Material.CHEST).name("§8» §7Perks §8«").lore("", "§8» §7Cliquez ici pour choisir vos perks !").get());
-            player.getInventory().setItem(2, new ItemCreator(Material.PAPER).name("§8» §7Rejoindre le Mumble §8«").lore("", "§8» §7Cliquez ici pour rejoindre le mumble !").get());
+          //  player.getInventory().setItem(2, new ItemCreator(Material.PAPER).name("§8» §7Rejoindre le Mumble §8«").lore("", "§8» §7Cliquez ici pour rejoindre le mumble !").get());
             player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Entrer dans l'Arène §8«").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
-            player.getInventory().setItem(6, new ItemCreator(Material.BOOK).name("§8» §7Configurer le Mumble §8«").lore("", "§8» §7Cliquez ici pour configurer le mumble !").get());
+           // player.getInventory().setItem(6, new ItemCreator(Material.BOOK).name("§8» §7Configurer le Mumble §8«").lore("", "§8» §7Cliquez ici pour configurer le mumble !").get());
             player.getInventory().setItem(8, new ItemCreator(Material.BED).name("§8» §7Retour au Lobby §8«").lore("", "§8» §7Cliquez ici pour retourner au lobby !").get());
 
             player.sendMessage("");

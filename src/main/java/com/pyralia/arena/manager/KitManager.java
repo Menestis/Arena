@@ -32,6 +32,7 @@ public class KitManager {
         this.kitList.add(new MadaraKit());
         this.kitList.add(new LibeKit());
         this.kitList.add(new AkazaKit());
+        this.kitList.add(new TitanColossalKit());
 
         this.defaultKit = defaultKit;
     }

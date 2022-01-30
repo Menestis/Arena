@@ -115,9 +115,10 @@ public class PowerListeners implements Listener {
         Bukkit.getOnlinePlayers().stream().filter(p -> p.getLocation().distance(player.getLocation()) <= 4).forEach(p -> {
             if (getLookingAt(player, p) && canHit.getOrDefault(player.getUniqueId(), true)) {
                 p.damage(1);
-                p.setVelocity(player.getLocation().getDirection().multiply(0.8).setY(0.4));
+                p.setVelocity(player.getLocation().getDirection().multiply(0.5).setY(0.3));
+                p.sendMessage("§fLibe_§c vous mets un dégât !");
                 canHit.put(player.getUniqueId(), false);
-                Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), () -> canHit.put(player.getUniqueId(), true), 40);
+                Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), () -> canHit.put(player.getUniqueId(), true), 100);
             }
         });
     }
