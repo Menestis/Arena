@@ -1,6 +1,7 @@
 package com.pyralia.arena.utils.scoreboard.tools;
 
 
+import com.pyralia.core.spigot.reflection.Reflection;
 import net.minecraft.server.v1_8_R3.IScoreboardCriteria;
 import net.minecraft.server.v1_8_R3.PacketPlayOutScoreboardDisplayObjective;
 import net.minecraft.server.v1_8_R3.PacketPlayOutScoreboardObjective;

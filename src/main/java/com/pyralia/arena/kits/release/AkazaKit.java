@@ -2,7 +2,7 @@ package com.pyralia.arena.kits.release;
 
 import com.pyralia.arena.kits.Kit;
 import com.pyralia.arena.kits.KitType;
-import com.pyralia.arena.utils.skull.SkullList;
+import com.pyralia.core.tools.skull.SkullList;
 import com.pyralia.core.common.ItemCreator;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

@@ -5,10 +5,9 @@ import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.kits.Kit;
 import com.pyralia.arena.kits.KitType;
 import com.pyralia.arena.player.KPlayer;
-import com.pyralia.arena.utils.skull.SkullList;
-import com.pyralia.arena.utils.skull.skin.LibeSkin;
+import com.pyralia.core.tools.skin.IdentityChanger;
+import com.pyralia.core.tools.skin.LibeSkin;
 import com.pyralia.core.common.ItemCreator;
-import fr.ariloxe.api.utils.IdentityChanger;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -26,7 +25,7 @@ public class LibeKit extends Kit {
     private final Map<KPlayer, Property> kPlayerPropertyMap = new HashMap<>();
 
     public LibeKit() {
-        super("Libe_", KitType.DPS, SkullList.LIBE.getItemStack(),
+        super("Libe_", KitType.DPS, new ItemStack(Material.DIAMOND_SWORD),
                 "§8» §7Mode : §c/",
                 "§8» §7Pouvoirs:",
                 "§f- §7Lorsque vous frapperez vers le §bSud§7, vous aurez",

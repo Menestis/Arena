@@ -2,7 +2,6 @@ package com.pyralia.arena.listeners;
 
 import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.kits.release.LibeKit;
-import com.pyralia.arena.listeners.task.TabTask;
 import com.pyralia.arena.player.KPlayer;
 import com.pyralia.core.common.ItemCreator;
 import com.pyralia.core.common.ranks.Rank;
@@ -10,15 +9,12 @@ import com.pyralia.core.common.redis.messaging.MessageWrapper;
 import com.pyralia.core.spigot.CorePlugin;
 import com.pyralia.core.spigot.player.PyraliaPlayer;
 
-import fr.ariloxe.api.utils.IdentityChanger;
+import com.pyralia.core.tools.skin.IdentityChanger;
 import fr.ariloxe.eline.Eline;
 import fr.ariloxe.eline.player.ElinePlayer;
-import net.minecraft.server.v1_8_R3.ChatComponentText;
-import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,7 +29,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.lang.reflect.Field;
 import java.util.Random;
 
 

@@ -3,7 +3,7 @@ package com.pyralia.arena.uis.kits;
 import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.kits.KitType;
 import com.pyralia.arena.utils.PlayerUtils;
-import com.pyralia.arena.utils.skull.SkullList;
+import com.pyralia.core.tools.skull.SkullList;
 import com.pyralia.core.common.ItemCreator;
 import fr.blendman974.kinventory.inventories.KInventory;
 import fr.blendman974.kinventory.inventories.KItem;

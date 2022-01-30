@@ -2,8 +2,7 @@ package com.pyralia.arena.listeners;
 
 import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.player.KPlayer;
-import com.pyralia.arena.utils.ActionBar;
-import com.pyralia.core.spigot.CorePlugin;
+import com.pyralia.core.tools.packets.ActionBar;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;

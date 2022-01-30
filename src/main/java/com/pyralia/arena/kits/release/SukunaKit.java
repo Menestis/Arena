@@ -5,7 +5,7 @@ import com.pyralia.arena.kits.KitType;
 import com.pyralia.arena.kits.power.Structure;
 import com.pyralia.arena.player.KPlayer;
 import com.pyralia.arena.utils.ParticleEffect;
-import com.pyralia.arena.utils.skull.SkullList;
+import com.pyralia.core.tools.skull.SkullList;
 import com.pyralia.core.common.ItemCreator;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
