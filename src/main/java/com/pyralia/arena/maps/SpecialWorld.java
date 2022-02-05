@@ -12,16 +12,20 @@ public abstract class SpecialWorld {
 
     private final String name;
     private final Location lobbyLocation;
+    private final String realName;
     private List<Location> arenaLocations = new ArrayList<>();
 
-    public SpecialWorld(String name, Location lobbyLocation){
+    public SpecialWorld(String name, Location lobbyLocation, String realName){
         this.name = name;
         this.lobbyLocation = lobbyLocation;
+        this.realName = realName;
     }
 
     public String getName() {
         return name;
     }
+
+    public String getRealName() {return realName;}
 
     public Location getLobbyLocation() {
         return lobbyLocation;

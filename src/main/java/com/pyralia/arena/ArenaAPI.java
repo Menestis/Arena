@@ -2,6 +2,7 @@ package com.pyralia.arena;
 
 import com.mongodb.BasicDBObject;
 import com.pyralia.arena.commands.CarteCommand;
+import com.pyralia.arena.commands.VoteCommand;
 import com.pyralia.arena.listeners.CombatLog;
 import com.pyralia.arena.listeners.PlayersListener;
 import com.pyralia.arena.listeners.PowerListeners;
@@ -138,6 +139,7 @@ public final class ArenaAPI extends JavaPlugin {
         pluginManager.registerEvents(new CombatLog(), this);
 
         CommandUtils.registerCommand("arena", new CarteCommand());
+        CommandUtils.registerCommand("arena", new VoteCommand());
     }
 
     @Override

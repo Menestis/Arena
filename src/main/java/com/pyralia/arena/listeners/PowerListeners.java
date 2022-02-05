@@ -87,8 +87,8 @@ public class PowerListeners implements Listener {
     }
 
     //LIBE
-    private Map<UUID, Double> lastDamage = new HashMap<>();
-    private Map<UUID, Boolean> canHit = new HashMap<>();
+    private final Map<UUID, Double> lastDamage = new HashMap<>();
+    private final Map<UUID, Boolean> canHit = new HashMap<>();
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
