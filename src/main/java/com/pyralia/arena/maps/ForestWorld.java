@@ -13,7 +13,7 @@ import java.util.List;
 public class ForestWorld extends SpecialWorld {
 
     public ForestWorld() {
-        super("§a§lForêt", new Location(Bukkit.getWorld("world"), -80, 114, -80));
+        super("§a§lForêt", new Location(Bukkit.getWorld("world"), -80, 114, -80), "Forest");
 
         List<Location> spawnLocations = new ArrayList<>();
         World world = Bukkit.getWorld("world");

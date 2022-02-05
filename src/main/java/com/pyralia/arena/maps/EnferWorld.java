@@ -13,7 +13,7 @@ import java.util.List;
 public class EnferWorld extends SpecialWorld {
 
     public EnferWorld() {
-        super("§4§lEnfer", new Location(Bukkit.getWorld("enferArena"), 108, 166, 157));
+        super("§4§lEnfer", new Location(Bukkit.getWorld("enferArena"), 108, 166, 157), "Enfer");
 
         List<Location> spawnLocations = new ArrayList<>();
         World world = Bukkit.getWorld("enferArena");

@@ -13,7 +13,7 @@ import java.util.List;
 public class OriginalWorld extends SpecialWorld {
 
     public OriginalWorld() {
-        super("§b§lOriginal (2017)", new Location(Bukkit.getWorld("originalArena"), -57, 158, -5));
+        super("§b§lOriginal (2017)", new Location(Bukkit.getWorld("originalArena"), -57, 158, -5), "Originale");
 
         List<Location> spawnLocations = new ArrayList<>();
         World world = Bukkit.getWorld("originalArena");

@@ -28,7 +28,7 @@ public class OursKit extends KitSchedule {
                 "§8» §7Pouvoirs:",
                 "§f- §7Effectuez une rotation qui infligera des dégats à tous les joueurs",
                 "    §7autour de vous. (§a21 secondes de cooldown§7)",
-                "§f- §7Obtenez l'effet de Résistance permanent.");
+                "§f- §7Obtenez l'effet de Résistance pendant 12 secondes après votre rotation.");
         super.setSecondsDelay(21);
     }
 
@@ -36,6 +36,7 @@ public class OursKit extends KitSchedule {
     public void power(KPlayer kPlayer){
         Player player = kPlayer.getBukkitPlayer();
         if(player != null){
+            player.addPotionEffect(potionEffect);
             Location location = player.getLocation().clone().add(0, 2, 0);
             player.playSound(player.getLocation(), Sound.PISTON_RETRACT, 5.0F, 0.0F);
             (new BukkitRunnable() {
@@ -47,6 +48,7 @@ public class OursKit extends KitSchedule {
                         if (entity instanceof Player && entity != player) {
                             Player players = (Player)entity;
                             players.damage(1);
+                            players.setVelocity(players.getLocation().getDirection().multiply(0.5).setY(0.3));
                         }
                     });
 
@@ -55,18 +57,17 @@ public class OursKit extends KitSchedule {
 
                     this.time--;
                 }
-            }).runTaskTimer(ArenaAPI.getApi(), 0L, 4);
+            }).runTaskTimer(ArenaAPI.getApi(), 0L, 2);
         }
     }
 
-    private final PotionEffect potionEffect = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0, false, false);
+    private final PotionEffect potionEffect = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20*12, 0, false, false);
 
     @Override
     public void onEquip(Player player){
         player.setMaxHealth(22);
         player.setHealth(player.getMaxHealth());
 
-        player.addPotionEffect(potionEffect);
         player.getInventory().setItem(1, new ItemCreator(Material.STICK).name("§7Retourné de l'Ours").lore("", "§fVous permet de faire un 3/6 noscope !").get());
     }
 }
