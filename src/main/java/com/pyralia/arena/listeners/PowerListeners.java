@@ -5,6 +5,7 @@ import com.pyralia.arena.kits.*;
 import com.pyralia.arena.kits.release.ChainsawKit;
 import com.pyralia.arena.kits.release.LibeKit;
 import com.pyralia.arena.kits.release.MadaraKit;
+import com.pyralia.arena.kits.release.MeliodasKit;
 import com.pyralia.arena.player.KPlayer;
 import com.pyralia.arena.utils.BlockUtils;
 import com.pyralia.arena.utils.PlayerUtils;
@@ -132,4 +133,17 @@ public class PowerListeners implements Listener {
         return dot > 0.59D;
     }
 
+    @EventHandler
+    public void onDamage(EntityDamageByEntityEvent entityDamageByEntityEvent){
+        if(entityDamageByEntityEvent.getDamager() instanceof Player && entityDamageByEntityEvent.getEntity() instanceof Player){
+            KPlayer kPlayer = ArenaAPI.getkPlayer(((Player) entityDamageByEntityEvent.getEntity()));
+            if(kPlayer.getKit() instanceof MeliodasKit && ((MeliodasKit) kPlayer.getKit()).getkPlayerIntegerMap().containsKey(kPlayer)){
+                if(!((MeliodasKit) kPlayer.getKit()).getkPlayerIntegerMap().get(kPlayer).containsKey(ArenaAPI.getkPlayer(((Player) entityDamageByEntityEvent.getDamager())))){
+                    ((MeliodasKit) kPlayer.getKit()).getkPlayerIntegerMap().get(kPlayer).put(ArenaAPI.getkPlayer(((Player) entityDamageByEntityEvent.getDamager())), (int)entityDamageByEntityEvent.getDamage());
+                }
+                ((MeliodasKit) kPlayer.getKit()).getkPlayerIntegerMap().get(kPlayer).put(ArenaAPI.getkPlayer(((Player) entityDamageByEntityEvent.getDamager())), ((MeliodasKit) kPlayer.getKit()).getkPlayerIntegerMap().get(kPlayer).get(ArenaAPI.getkPlayer(((Player) entityDamageByEntityEvent.getDamager()))) + (int)entityDamageByEntityEvent.getDamage());
+                entityDamageByEntityEvent.setCancelled(true);
+            }
+        }
+    }
 }
