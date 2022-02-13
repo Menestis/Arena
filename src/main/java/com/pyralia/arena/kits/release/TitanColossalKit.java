@@ -41,6 +41,7 @@ public class TitanColossalKit extends KitSchedule {
             ParticleEffect.FLAME.display(0, 0, 0, 0.3F, 15, player.getLocation(), 30);
             ParticleEffect.EXPLOSION_LARGE.display(0, 0, 0, 0.05F, 1, player.getLocation(), 30);
             kPlayer.getBukkitPlayer().playSound(kPlayer.getBukkitPlayer().getLocation(), Sound.EXPLODE, 1, 1);
+            Bukkit.getOnlinePlayers().forEach(player1 -> player1.playSound(player.getLocation(), "pyralia.armin", 10, 10));
             player.getWorld().getNearbyEntities(player.getLocation(), 15, 15, 15).stream().filter(entity -> entity instanceof Player).filter(entity -> entity != player).forEach(entity -> {
                 Vector v = getVectorForPoints(entity.getLocation(), player.getLocation());
                 v = v.clone().multiply(-2);

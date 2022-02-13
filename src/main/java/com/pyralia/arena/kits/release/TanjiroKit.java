@@ -39,7 +39,7 @@ public class TanjiroKit extends KitSchedule {
         if(player != null){
             player.addPotionEffect(speedEffect);
             player.addPotionEffect(strenghtEffect);
-            player.playSound(player.getLocation(), Sound.BLAZE_BREATH, 1, 1);
+            Bukkit.getOnlinePlayers().forEach(player1 -> player1.playSound(player.getLocation(), "pyralia.tanjiro", 5, 5));
             player.sendMessage("§6§lPyralia §8§l» §7Vous avez activé votre §6Danse du dieu du feu§7 ! Vous perdrez §61 coeurs permanents§7 à la fin de votre pouvoir.");
             Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()-> player.setMaxHealth(player.getMaxHealth() - 2), 20*30);
         }

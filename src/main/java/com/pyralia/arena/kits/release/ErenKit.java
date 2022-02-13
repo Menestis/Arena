@@ -34,6 +34,8 @@ public class ErenKit extends KitSchedule {
     public void power(KPlayer kPlayer) {
         Player player = kPlayer.getBukkitPlayer();
         if(player != null){
+            Bukkit.getOnlinePlayers().forEach(player1 -> player1.playSound(player.getLocation(), "pyralia.eren", 5, 5));
+
             player.getWorld().strikeLightningEffect(player.getLocation());
             player.addPotionEffect(resistanceEffect);
             if(player.getHealth() + 6 < player.getMaxHealth())

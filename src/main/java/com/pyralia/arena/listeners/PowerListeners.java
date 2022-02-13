@@ -117,6 +117,7 @@ public class PowerListeners implements Listener {
                 p.damage(1);
                 p.setVelocity(player.getLocation().getDirection().multiply(0.5).setY(0.3));
                 p.sendMessage("§fLibe_§c vous mets un dégât !");
+                p.playSound(p.getLocation(), "pyralia.libe", 5, 5);
                 canHit.put(player.getUniqueId(), false);
                 Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), () -> canHit.put(player.getUniqueId(), true), 100);
             }

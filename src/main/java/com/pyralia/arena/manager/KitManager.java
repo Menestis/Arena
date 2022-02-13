@@ -34,6 +34,9 @@ public class KitManager {
         this.kitList.add(new AkazaKit());
         this.kitList.add(new TitanColossalKit());
         this.kitList.add(new KyogaiKit());
+        this.kitList.add(new DakiKit());
+        this.kitList.add(new GojoKit());
+        this.kitList.add(new NamiKit());
 
         this.defaultKit = defaultKit;
     }
