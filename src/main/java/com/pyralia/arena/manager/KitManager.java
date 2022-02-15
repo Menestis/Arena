@@ -38,6 +38,8 @@ public class KitManager {
         this.kitList.add(new GojoKit());
         this.kitList.add(new NamiKit());
         this.kitList.add(new MeliodasKit());
+        this.kitList.add(new GuepKit());
+        
 
         this.defaultKit = defaultKit;
     }

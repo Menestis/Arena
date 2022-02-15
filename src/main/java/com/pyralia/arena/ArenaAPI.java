@@ -25,6 +25,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -119,6 +122,8 @@ public final class ArenaAPI extends JavaPlugin {
             }
         }
 
+        new WorldCreator("Spawn").createWorld();
+
         this.scheduledExecutorService = Executors.newScheduledThreadPool(16);
         this.executorMonoThread = Executors.newScheduledThreadPool(1);
 
@@ -140,6 +145,7 @@ public final class ArenaAPI extends JavaPlugin {
 
         CommandUtils.registerCommand("arena", new CarteCommand());
         CommandUtils.registerCommand("arena", new VoteCommand());
+
     }
 
     @Override

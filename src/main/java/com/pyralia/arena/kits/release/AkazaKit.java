@@ -26,7 +26,6 @@ public class AkazaKit extends Kit {
     public void onEquip(Player player){
         player.setMaxHealth(24);
         player.setHealth(player.getMaxHealth());
-        Bukkit.getOnlinePlayers().forEach(player1 -> player1.playSound(player.getLocation(), "pyralia.akaza", 5, 5));
         player.getInventory().setItem(1, new ItemCreator(Material.WATER_BUCKET).get());
     }
 

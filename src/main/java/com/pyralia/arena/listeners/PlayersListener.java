@@ -2,7 +2,9 @@ package com.pyralia.arena.listeners;
 
 import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.kits.release.LibeKit;
+import com.pyralia.arena.listeners.task.LeaderboardTask;
 import com.pyralia.arena.player.KPlayer;
+import com.pyralia.arena.uis.PackInventory;
 import com.pyralia.core.common.ItemCreator;
 import com.pyralia.core.common.ranks.Rank;
 import com.pyralia.core.common.redis.messaging.MessageWrapper;
@@ -12,6 +14,9 @@ import com.pyralia.core.spigot.player.PyraliaPlayer;
 import com.pyralia.core.tools.skin.IdentityChanger;
 import fr.ariloxe.eline.Eline;
 import fr.ariloxe.eline.player.ElinePlayer;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -37,7 +42,8 @@ import java.util.Random;
  */
 public class PlayersListener implements Listener {
 
-    private ArenaAPI instance;
+    private final ArenaAPI instance;
+    private final PackInventory packInventory = new PackInventory();
 
     public PlayersListener(ArenaAPI instance){
         this.instance = instance;
@@ -67,6 +73,10 @@ public class PlayersListener implements Listener {
 
     @EventHandler
     public void onDrop(PlayerDropItemEvent playerDropItemEvent){
+        if(playerDropItemEvent.getPlayer().getWorld().getName().contains("Spawn")){
+            playerDropItemEvent.setCancelled(true);
+            return;
+        }
         if(playerDropItemEvent.getPlayer().getLocation().getY() > 100)
             playerDropItemEvent.setCancelled(true);
     }
@@ -83,6 +93,11 @@ public class PlayersListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageEvent entityDamageEvent){
+        if(entityDamageEvent.getEntity().getWorld().getName().contains("Spawn")){
+            entityDamageEvent.setCancelled(true);
+            return;
+        }
+
         if(entityDamageEvent.getEntity().getLocation().getY() > 100)
             entityDamageEvent.setCancelled(true);
     }
@@ -100,8 +115,7 @@ public class PlayersListener implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent playerDropItemEvent){
-
-        if(playerDropItemEvent.getPlayer().getLocation().getY() > 100 && playerDropItemEvent.getItem() != null && playerDropItemEvent.getAction().name().contains("RIGHT")){
+        if(playerDropItemEvent.getPlayer().getName().contains("Spawn")){
             if(playerDropItemEvent.getItem().getType() == Material.ENDER_PORTAL_FRAME)
                 instance.getGuiManager().getSelectKitInventory().open(playerDropItemEvent.getPlayer());
             else if(playerDropItemEvent.getItem().getType() == Material.CHEST)
@@ -109,9 +123,7 @@ public class PlayersListener implements Listener {
             else if(playerDropItemEvent.getItem().getType() == Material.BED)
                 MessageWrapper.sendToHub(playerDropItemEvent.getPlayer());
             else if(playerDropItemEvent.getItem().getType() == Material.PAPER)
-                Bukkit.dispatchCommand(playerDropItemEvent.getPlayer(), "pyralialink getlink");
-            else if(playerDropItemEvent.getItem().getType() == Material.BOOK)
-                Bukkit.dispatchCommand(playerDropItemEvent.getPlayer(), "pyralialink config");
+                packInventory.open(playerDropItemEvent.getPlayer());
         }
     }
 
@@ -120,10 +132,13 @@ public class PlayersListener implements Listener {
         if(blockPlaceEvent.getBlockPlaced().getLocation().getY() > 70){
             blockPlaceEvent.setCancelled(true);
             blockPlaceEvent.getPlayer().sendMessage("§6§lPyralia §8» §cVous ne pouvez pas placer de block si haut !");
+            return;
         }
 
-        if(blockPlaceEvent.getPlayer().getInventory().getItemInHand().hasItemMeta())
+        if(blockPlaceEvent.getPlayer().getInventory().getItemInHand().hasItemMeta()){
             blockPlaceEvent.setCancelled(true);
+            return;
+        }
 
         instance.getGameManager().getLocationList().add(blockPlaceEvent.getBlock().getLocation());
     }
@@ -147,7 +162,7 @@ public class PlayersListener implements Listener {
     public void onRespawn(PlayerRespawnEvent playerRespawnEvent){
         Player player = playerRespawnEvent.getPlayer();
 
-        player.teleport(instance.getGameManager().getSpecialWorld().getLobbyLocation());
+        player.teleport(instance.getGameManager().getWorldManager().getLobbyLocation());
 
         player.getInventory().clear();
         ItemStack air = new ItemStack(Material.AIR);
@@ -158,11 +173,10 @@ public class PlayersListener implements Listener {
 
         player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
 
-        player.getInventory().setItem(0, new ItemCreator(Material.CHEST).name("§8» §7Perks §8«").lore("", "§8» §7Cliquez ici pour choisir vos perks !").get());
-        player.getInventory().setItem(2, new ItemCreator(Material.PAPER).name("§8» §7Rejoindre le Mumble §8«").lore("", "§8» §7Cliquez ici pour rejoindre le mumble !").get());
-        player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Entrer dans l'Arène §8«").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
-        player.getInventory().setItem(6, new ItemCreator(Material.BOOK).name("§8» §7Configurer le Mumble §8«").lore("", "§8» §7Cliquez ici pour configurer le mumble !").get());
-        player.getInventory().setItem(8, new ItemCreator(Material.BED).name("§8» §7Retour au Lobby §8«").lore("", "§8» §7Cliquez ici pour retourner au lobby !").get());
+        player.getInventory().setItem(0, new ItemCreator(Material.CHEST).name("§d§lCosmétiques §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour choisir vos perks !").get());
+        player.getInventory().setItem(2, new ItemCreator(Material.PAPER).name("§e§lPack de Texture §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour télécharger le pack !").get());
+        player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§a§lChoisir son Kit §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
+        player.getInventory().setItem(8, new ItemCreator(Material.BED).name("§c§lRetourner au Lobby §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour retourner au lobby !").get());
 
         player.setMaxHealth(20);
         player.setHealth(player.getMaxHealth());
@@ -178,8 +192,6 @@ public class PlayersListener implements Listener {
         kPlayer.setDeaths(ArenaAPI.getkPlayer(player).getDeaths() + 1);
         if(kPlayer.getKit() instanceof LibeKit)
             IdentityChanger.changeSkin(player, ((LibeKit) kPlayer.getKit()).getSkinsMap().get(kPlayer));
-
-
 
         if(player.getKiller() != null){
             KPlayer kAttacker = ArenaAPI.getkPlayer(player.getKiller());
@@ -223,7 +235,7 @@ public class PlayersListener implements Listener {
         Bukkit.getScheduler().runTaskLater(instance, ()->{
             player.spigot().respawn();
 
-            player.teleport(instance.getGameManager().getSpecialWorld().getLobbyLocation());
+            player.teleport(instance.getGameManager().getWorldManager().getLobbyLocation());
             player.getInventory().clear();
             ItemStack air = new ItemStack(Material.AIR);
             player.getInventory().setHelmet(air);
@@ -233,11 +245,10 @@ public class PlayersListener implements Listener {
 
             player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
 
-            player.getInventory().setItem(0, new ItemCreator(Material.CHEST).name("§8» §7Perks §8«").lore("", "§8» §7Cliquez ici pour choisir vos perks !").get());
-            //player.getInventory().setItem(2, new ItemCreator(Material.PAPER).name("§8» §7Rejoindre le Mumble §8«").lore("", "§8» §7Cliquez ici pour rejoindre le mumble !").get());
-            player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Entrer dans l'Arène §8«").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
-            //player.getInventory().setItem(6, new ItemCreator(Material.BOOK).name("§8» §7Configurer le Mumble §8«").lore("", "§8» §7Cliquez ici pour configurer le mumble !").get());
-            player.getInventory().setItem(8, new ItemCreator(Material.BED).name("§8» §7Retour au Lobby §8«").lore("", "§8» §7Cliquez ici pour retourner au lobby !").get());
+            player.getInventory().setItem(0, new ItemCreator(Material.CHEST).name("§d§lCosmétiques §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour choisir vos perks !").get());
+            player.getInventory().setItem(2, new ItemCreator(Material.PAPER).name("§e§lPack de Texture §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour télécharger le pack !").get());
+            player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§a§lChoisir son Kit §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
+            player.getInventory().setItem(8, new ItemCreator(Material.BED).name("§c§lRetourner au Lobby §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour retourner au lobby !").get());
 
             player.setMaxHealth(20);
             player.setHealth(player.getMaxHealth());
@@ -261,7 +272,7 @@ public class PlayersListener implements Listener {
         ArenaAPI.registerPlayer(player);
 
         Bukkit.getScheduler().runTaskLater(instance, ()->{
-            player.teleport(instance.getGameManager().getSpecialWorld().getLobbyLocation());
+            player.teleport(instance.getGameManager().getWorldManager().getLobbyLocation());
             player.setGameMode(GameMode.SURVIVAL);
             player.getInventory().clear();
             ItemStack air = new ItemStack(Material.AIR);
@@ -272,26 +283,26 @@ public class PlayersListener implements Listener {
 
             player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
 
-            player.getInventory().setItem(0, new ItemCreator(Material.CHEST).name("§8» §7Perks §8«").lore("", "§8» §7Cliquez ici pour choisir vos perks !").get());
-          //  player.getInventory().setItem(2, new ItemCreator(Material.PAPER).name("§8» §7Rejoindre le Mumble §8«").lore("", "§8» §7Cliquez ici pour rejoindre le mumble !").get());
-            player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Entrer dans l'Arène §8«").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
-           // player.getInventory().setItem(6, new ItemCreator(Material.BOOK).name("§8» §7Configurer le Mumble §8«").lore("", "§8» §7Cliquez ici pour configurer le mumble !").get());
-            player.getInventory().setItem(8, new ItemCreator(Material.BED).name("§8» §7Retour au Lobby §8«").lore("", "§8» §7Cliquez ici pour retourner au lobby !").get());
+            player.getInventory().setItem(0, new ItemCreator(Material.CHEST).name("§d§lCosmétiques §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour choisir vos perks !").get());
+            player.getInventory().setItem(2, new ItemCreator(Material.PAPER).name("§e§lPack de Texture §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour télécharger le pack !").get());
+            player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§a§lChoisir son Kit §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
+            player.getInventory().setItem(8, new ItemCreator(Material.BED).name("§c§lRetourner au Lobby §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour retourner au lobby !").get());
 
             player.sendMessage("");
-            player.sendMessage("§6§lPyralia §8» §7Bienvenue dans l'Arène, ici vous pourrez combattre d'autres joueurs librement !");
+            player.sendMessage("§6§lPyralia §8| §e§lArène");
             player.sendMessage("");
-            player.sendMessage("§8» §7Le crossteam est §cinterdit§7 dans ce mini-jeux !");
-            player.sendMessage("§8» §7Toute forme de triche est également §cprohibée§7 !");
-            player.sendMessage("§8» §7Enfin, une §6bonne attitude§7 et du §2fairplay§7 sont encouragés !");
-            player.sendMessage("");
-            player.sendMessage("§8» §7Si vous souhaitez retourner au Lobby, faites §c/hub§7.");
+            player.sendMessage("§6§k!§f§k!§6§k! §e§lNouveautés:");
+            player.sendMessage("§8• §7Découvrez notre SoundPack customisé !");
+            player.sendMessage("§8• §7Ajout des Kits §eMéliodas§7, §5Sorcière§7 et §eGuep");
             player.sendMessage("");
 
             player.setMaxHealth(20);
             player.setHealth(player.getMaxHealth());
             player.setAllowFlight(false);
             player.setFoodLevel(20);
+
+            if(LeaderboardTask.getHologram() != null)
+                LeaderboardTask.getHologram().showHologram(player);
         }, 3);
     }
 
@@ -302,6 +313,8 @@ public class PlayersListener implements Listener {
 
         ArenaAPI.getkPlayer(player).refreshStats();
         Bukkit.broadcastMessage("§6§lPyralia §8» §c" + player.getName() + "§7 a quitté l'Arène.");
+        if(LeaderboardTask.getHologram() != null)
+            LeaderboardTask.getHologram().hideHologram(player);
     }
 
     private int strengthRate = 30;
@@ -367,6 +380,23 @@ public class PlayersListener implements Listener {
             return "" + (0);
         } else {
             return "" + ((int) percent);
+        }
+    }
+
+    @EventHandler
+    public void onResourcePackStatusEvent(PlayerResourcePackStatusEvent e) {
+        Player player = e.getPlayer();
+        if (e.getStatus().equals(PlayerResourcePackStatusEvent.Status.ACCEPTED)) {
+            player.sendMessage("§6§lPyralia §8§l» §7Téléchargement du pack en cours...");
+        } else if (e.getStatus() == PlayerResourcePackStatusEvent.Status.DECLINED) {
+            player.sendMessage("§6§lPyralia §8§l» §7Le resource pack est conseillé pour une meilleure expérience de jeu !");
+            ComponentBuilder message = new ComponentBuilder("");
+            message.append(" §7Téléchargement du pack ");
+            message.append("§aCliquez-ici").event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, (new ComponentBuilder("§7Télécharger le pack")).create())).event(new ClickEvent(ClickEvent.Action.OPEN_URL, "http://static.pyralia.com/PyraliaArene.zip"));
+            message.append("\n ");
+            player.spigot().sendMessage(message.create());
+        } else if (e.getStatus().equals(PlayerResourcePackStatusEvent.Status.SUCCESSFULLY_LOADED)) {
+            player.sendMessage("§6§lPyralia §8§l» §7Téléchargement du pack terminé !");
         }
     }
 

@@ -2,15 +2,13 @@ package com.pyralia.arena.listeners;
 
 import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.kits.*;
-import com.pyralia.arena.kits.release.ChainsawKit;
-import com.pyralia.arena.kits.release.LibeKit;
-import com.pyralia.arena.kits.release.MadaraKit;
-import com.pyralia.arena.kits.release.MeliodasKit;
+import com.pyralia.arena.kits.release.*;
 import com.pyralia.arena.player.KPlayer;
 import com.pyralia.arena.utils.BlockUtils;
 import com.pyralia.arena.utils.PlayerUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,8 +17,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.*;
@@ -54,9 +54,8 @@ public class PowerListeners implements Listener {
                     chainsawKit.activate(player);
                 }
             } else {
-                if(kit instanceof KitSchedule){
+                if(kit instanceof KitSchedule)
                     ((KitSchedule) kit).use(kPlayer);
-                }
             }
         }
     }
@@ -139,10 +138,68 @@ public class PowerListeners implements Listener {
             KPlayer kPlayer = ArenaAPI.getkPlayer(((Player) entityDamageByEntityEvent.getEntity()));
             if(kPlayer.getKit() instanceof MeliodasKit && ((MeliodasKit) kPlayer.getKit()).getkPlayerIntegerMap().containsKey(kPlayer)){
                 if(!((MeliodasKit) kPlayer.getKit()).getkPlayerIntegerMap().get(kPlayer).containsKey(ArenaAPI.getkPlayer(((Player) entityDamageByEntityEvent.getDamager())))){
-                    ((MeliodasKit) kPlayer.getKit()).getkPlayerIntegerMap().get(kPlayer).put(ArenaAPI.getkPlayer(((Player) entityDamageByEntityEvent.getDamager())), (int)entityDamageByEntityEvent.getDamage());
+                    ((MeliodasKit) kPlayer.getKit()).getkPlayerIntegerMap().get(kPlayer).put(ArenaAPI.getkPlayer(((Player) entityDamageByEntityEvent.getDamager())), 0.0);
                 }
-                ((MeliodasKit) kPlayer.getKit()).getkPlayerIntegerMap().get(kPlayer).put(ArenaAPI.getkPlayer(((Player) entityDamageByEntityEvent.getDamager())), ((MeliodasKit) kPlayer.getKit()).getkPlayerIntegerMap().get(kPlayer).get(ArenaAPI.getkPlayer(((Player) entityDamageByEntityEvent.getDamager()))) + (int)entityDamageByEntityEvent.getDamage());
+                ((MeliodasKit) kPlayer.getKit()).getkPlayerIntegerMap().get(kPlayer).put(ArenaAPI.getkPlayer(((Player) entityDamageByEntityEvent.getDamager())), ((MeliodasKit) kPlayer.getKit()).getkPlayerIntegerMap().get(kPlayer).get(ArenaAPI.getkPlayer(((Player) entityDamageByEntityEvent.getDamager()))) + entityDamageByEntityEvent.getDamage());
                 entityDamageByEntityEvent.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onClick(PlayerInteractEvent playerInteractEvent){
+        KPlayer kPlayer = ArenaAPI.getkPlayer(playerInteractEvent.getPlayer());
+        if(kPlayer.getKit() instanceof GuepKit && kPlayer.getBukkitPlayer().getItemInHand().getType() == Material.BOW){
+            if(playerInteractEvent.getAction().name().contains("LEFT")){
+                Entity entity = PlayerUtils.getTarget(playerInteractEvent.getPlayer(), 50, 3.4D, true);
+                if(entity != null){
+                    ((GuepKit) kPlayer.getKit()).getkPlayerEntityMap().put(kPlayer, entity);
+                    playerInteractEvent.getPlayer().sendMessage("§6§lPyralia §8§l» §7Cible séléctionnée: §c" + entity.getName());
+                }
+
+            }
+        }
+    }
+
+    @EventHandler
+    public void onShootBow(EntityShootBowEvent e) {
+        if(!(e.getEntity() instanceof Player))
+            return;
+
+        KPlayer kPlayer = ArenaAPI.getkPlayer(((Player) e.getEntity()));
+        if(kPlayer.getKit() instanceof GuepKit){
+            if (e.getEntity() instanceof Player && e.getProjectile() instanceof org.bukkit.entity.Arrow) {
+                if (((GuepKit) kPlayer.getKit()).getkPlayerEntityMap().get(kPlayer) != null){
+                    final Entity minEntity = ((GuepKit) kPlayer.getKit()).getkPlayerEntityMap().get(kPlayer);
+                    (new BukkitRunnable() {
+                        final Entity arrow = e.getProjectile();
+
+                        public void run() {
+                            Vector newVelocity;
+                            double speed = this.arrow.getVelocity().length();
+                            if (this.arrow.isOnGround() || this.arrow.isDead() || minEntity.isDead() || minEntity.getLocation().getWorld() != kPlayer.getBukkitPlayer().getLocation().getWorld()) {
+                                cancel();
+                                return;
+                            }
+                            Vector toTarget = minEntity.getLocation().clone().add(new Vector(0.0D, 0.5D, 0.0D))
+                                    .subtract(this.arrow.getLocation()).toVector();
+                            Vector dirVelocity = this.arrow.getVelocity().clone().normalize();
+                            Vector dirToTarget = toTarget.clone().normalize();
+                            double angle = dirVelocity.angle(dirToTarget);
+                            double newSpeed = 0.9D * speed + 0.14D;
+
+                            if (angle < 0.12D) {
+                                newVelocity = dirVelocity.clone().multiply(newSpeed);
+                            } else {
+                                Vector newDir = dirVelocity.clone().multiply((angle - 0.12D) / angle)
+                                        .add(dirToTarget.clone().multiply(0.12D / angle));
+                                newDir.normalize();
+                                newVelocity = newDir.clone().multiply(newSpeed);
+                            }
+                            this.arrow.setVelocity(newVelocity.add(new Vector(0.0D, 0.03D, 0.0D)));
+                        }
+                    }).runTaskTimer(ArenaAPI.getApi(), 1L, 1L);
+                }
             }
         }
     }

@@ -19,13 +19,13 @@ import java.util.Map;
  */
 public class MeliodasKit extends KitSchedule {
 
-    private final Map<KPlayer, Map<KPlayer, Integer>> kPlayerIntegerMap = new HashMap<>();
+    private final Map<KPlayer, Map<KPlayer, Double>> kPlayerIntegerMap = new HashMap<>();
 
     public MeliodasKit() {
         super("Meliodas", KitType.DEFENSIVE, new ItemStack(Material.GOLD_SWORD),
                 "§8» §7Mode : §aNNT UHC",
                 "§8» §7Pouvoirs:",
-                "§f- §7Vous avez un item qui vous permet de renvoyer 25% des",
+                "§f- §7Vous avez un item qui vous permet de renvoyer 50% des",
                 "    §7dégâts obtenus pendant 3 secondes. (§a53 secondes de cooldown§7)",
                 "");
         super.setSecondsDelay(53);
@@ -38,7 +38,7 @@ public class MeliodasKit extends KitSchedule {
         Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()->{
             kPlayerIntegerMap.get(kPlayer).forEach((kPlayer1, integer) -> {
                 if(kPlayer1.getBukkitPlayer() != null)
-                    kPlayer1.getBukkitPlayer().damage(integer / 2);
+                    kPlayer1.getBukkitPlayer().damage(integer / 6);
             });
 
             new Title("", "§c§lCONTRE TOTAL !!").sendToPlayer(kPlayer.getBukkitPlayer());
@@ -52,7 +52,7 @@ public class MeliodasKit extends KitSchedule {
         player.getInventory().setItem(1, new ItemCreator(Material.NETHER_BRICK_ITEM).name("§c§lCONTRE TOTAL").get());
     }
 
-    public Map<KPlayer, Map<KPlayer, Integer>> getkPlayerIntegerMap() {
+    public Map<KPlayer, Map<KPlayer, Double>> getkPlayerIntegerMap() {
         return kPlayerIntegerMap;
     }
 }

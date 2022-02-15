@@ -38,6 +38,16 @@ public class GameManager {
 
     public void joinArena(Player player){
         ArenaAPI.getkPlayer(player).getKit().onEquip(player);
+        Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()->{
+            if(player.getLocation() != null){
+                if(player.getWorld().getName().contains("enferArena"))
+                    player.playSound(player.getLocation(), "pyralia.ambiant_enfer", 15, 15);
+                else if(player.getWorld().getName().contains("nakimeArena"))
+                    player.playSound(player.getLocation(), "pyralia.ambiant_nakime", 15, 15);
+                else
+                    player.playSound(player.getLocation(), "pyralia.ambiant_chill", 15, 15);
+            }
+        }, 20);
     }
 
     public void setSpecialWorld(SpecialWorld specialWorld) {

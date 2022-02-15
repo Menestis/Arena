@@ -47,7 +47,7 @@ public class GojoKit extends KitSchedule {
         }
 
         kPlayer.getBukkitPlayer().addPotionEffect(resistanceEffects);
-
+        kPlayer.getBukkitPlayer().playSound(kPlayer.getBukkitPlayer().getLocation(), "pyralia.gojo", 5, 5);
         structure.onEnable(kPlayer);
         Bukkit.getOnlinePlayers().stream().filter(player -> player.getLocation().distance(kPlayer.getBukkitPlayer().getLocation()) < 10).filter(player -> player != kPlayer.getBukkitPlayer()).forEach(player -> {
             player.addPotionEffect(weaknessEffects);

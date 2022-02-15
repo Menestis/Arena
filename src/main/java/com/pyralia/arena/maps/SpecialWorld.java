@@ -27,9 +27,6 @@ public abstract class SpecialWorld {
 
     public String getRealName() {return realName;}
 
-    public Location getLobbyLocation() {
-        return lobbyLocation;
-    }
 
     public List<Location> getArenaLocations() {
         return arenaLocations;
