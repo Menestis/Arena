@@ -5,7 +5,7 @@ import com.pyralia.arena.kits.KitSchedule;
 import com.pyralia.arena.kits.KitType;
 import com.pyralia.arena.player.KPlayer;
 import com.pyralia.core.common.ItemCreator;
-import com.pyralia.core.tools.packets.Title;
+import com.pyralia.core.tools.packets.player.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

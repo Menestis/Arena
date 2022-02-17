@@ -59,7 +59,7 @@ public class PerksDeathMessageInventory {
 
                             pyraliaPlayer.setCredits(pyraliaPlayer.getCredits() - perks.getPrice());
 
-                            pyraliaPlayer.addCosmeticsPermission(perks.getPermission());
+                            pyraliaPlayer.addPermission(perks.getPermission());
                             PermissionAttachment attachment = player.addAttachment(arenaAPI);
                             attachment.setPermission(perks.getPermission(), true);
                         }

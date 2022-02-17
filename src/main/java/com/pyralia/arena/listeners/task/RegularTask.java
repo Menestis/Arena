@@ -4,7 +4,7 @@ import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.kits.release.AkazaKit;
 import com.pyralia.arena.player.KPlayer;
 import com.pyralia.arena.utils.PlayerUtils;
-import com.pyralia.core.tools.packets.ActionBar;
+import com.pyralia.core.tools.packets.player.ActionBar;
 import fr.ariloxe.api.utils.DirectionnalArrow;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;

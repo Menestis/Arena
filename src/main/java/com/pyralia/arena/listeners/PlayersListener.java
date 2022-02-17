@@ -1,6 +1,7 @@
 package com.pyralia.arena.listeners;
 
 import com.pyralia.arena.ArenaAPI;
+import com.pyralia.arena.kits.release.GuepKit;
 import com.pyralia.arena.kits.release.LibeKit;
 import com.pyralia.arena.listeners.task.LeaderboardTask;
 import com.pyralia.arena.player.KPlayer;
@@ -54,23 +55,6 @@ public class PlayersListener implements Listener {
         blockSpreadEvent.setCancelled(true);
     }
 
-
-    @EventHandler
-    public void onChat(AsyncPlayerChatEvent asyncPlayerChatEvent){
-        Player player = asyncPlayerChatEvent.getPlayer();
-        String message = asyncPlayerChatEvent.getMessage();
-        asyncPlayerChatEvent.setCancelled(true);
-
-        PyraliaPlayer pyraliaPlayer = CorePlugin.getPyraliaPlayer(player);
-        ElinePlayer elinePlayer = Eline.get().getPlayerService().getElinePlayer(player);
-        if(elinePlayer.getPyraliaMute().isMute()){
-            player.sendMessage(elinePlayer.getPyraliaMute().getMuteMessage());
-            return;
-        }
-
-        Bukkit.broadcastMessage(pyraliaPlayer.getRank().getTabPrefix() + " " + player.getName() + " §8» §f" + message);
-    }
-
     @EventHandler
     public void onDrop(PlayerDropItemEvent playerDropItemEvent){
         if(playerDropItemEvent.getPlayer().getWorld().getName().contains("Spawn")){
@@ -115,7 +99,7 @@ public class PlayersListener implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent playerDropItemEvent){
-        if(playerDropItemEvent.getPlayer().getName().contains("Spawn")){
+        if(playerDropItemEvent.getPlayer().getLocation().getWorld().getName().contains("Spawn")){
             if(playerDropItemEvent.getItem().getType() == Material.ENDER_PORTAL_FRAME)
                 instance.getGuiManager().getSelectKitInventory().open(playerDropItemEvent.getPlayer());
             else if(playerDropItemEvent.getItem().getType() == Material.CHEST)
@@ -171,6 +155,8 @@ public class PlayersListener implements Listener {
         player.getInventory().setLeggings(air);
         player.getInventory().setBoots(air);
 
+        player.getInventory().setHeldItemSlot(4);
+
         player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
 
         player.getInventory().setItem(0, new ItemCreator(Material.CHEST).name("§d§lCosmétiques §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour choisir vos perks !").get());
@@ -204,7 +190,10 @@ public class PlayersListener implements Listener {
             ArenaAPI.getkPlayer(player.getKiller()).setKills(ArenaAPI.getkPlayer(player.getKiller()).getKills() + 1);
             player.getKiller().getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 3));
             player.getKiller().getInventory().addItem(new ItemStack(Material.COBBLESTONE, 20));
-            player.getKiller().getInventory().addItem(new ItemStack(Material.ARROW, 16));
+            if (ArenaAPI.getkPlayer(player.getKiller()).getKit() instanceof GuepKit)
+                player.getKiller().getInventory().addItem(new ItemStack(Material.ARROW, 2));
+            else if (ArenaAPI.getkPlayer(player.getKiller()).getKit() instanceof GuepKit)
+                player.getKiller().getInventory().addItem(new ItemStack(Material.ARROW, 16));
 
             player.getKiller().setHealth(Math.min(player.getKiller().getHealth() + 4, player.getKiller().getMaxHealth()));
             int a = new Random().nextInt(3);
@@ -293,7 +282,7 @@ public class PlayersListener implements Listener {
             player.sendMessage("");
             player.sendMessage("§6§k!§f§k!§6§k! §e§lNouveautés:");
             player.sendMessage("§8• §7Découvrez notre SoundPack customisé !");
-            player.sendMessage("§8• §7Ajout des Kits §eMéliodas§7, §5Sorcière§7 et §eGuep");
+            player.sendMessage("§8• §7Ajout des Kits §6Méliodas§7 et §eGuep");
             player.sendMessage("");
 
             player.setMaxHealth(20);

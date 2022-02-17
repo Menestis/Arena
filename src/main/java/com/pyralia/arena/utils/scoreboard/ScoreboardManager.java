@@ -72,19 +72,19 @@ public class ScoreboardManager implements Listener {
 
         if (this.ipCharIndex > 0) {
             formattedIp.append(ip, 0, this.ipCharIndex - 1);
-            formattedIp.append(ChatColor.YELLOW).append(ip.charAt(this.ipCharIndex - 1));
+            formattedIp.append(ChatColor.GOLD).append(ip.charAt(this.ipCharIndex - 1));
         }
         else
             formattedIp.append(ip, 0, this.ipCharIndex);
 
 
-        formattedIp.append(ChatColor.WHITE).append(ip.charAt(this.ipCharIndex));
+        formattedIp.append(ChatColor.RED).append(ip.charAt(this.ipCharIndex));
 
         if (this.ipCharIndex + 1 < ip.length()) {
-            formattedIp.append(ChatColor.YELLOW).append(ip.charAt(this.ipCharIndex + 1));
+            formattedIp.append(ChatColor.GOLD).append(ip.charAt(this.ipCharIndex + 1));
 
             if (this.ipCharIndex + 2 < ip.length())
-                formattedIp.append(ChatColor.GOLD).append(ip.substring(this.ipCharIndex + 2));
+                formattedIp.append(ChatColor.YELLOW).append(ip.substring(this.ipCharIndex + 2));
 
             this.ipCharIndex++;
         } else {

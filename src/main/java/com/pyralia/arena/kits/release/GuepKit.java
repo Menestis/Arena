@@ -32,6 +32,7 @@ public class GuepKit extends Kit {
     @Override
     public void onEquip(Player player){
         player.getInventory().setItem(1, new ItemCreator(Material.WATER_BUCKET).get());
+        player.getInventory().setItem(6, new ItemStack(Material.ARROW, 6));
     }
 
     public Map<KPlayer, Entity> getkPlayerEntityMap() {

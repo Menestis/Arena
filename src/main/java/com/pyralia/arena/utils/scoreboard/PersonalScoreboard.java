@@ -58,7 +58,7 @@ public class PersonalScoreboard {
         this.objectiveSign.setLine(8, "§d");
         this.objectiveSign.setLine(9, " §8┃ §7Connecté(s) : §f" + Bukkit.getOnlinePlayers().size());
         this.objectiveSign.setLine(10, "§e");
-        this.objectiveSign.setLine(11, "§8§l❯ §6" + ip);
+        this.objectiveSign.setLine(11, "§8§l❯ §e" + ip);
 
         this.objectiveSign.updateLines();
     }
