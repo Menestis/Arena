@@ -52,7 +52,11 @@ public class WorldManager {
             player.getInventory().setBoots(air);
 
             player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
-            player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§8» §7Choisir un Kit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
+
+            player.getInventory().setItem(0, new ItemCreator(Material.CHEST).name("§d§lCosmétiques §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour choisir vos perks !").get());
+            player.getInventory().setItem(2, new ItemCreator(Material.PAPER).name("§e§lPack de Texture §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour télécharger le pack !").get());
+            player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§a§lChoisir son Kit §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
+            player.getInventory().setItem(8, new ItemCreator(Material.BED).name("§c§lRetourner au Lobby §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour retourner au lobby !").get());
 
             player.setMaxHealth(20);
             player.setHealth(player.getMaxHealth());

@@ -39,6 +39,7 @@ public class KitManager {
         this.kitList.add(new NamiKit());
         this.kitList.add(new MeliodasKit());
         this.kitList.add(new GuepKit());
+        this.kitList.add(new KiraKit());
         
 
         this.defaultKit = defaultKit;

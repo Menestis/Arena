@@ -27,7 +27,7 @@ public class LeaderboardTask {
 
     private void statsWatchers(){
         if(hologram != null){
-            hologram.getEntitylist().forEach(entityArmorStand -> ((Entity) entityArmorStand).remove());
+            hologram.getEntitylist().forEach(entityArmorStand -> entityArmorStand.getBukkitEntity().remove());
             Bukkit.getOnlinePlayers().forEach(player -> hologram.hideHologram(player));
         }
 
@@ -44,7 +44,7 @@ public class LeaderboardTask {
 
             place[0]++;
         }
-        strings.add("§7§oMise à jour toutes les 10 minutes...");
+        strings.add("§7§oMise à jour toutes les §e§o10§7§o minutes...");
 
         hologram = new Hologram(strings, location);
         Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()-> Bukkit.getOnlinePlayers().forEach(player -> hologram.showHologram(player)), 30);

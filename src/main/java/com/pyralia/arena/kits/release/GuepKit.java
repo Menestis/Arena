@@ -26,11 +26,14 @@ public class GuepKit extends Kit {
                 "§8» §7Pouvoirs:",
                 "§f- §7Faites un clic-droit sur un joueur avec votre arc pour le",
                 "    §7cibler. Vos flèches seront à tête chercheuse vers lui.",
-                "");
+                "§f- §7Vous avez un coeur permanent supplémentaire.");
     }
 
     @Override
     public void onEquip(Player player){
+        player.setMaxHealth(22);
+        player.setHealth(22);
+
         player.getInventory().setItem(1, new ItemCreator(Material.WATER_BUCKET).get());
         player.getInventory().setItem(6, new ItemStack(Material.ARROW, 6));
     }

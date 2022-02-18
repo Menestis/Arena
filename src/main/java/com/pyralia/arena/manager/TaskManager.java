@@ -10,7 +10,7 @@ public class TaskManager {
     public TaskManager(){
         new RegularTask();
         new ResetTask();
-        new TabTask();
+        //new TabTask();
         new ChangeMapTask();
         new LeaderboardTask();
     }
