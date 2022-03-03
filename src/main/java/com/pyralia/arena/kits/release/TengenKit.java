@@ -12,6 +12,8 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * @author Ariloxe
@@ -22,10 +24,12 @@ public class TengenKit extends KitSchedule {
                 "§8» §7Mode : §3Démon-Slayer",
                 "§8» §7Pouvoirs:",
                 "§f- §7En cliquant sur un joueur avec votre fleur, vous-vous téléporterez derrière lui.",
-                "    §7(§a23 secondes de cooldown§7)"
+                "    §7(§a16 secondes de cooldown§7)"
         );
-        super.setSecondsDelay(23);
+        super.setSecondsDelay(16);
     }
+
+    private final PotionEffect potionEffect = new PotionEffect(PotionEffectType.SPEED, 5*20, 0, false, false);
 
     @Override
     public void power(KPlayer kPlayer) {
@@ -38,6 +42,7 @@ public class TengenKit extends KitSchedule {
                 targetLocation.add(targetLocation.getDirection().clone().multiply(-1));
                 player.teleport(targetLocation);
                 player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 3.0F, 1.0F);
+                player.addPotionEffect(potionEffect);
             } else {
                 Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()->{
                     getkPlayerRemainsList().remove(kPlayer);

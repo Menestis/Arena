@@ -25,7 +25,7 @@ public class KiraKit extends KitSchedule {
                 "§8» §7Mode : §3Death§6Note",
                 "§8» §7Pouvoirs:",
                 "§f- §7Vous pouvez faire perdre §c3 coeurs§7 non-permanent au joueur de",
-                "    §7votre choix dans un rayon de 15 blocs. Si il a moins de 3 coeurs,",
+                "    §7votre choix dans un rayon de 15 blocs. Si il a moins de 5 coeurs,",
                 "    §7il sera laissé à un demi-coeur. (§a43 secondes de délai§7)"
         );
         super.setSecondsDelay(43);

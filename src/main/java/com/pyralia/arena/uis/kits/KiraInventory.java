@@ -38,8 +38,8 @@ public class KiraInventory {
                 player1.playSound(player1.getLocation(), Sound.LEVEL_UP, 1, 1);
                 player1.sendMessage(prefix + "§cVous avez attaqué le joueur §e" + online.getName());
                 online.sendMessage(prefix + "§cVous avez été attaqué(e) par le pouvoir du DeathNote !");
-                if(online.getHealth() - 6 > 1)
-                    online.setHealth(online.getHealth() - 6);
+                if(online.getHealth() - 11 > 1)
+                    online.setHealth(online.getHealth() - 10);
                 else
                     online.setHealth(1);
 

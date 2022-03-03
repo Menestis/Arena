@@ -24,10 +24,10 @@ public class DakiKit extends KitSchedule {
                 "§8» §7Mode : §3Démon-Slayer",
                 "§8» §7Pouvoirs:",
                 "§f- §7Vous créez une explosion de particules vertes, et vous",
-                "    §7serez §dsoignée§7 de 4 coeurs. (§a43 secondes de cooldown§7)",
+                "    §7serez §dsoignée§7 de 4 coeurs. (§a31 secondes de cooldown§7)",
                 "    §7uniquement utilisable en dessous de §c2 coeurs§7."
         );
-        super.setSecondsDelay(43);
+        super.setSecondsDelay(31);
     }
 
     @Override

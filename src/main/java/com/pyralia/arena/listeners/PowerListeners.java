@@ -112,7 +112,7 @@ public class PowerListeners implements Listener {
         if(!PlayerUtils.getCardinalDirection(player).equals("Sud"))
             return;
 
-        Bukkit.getOnlinePlayers().stream().filter(p -> p.getLocation().distance(player.getLocation()) <= 4).forEach(p -> {
+        Bukkit.getOnlinePlayers().stream().filter(p -> p.getWorld().getName().equals(player.getWorld().getName()) && p.getLocation().distance(player.getLocation()) <= 4).forEach(p -> {
             if (getLookingAt(player, p) && canHit.getOrDefault(player.getUniqueId(), true)) {
                 p.damage(1);
                 p.setVelocity(player.getLocation().getDirection().multiply(0.5).setY(0.3));

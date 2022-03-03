@@ -35,7 +35,7 @@ public class GuepKit extends Kit {
         player.setHealth(22);
 
         player.getInventory().setItem(1, new ItemCreator(Material.WATER_BUCKET).get());
-        player.getInventory().setItem(6, new ItemStack(Material.ARROW, 6));
+        player.getInventory().setItem(6, new ItemStack(Material.ARROW, 11));
     }
 
     public Map<KPlayer, Entity> getkPlayerEntityMap() {

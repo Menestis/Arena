@@ -5,10 +5,7 @@ import com.pyralia.arena.player.KPlayer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Ariloxe
@@ -16,7 +13,7 @@ import java.util.Map;
 public abstract class KitSchedule extends Kit {
 
     private final Map<KPlayer, Integer> playerIntegerMap = new HashMap<>();
-    private final List<KPlayer> kPlayerRemainsList = new ArrayList<>();
+    private final List<KPlayer> kPlayerRemainsList = new LinkedList<>();
     private int secondsDelay;
 
     public KitSchedule(String name, KitType kitType, ItemStack itemStack, String... description) {

@@ -37,7 +37,7 @@ public class SukunaKit extends KitSchedule {
     public void power(KPlayer kPlayer) {
         structure.onEnable(kPlayer);
         kPlayer.getBukkitPlayer().playSound(kPlayer.getBukkitPlayer().getLocation(), "pyralia.sukuna", 5, 5);
-        Bukkit.getOnlinePlayers().stream().filter(player -> player.getLocation().distance(kPlayer.getBukkitPlayer().getLocation()) < 10).filter(player -> player != kPlayer.getBukkitPlayer()).forEach(player -> {
+        Bukkit.getOnlinePlayers().stream().filter(player -> player.getWorld().getName().equals(kPlayer.getBukkitPlayer().getWorld().getName())).filter(player -> player.getLocation().distance(kPlayer.getBukkitPlayer().getLocation()) < 10).filter(player -> player != kPlayer.getBukkitPlayer()).forEach(player -> {
             player.addPotionEffect(weaknessEffects);
             player.teleport(kPlayer.getBukkitPlayer().getLocation());
             player.playSound(kPlayer.getBukkitPlayer().getLocation(), "pyralia.sukuna", 5, 5);

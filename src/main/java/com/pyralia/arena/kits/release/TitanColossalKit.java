@@ -29,9 +29,9 @@ public class TitanColossalKit extends KitSchedule {
                 "§8» §7Mode : §eAOT",
                 "§8» §7Pouvoirs:",
                 "§f- §7Crée une explosion et rejette ainsi dans les airs les joueurs à moins de",
-                "    §715 blocs de lui, et leur donne un effet de feu. (§a48s de cooldown§7)");
+                "    §715 blocs de lui, et leur donne un effet de feu. (§a39 de cooldown§7)");
 
-        setSecondsDelay(48);
+        setSecondsDelay(39);
     }
 
     @Override

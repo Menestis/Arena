@@ -38,7 +38,7 @@ public class MeliodasKit extends KitSchedule {
         Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()->{
             kPlayerIntegerMap.get(kPlayer).forEach((kPlayer1, integer) -> {
                 if(kPlayer1.getBukkitPlayer() != null)
-                    kPlayer1.getBukkitPlayer().damage(integer / 6);
+                    kPlayer1.getBukkitPlayer().damage(integer / 8);
             });
 
             new Title("", "§c§lCONTRE TOTAL !!").sendToPlayer(kPlayer.getBukkitPlayer());

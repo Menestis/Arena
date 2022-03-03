@@ -20,9 +20,9 @@ public class KyogaiKit extends KitSchedule {
                 "§8» §7Mode : §3Démon-Slayer",
                 "§8» §7Pouvoirs:",
                 "§f- §7Vous pouvez retourner de 180 degrés tous les joueurs autours",
-                "    §7de vous. (§a32s de cooldown§7)",
+                "    §7de vous. (§a11 de cooldown§7)",
                 "");
-        super.setSecondsDelay(32);
+        super.setSecondsDelay(11);
     }
 
     @Override

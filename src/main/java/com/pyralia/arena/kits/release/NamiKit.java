@@ -32,7 +32,7 @@ public class NamiKit extends KitSchedule {
     public void power(KPlayer kPlayer) {
         Player player = kPlayer.getBukkitPlayer();
         if(player != null){
-            Bukkit.getOnlinePlayers().stream().filter(target -> target.getLocation().distance(player.getLocation()) < 10).filter(target -> target != player).forEach(target -> {
+            Bukkit.getOnlinePlayers().stream().filter(target -> target.getWorld().getName().equals(player.getWorld().getName()) && target.getLocation().distance(player.getLocation()) < 10).filter(target -> target != player).forEach(target -> {
                 target.getWorld().strikeLightningEffect(target.getLocation());
                 target.addPotionEffect(potionEffect);
             });
@@ -41,6 +41,6 @@ public class NamiKit extends KitSchedule {
 
     @Override
     public void onEquip(Player player){
-        player.getInventory().setItem(1, new ItemCreator(Material.DEAD_BUSH).name("§7Transformation titanesque").lore("", "§fVous permet de vous transfomer", "§fTransfomation toutes les 62 secondes.").get());
+        player.getInventory().setItem(1, new ItemCreator(Material.WATCH).name("§7Namisse").get());
     }
 }

@@ -40,6 +40,8 @@ public class KitManager {
         this.kitList.add(new MeliodasKit());
         this.kitList.add(new GuepKit());
         this.kitList.add(new KiraKit());
+        this.kitList.add(new WitchKit());
+        this.kitList.add(new KokushiboKit());
         
 
         this.defaultKit = defaultKit;

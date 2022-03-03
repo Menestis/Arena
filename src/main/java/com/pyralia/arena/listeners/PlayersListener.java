@@ -2,6 +2,7 @@ package com.pyralia.arena.listeners;
 
 import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.kits.release.GuepKit;
+import com.pyralia.arena.kits.release.KokushiboKit;
 import com.pyralia.arena.kits.release.LibeKit;
 import com.pyralia.arena.listeners.task.LeaderboardTask;
 import com.pyralia.arena.player.KPlayer;
@@ -98,16 +99,19 @@ public class PlayersListener implements Listener {
     }
 
     @EventHandler
-    public void onInteract(PlayerInteractEvent playerDropItemEvent){
-        if(playerDropItemEvent.getPlayer().getLocation().getWorld().getName().contains("Spawn")){
-            if(playerDropItemEvent.getItem().getType() == Material.ENDER_PORTAL_FRAME)
-                instance.getGuiManager().getSelectKitInventory().open(playerDropItemEvent.getPlayer());
-            else if(playerDropItemEvent.getItem().getType() == Material.CHEST)
-                instance.getGuiManager().getPerksMainInventory().open(playerDropItemEvent.getPlayer());
-            else if(playerDropItemEvent.getItem().getType() == Material.BED)
-                MessageWrapper.sendToHub(playerDropItemEvent.getPlayer());
-            else if(playerDropItemEvent.getItem().getType() == Material.PAPER)
-                packInventory.open(playerDropItemEvent.getPlayer());
+    public void onInteract(PlayerInteractEvent playerInteractEvent){
+        if(playerInteractEvent.getItem() == null)
+            return;
+
+        if(playerInteractEvent.getPlayer().getLocation().getWorld().getName().contains("Spawn")){
+            if(playerInteractEvent.getItem().getType() == Material.ENDER_PORTAL_FRAME)
+                instance.getGuiManager().getSelectKitInventory().open(playerInteractEvent.getPlayer());
+            else if(playerInteractEvent.getItem().getType() == Material.CHEST)
+                instance.getGuiManager().getPerksMainInventory().open(playerInteractEvent.getPlayer());
+            else if(playerInteractEvent.getItem().getType() == Material.BED)
+                MessageWrapper.sendToHub(playerInteractEvent.getPlayer());
+            else if(playerInteractEvent.getItem().getType() == Material.PAPER)
+                packInventory.open(playerInteractEvent.getPlayer());
         }
     }
 
@@ -194,6 +198,7 @@ public class PlayersListener implements Listener {
                 player.getKiller().getInventory().addItem(new ItemStack(Material.ARROW, 2));
             else if (ArenaAPI.getkPlayer(player.getKiller()).getKit() instanceof GuepKit)
                 player.getKiller().getInventory().addItem(new ItemStack(Material.ARROW, 16));
+
 
             player.getKiller().setHealth(Math.min(player.getKiller().getHealth() + 4, player.getKiller().getMaxHealth()));
             int a = new Random().nextInt(3);
