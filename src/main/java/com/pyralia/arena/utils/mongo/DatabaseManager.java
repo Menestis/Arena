@@ -18,7 +18,7 @@ public class DatabaseManager {
     private final DBCollection arenaCollection;
 
     public DatabaseManager() {
-        mongoClient = new MongoClient(new MongoClientURI("mongodb://37.59.33.176:27017"));
+        mongoClient = new MongoClient(new MongoClientURI("mongodb://root:Wz3AavxEQereYPKZXpc6pD8ttuYSEiopwMSAK2cfjdfxfoZYmF5zRN6eXz5guCyC@37.59.33.176:27017/Pyralia"));
         database = mongoClient.getDB("Pyralia");
         arenaCollection = database.getCollection("arenaStats");
     }

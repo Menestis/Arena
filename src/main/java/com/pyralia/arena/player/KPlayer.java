@@ -15,6 +15,8 @@ public class KPlayer {
     private final UUID uuid;
     private final String name;
     private final KPlayerPerks kPlayerPerks;
+
+    private boolean damageable = true;
     private Kit kit;
 
     private int kills;
@@ -71,5 +73,14 @@ public class KPlayer {
 
     public void setDeaths(int deaths) {
         this.deaths = deaths;
+    }
+
+
+    public void setDamageable(boolean damageable) {
+        this.damageable = damageable;
+    }
+
+    public boolean isDamageable() {
+        return damageable;
     }
 }

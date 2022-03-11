@@ -85,7 +85,12 @@ public class PlayersListener implements Listener {
 
         if(entityDamageEvent.getEntity().getLocation().getY() > 100)
             entityDamageEvent.setCancelled(true);
+
+        if(entityDamageEvent.getEntity() instanceof Player && !ArenaAPI.getkPlayer(((Player) entityDamageEvent.getEntity())).isDamageable())
+            entityDamageEvent.setCancelled(true);
+
     }
+
 
     @EventHandler
     public void onObsidian(BlockFromToEvent blockFromToEvent){
@@ -287,7 +292,6 @@ public class PlayersListener implements Listener {
             player.sendMessage("");
             player.sendMessage("§6§k!§f§k!§6§k! §e§lNouveautés:");
             player.sendMessage("§8• §7Découvrez notre SoundPack customisé !");
-            player.sendMessage("§8• §7Ajout des Kits §6Méliodas§7 et §eGuep");
             player.sendMessage("");
 
             player.setMaxHealth(20);

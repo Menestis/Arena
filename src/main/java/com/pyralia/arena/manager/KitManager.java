@@ -42,7 +42,9 @@ public class KitManager {
         this.kitList.add(new KiraKit());
         this.kitList.add(new WitchKit());
         this.kitList.add(new KokushiboKit());
-        
+        this.kitList.add(new FurutoKit());
+        this.kitList.add(new TercoMusclor());
+        this.kitList.add(new ObanaiKit());
 
         this.defaultKit = defaultKit;
     }

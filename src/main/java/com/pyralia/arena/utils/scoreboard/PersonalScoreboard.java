@@ -46,7 +46,7 @@ public class PersonalScoreboard {
         Player player = Bukkit.getPlayer(this.player);
         KPlayer kPlayer = ArenaAPI.getkPlayer(player);
 
-        this.objectiveSign.setDisplayName("§c§l› §6§lPyralia §c§l‹");
+        this.objectiveSign.setDisplayName("§6§lPyralia");
         this.objectiveSign.setLine(0, "§a");
         this.objectiveSign.setLine(1, " §8┃ §cCrossteam interdit");
         this.objectiveSign.setLine(2, "§b");
