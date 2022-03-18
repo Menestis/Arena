@@ -225,6 +225,11 @@ public class PlayersListener implements Listener {
                 creditsWon = (int)(creditsWon * multiplicateur);
                 pyraliaPlayer.getBukkitPlayer().sendMessage("§7Vous reçevez §d" + creditsWon + " Crédits §7(§eExécution§7) §cx" + multiplicateur);
                 pyraliaPlayer.setCredits(pyraliaPlayer.getCredits() + creditsWon);
+
+                if(pyraliaPlayer.getPyraliaGuild() != null){
+                    pyraliaPlayer.getPyraliaGuild().addPoints(1);
+                    pyraliaPlayer.getBukkitPlayer().sendMessage("§7Vous reçevez §b1 Points de Guilde §7(§bExécution§7) §cx" + multiplicateur);
+                }
             }
 
         } else
