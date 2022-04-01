@@ -1,13 +1,14 @@
 package com.pyralia.arena.kits.release;
 
+import com.pyralia.api.utils.skull.SkullList;
 import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.kits.KitSchedule;
 import com.pyralia.arena.kits.KitType;
 import com.pyralia.arena.kits.power.Structure;
 import com.pyralia.arena.player.KPlayer;
 import com.pyralia.arena.utils.ParticleEffect;
-import com.pyralia.core.common.ItemCreator;
-import com.pyralia.core.tools.skull.SkullList;
+import com.pyralia.api.utils.ItemCreator;
+import com.pyralia.api.utils.skull.SkullList;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

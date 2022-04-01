@@ -1,9 +1,9 @@
 package com.pyralia.arena.listeners.task;
 
+import com.pyralia.api.utils.Tasks;
 import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.commands.VoteCommand;
 import com.pyralia.arena.maps.SpecialWorld;
-import com.pyralia.core.spigot.utils.Tasks;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;

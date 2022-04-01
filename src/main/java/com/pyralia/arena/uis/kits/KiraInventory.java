@@ -1,7 +1,7 @@
 package com.pyralia.arena.uis.kits;
 
 import com.pyralia.arena.player.KPlayer;
-import com.pyralia.core.common.ItemCreator;
+import com.pyralia.api.utils.ItemCreator;
 import fr.blendman974.kinventory.inventories.KInventory;
 import fr.blendman974.kinventory.inventories.KItem;
 import org.bukkit.Bukkit;

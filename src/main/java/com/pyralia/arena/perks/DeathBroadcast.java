@@ -1,7 +1,7 @@
 package com.pyralia.arena.perks;
 
+import com.pyralia.api.utils.holograms.Hologram;
 import com.pyralia.arena.ArenaAPI;
-import com.pyralia.core.spigot.holograms.Hologram;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;

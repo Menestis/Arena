@@ -1,12 +1,9 @@
 package com.pyralia.arena.commands;
 
+import com.pyralia.api.PyraliaAPI;
+import com.pyralia.api.player.ICorePlayer;
 import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.maps.SpecialWorld;
-import com.pyralia.arena.uis.SelectMapInventory;
-import com.pyralia.core.common.ranks.Rank;
-import com.pyralia.core.spigot.CorePlugin;
-import com.pyralia.core.spigot.player.PyraliaPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -29,7 +26,7 @@ public class VoteCommand extends Command {
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
         Player player = ((Player) commandSender);
-        PyraliaPlayer pyraliaPlayer = CorePlugin.getPyraliaPlayer(player);
+        ICorePlayer pyraliaPlayer = PyraliaAPI.getInstance().getPlayerManager().getPlayer(player);
         if(strings.length == 0){
             player.sendMessage("§cMerci de préciser un nom de carte !");
             return true;

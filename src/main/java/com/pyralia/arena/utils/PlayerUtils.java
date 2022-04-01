@@ -1,7 +1,7 @@
 package com.pyralia.arena.utils;
 
 import com.pyralia.arena.ArenaAPI;
-import com.pyralia.core.common.ItemCreator;
+import com.pyralia.api.utils.ItemCreator;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;

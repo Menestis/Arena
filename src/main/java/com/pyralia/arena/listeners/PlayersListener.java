@@ -1,25 +1,23 @@
 package com.pyralia.arena.listeners;
 
+import com.pyralia.api.PyraliaAPI;
+import com.pyralia.api.player.ICorePlayer;
+import com.pyralia.api.rank.Rank;
+import com.pyralia.api.tech.redis.messaging.MessageWrapper;
+import com.pyralia.api.utils.ItemCreator;
 import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.kits.release.GuepKit;
-import com.pyralia.arena.kits.release.KokushiboKit;
 import com.pyralia.arena.kits.release.LibeKit;
 import com.pyralia.arena.listeners.task.LeaderboardTask;
 import com.pyralia.arena.player.KPlayer;
 import com.pyralia.arena.uis.PackInventory;
-import com.pyralia.core.common.ItemCreator;
-import com.pyralia.core.common.ranks.Rank;
-import com.pyralia.core.common.redis.messaging.MessageWrapper;
-import com.pyralia.core.spigot.CorePlugin;
-import com.pyralia.core.spigot.player.PyraliaPlayer;
+import com.pyralia.arena.utils.IdentityChanger;
 
-import com.pyralia.core.tools.skin.IdentityChanger;
-import fr.ariloxe.eline.Eline;
-import fr.ariloxe.eline.player.ElinePlayer;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
@@ -182,6 +180,8 @@ public class PlayersListener implements Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent playerDeathEvent){
         playerDeathEvent.setDeathMessage(null);
+        playerDeathEvent.getEntity().getWorld().playEffect(playerDeathEvent.getEntity().getLocation(), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
+
         Player player = playerDeathEvent.getEntity();
         KPlayer kPlayer = ArenaAPI.getkPlayer(player);
         kPlayer.setDeaths(ArenaAPI.getkPlayer(player).getDeaths() + 1);
@@ -208,8 +208,9 @@ public class PlayersListener implements Listener {
             player.getKiller().setHealth(Math.min(player.getKiller().getHealth() + 4, player.getKiller().getMaxHealth()));
             int a = new Random().nextInt(3);
             if(a == 1){
-                PyraliaPlayer pyraliaPlayer = CorePlugin.getPyraliaPlayer(player.getKiller());
-                Rank rank = pyraliaPlayer.getRank();
+                ICorePlayer corePlayer = PyraliaAPI.getInstance().getPlayerManager().getPlayer(player.getKiller());
+                Player pyraliaPlayer = player.getKiller();
+                Rank rank = corePlayer.getRank();
                 int creditsWon = 3;
                 double multiplicateur = 0.0;
 
@@ -223,12 +224,12 @@ public class PlayersListener implements Listener {
                     multiplicateur = 2.0;
 
                 creditsWon = (int)(creditsWon * multiplicateur);
-                pyraliaPlayer.getBukkitPlayer().sendMessage("§7Vous reçevez §d" + creditsWon + " Crédits §7(§eExécution§7) §cx" + multiplicateur);
-                pyraliaPlayer.setCredits(pyraliaPlayer.getCredits() + creditsWon);
+                pyraliaPlayer.sendMessage("§7Vous reçevez §d" + creditsWon + " Crédits §7(§eExécution§7) §cx" + multiplicateur);
+                corePlayer.setCredits(corePlayer.getCredits() + creditsWon);
 
-                if(pyraliaPlayer.getPyraliaGuild() != null){
-                    pyraliaPlayer.getPyraliaGuild().addPoints(1);
-                    pyraliaPlayer.getBukkitPlayer().sendMessage("§7Vous reçevez §b1 Points de Guilde §7(§bExécution§7) §cx" + multiplicateur);
+                if(corePlayer.getPyraliaGuild() != null){
+                    corePlayer.getPyraliaGuild().addPoints(1);
+                    pyraliaPlayer.sendMessage("§7Vous reçevez §b1 Points de Guilde §7(§bExécution§7) §cx" + multiplicateur);
                 }
             }
 

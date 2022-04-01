@@ -1,6 +1,6 @@
 package com.pyralia.arena.uis;
 
-import com.pyralia.core.common.ItemCreator;
+import com.pyralia.api.utils.ItemCreator;
 import fr.blendman974.kinventory.inventories.KInventory;
 import fr.blendman974.kinventory.inventories.KItem;
 import org.bukkit.Material;

@@ -1,33 +1,29 @@
 package com.pyralia.arena;
 
 import com.mongodb.BasicDBObject;
+import com.pyralia.api.PyraliaAPI;
+import com.pyralia.api.tech.mongo.MongoProfileCreator;
+import com.pyralia.api.utils.java.CommandUtils;
 import com.pyralia.arena.commands.CarteCommand;
 import com.pyralia.arena.commands.VoteCommand;
 import com.pyralia.arena.listeners.CombatLog;
 import com.pyralia.arena.listeners.PlayersListener;
 import com.pyralia.arena.listeners.PowerListeners;
-import com.pyralia.arena.listeners.task.TabTask;
 import com.pyralia.arena.manager.*;
 import com.pyralia.arena.player.KPlayer;
+import com.pyralia.arena.utils.mongo.ArenaCollection;
 import com.pyralia.arena.utils.scoreboard.ScoreboardManager;
 import com.pyralia.arena.utils.FileUtils;
-import com.pyralia.arena.utils.mongo.DatabaseManager;
-import com.pyralia.core.spigot.utils.CommandUtils;
 import fr.blendman974.kinventory.KInventoryManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.WorldCreator;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -45,8 +41,6 @@ public final class ArenaAPI extends JavaPlugin {
 
     private ScheduledExecutorService executorMonoThread;
     private ScheduledExecutorService scheduledExecutorService;
-
-    private DatabaseManager databaseManager;
 
     @Override
     public void onLoad(){
@@ -86,6 +80,9 @@ public final class ArenaAPI extends JavaPlugin {
         File worldFolderOriginal = new File(worldContainer, "originalArena");
         File copyFolderOriginal = new File(worldContainer, "originalWorld");
 
+        File cityWorldFolder = new File(worldContainer, "cityWorldArena");
+        File copyCityWorldFolder = new File(worldContainer, "cityWorld");
+
         if(copyFolderNaki.exists()){
             Bukkit.unloadWorld("nakimeArena", false);
             FileUtils.delete(worldFolderNaki);
@@ -122,12 +119,22 @@ public final class ArenaAPI extends JavaPlugin {
             }
         }
 
+        if(copyCityWorldFolder.exists()){
+            Bukkit.unloadWorld("world", false);
+            FileUtils.delete(cityWorldFolder);
+            try {
+                FileUtils.copyFolder(copyCityWorldFolder, cityWorldFolder);
+                new WorldCreator("cityWorldArena").createWorld();
+                getLogger().info("World copied.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         new WorldCreator("Spawn").createWorld();
 
         this.scheduledExecutorService = Executors.newScheduledThreadPool(16);
         this.executorMonoThread = Executors.newScheduledThreadPool(1);
-
-        this.databaseManager = new DatabaseManager();
 
         this.gameManager = new GameManager();
         this.kitManager = new KitManager();
@@ -135,6 +142,7 @@ public final class ArenaAPI extends JavaPlugin {
         this.guiManager = new GuiManager(this);
 
         new TaskManager();
+        PyraliaAPI.getInstance().getMongoManager().registerObject(ArenaCollection.class);
 
         PluginManager pluginManager = getServer().getPluginManager();
 
@@ -162,11 +170,13 @@ public final class ArenaAPI extends JavaPlugin {
             int kills = 0;
             int deaths = 0;
 
-            if(getApi().getDatabaseManager().getArenaCollection().find(new BasicDBObject("uuid", uuid.toString())).one() != null){
-                kills = (int) getApi().getDatabaseManager().getFromArenaCollection(player.getUniqueId(), "kills");
-                deaths = (int) getApi().getDatabaseManager().getFromArenaCollection(player.getUniqueId(), "deaths");
-            } else
-                getApi().getDatabaseManager().createProfile(player.getUniqueId());
+            if(PyraliaAPI.getInstance().getMongoManager().contains(ArenaCollection.class, uuid.toString())){
+                kills = (int)PyraliaAPI.getInstance().getMongoManager().getFromCollection(ArenaCollection.class, player.getUniqueId(), "kills");
+                deaths = (int)PyraliaAPI.getInstance().getMongoManager().getFromCollection(ArenaCollection.class, player.getUniqueId(), "deaths");
+            } else {
+                final MongoProfileCreator mongoProfileCreator = new MongoProfileCreator(uuid.toString()).addEntry("uuid", uuid.toString()).addEntry("kills", 0).addEntry("deaths", 0);
+                PyraliaAPI.getInstance().getMongoManager().createProfile(ArenaCollection.class, mongoProfileCreator);
+            }
 
 
             KPlayer kPlayer = new KPlayer(uuid, player.getName(), kills, deaths);
@@ -189,10 +199,6 @@ public final class ArenaAPI extends JavaPlugin {
 
     public KitManager getKitManager() {
         return kitManager;
-    }
-
-    public DatabaseManager getDatabaseManager() {
-        return databaseManager;
     }
 
     public PerksManager getPerksManager() {

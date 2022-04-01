@@ -2,9 +2,10 @@ package com.pyralia.arena.listeners.task;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Sorts;
+import com.pyralia.api.PyraliaAPI;
+import com.pyralia.api.player.ICorePlayer;
+import com.pyralia.api.utils.holograms.Hologram;
 import com.pyralia.arena.ArenaAPI;
-import com.pyralia.core.spigot.holograms.Hologram;
-import fr.ariloxe.eline.data.DatabaseManager;
 import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -37,8 +38,9 @@ public class LeaderboardTask {
 
         for (final Document document : getAllStats().find().sort(Sorts.descending("kills")).limit(10)){
             UUID uuid = UUID.fromString(document.getString("uuid"));
-            if (DatabaseManager.elinePlayerExists(uuid))
-                strings.add("§6#" + place[0] + " " + DatabaseManager.getFromElinePlayerCollection(uuid, "pseudonyme") + " §8- §e§l" + document.getInteger("kills")  + "");
+            ICorePlayer iCorePlayer = PyraliaAPI.getInstance().getPlayerManager().loadPlayer(uuid);
+            if (iCorePlayer != null)
+                strings.add("§6#" + place[0] + " " + iCorePlayer.getName() + " §8- §e§l" + document.getInteger("kills")  + "");
             else
                 strings.add("§6#" + place[0] + " §cCompte introuvable.. §8- §e§l" + document.getInteger("kills") + "");
 
@@ -51,7 +53,7 @@ public class LeaderboardTask {
     }
 
     private MongoCollection<Document> getAllStats() {
-        return ArenaAPI.getApi().getDatabaseManager().getMongoClient().getDatabase("Pyralia").getCollection("arenaStats");
+        return PyraliaAPI.getInstance().getMongoManager().getMongoClient().getDatabase("Pyralia").getCollection("arenaStats");
     }
 
     public static Hologram getHologram() {

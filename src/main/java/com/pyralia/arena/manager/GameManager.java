@@ -1,10 +1,10 @@
 package com.pyralia.arena.manager;
 
+import com.pyralia.api.utils.Tasks;
 import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.maps.ForestWorld;
 import com.pyralia.arena.maps.SpecialWorld;
 import com.pyralia.arena.player.KPlayer;
-import com.pyralia.core.spigot.utils.Tasks;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;

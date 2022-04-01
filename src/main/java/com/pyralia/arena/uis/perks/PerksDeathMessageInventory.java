@@ -1,17 +1,13 @@
 package com.pyralia.arena.uis.perks;
 
+import com.pyralia.api.PyraliaAPI;
+import com.pyralia.api.player.ICorePlayer;
 import com.pyralia.arena.ArenaAPI;
-import com.pyralia.arena.kits.KitType;
 import com.pyralia.arena.perks.DeathMessagePerks;
-import com.pyralia.arena.perks.Perks;
 import com.pyralia.arena.player.KPlayer;
-import com.pyralia.arena.utils.PlayerUtils;
-import com.pyralia.core.common.ItemCreator;
-import com.pyralia.core.spigot.CorePlugin;
-import com.pyralia.core.spigot.player.PyraliaPlayer;
+import com.pyralia.api.utils.ItemCreator;
 import fr.blendman974.kinventory.inventories.KInventory;
 import fr.blendman974.kinventory.inventories.KItem;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -19,9 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.PermissionAttachment;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -52,7 +46,7 @@ public class PerksDeathMessageInventory {
             kItem.addCallback((kInventoryRepresentation, itemStack, player, kInventoryClickContext) -> {
                 if(perks.getPermission() != null){
                     if(!player.hasPermission(perks.getPermission())){
-                        PyraliaPlayer pyraliaPlayer = CorePlugin.getPyraliaPlayer(player);
+                        ICorePlayer pyraliaPlayer = PyraliaAPI.getInstance().getPlayerManager().getPlayer(player);
                         if(pyraliaPlayer.getCredits() >= perks.getPrice()){
                             player.sendMessage("§6§lPyralia §8§l» §aVous avez acheté le cosmétique " + perks.getName());
                             player.playSound(player.getLocation(), Sound.LEVEL_UP, 1, 1);

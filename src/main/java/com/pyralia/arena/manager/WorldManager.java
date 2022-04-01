@@ -2,7 +2,7 @@ package com.pyralia.arena.manager;
 
 import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.maps.*;
-import com.pyralia.core.common.ItemCreator;
+import com.pyralia.api.utils.ItemCreator;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -25,6 +25,7 @@ public class WorldManager {
         specialWorlds.add(new NakimeWorld());
         specialWorlds.add(new EnferWorld());
         specialWorlds.add(new OriginalWorld());
+        specialWorlds.add(new CityWorld());
 
         this.gameManager = gameManager;
         this.lobbyLocation = new Location(Bukkit.getWorld("Spawn"), 190.354, 126, -198.449, 47, 0);

@@ -1,6 +1,6 @@
 package com.pyralia.arena.utils;
 
-import com.pyralia.core.spigot.reflection.Reflection;
+import com.pyralia.api.utils.reflection.Reflection;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;

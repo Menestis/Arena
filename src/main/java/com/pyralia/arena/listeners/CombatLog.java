@@ -1,8 +1,8 @@
 package com.pyralia.arena.listeners;
 
+import com.pyralia.api.utils.packets.ActionBar;
 import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.player.KPlayer;
-import com.pyralia.core.tools.packets.player.ActionBar;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -39,10 +39,9 @@ public class CombatLog implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onAttack(EntityDamageByEntityEvent e) {
-        if (!(e.getEntity() instanceof Player))
+        if (!(e.getEntity() instanceof Player) && !(e.getDamager() instanceof Player))
             return;
-        if (!(e.getDamager() instanceof Player))
-            return;
+
         Player victime = (Player)e.getEntity();
         Player killer = (Player)e.getDamager();
 
@@ -86,9 +85,8 @@ public class CombatLog implements Listener {
     public void onLeave(PlayerQuitEvent e) {
         Player p = e.getPlayer();
         KPlayer upPlayer = ArenaAPI.getkPlayer(p);
-        if (isInCombat(p) && upPlayer.getBukkitPlayer().getLocation().getY() < 110) {
+        if (isInCombat(p) && upPlayer.getBukkitPlayer().getLocation().getY() < 110 && !e.getQuitMessage().contains("Timed Out")) {
             Bukkit.broadcastMessage("§c[!] " + upPlayer.getBukkitPlayer().getName() + " vient de se déconnecter en combat !");
-
         }
     }
 

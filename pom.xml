@@ -70,15 +70,12 @@
             <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <!-- API -->
         <dependency>
             <groupId>com.pyralia</groupId>
             <artifactId>pauline-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>2.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>fr.ariloxe</groupId>
-            <artifactId>eline</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+
     </dependencies>
 </project>

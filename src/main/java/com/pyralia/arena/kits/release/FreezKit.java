@@ -7,7 +7,7 @@ import com.pyralia.arena.player.KPlayer;
 import com.pyralia.arena.utils.MathUtils;
 import com.pyralia.arena.utils.PacketUtils;
 import com.pyralia.arena.utils.PlayerUtils;
-import com.pyralia.core.common.ItemCreator;
+import com.pyralia.api.utils.ItemCreator;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
