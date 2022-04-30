@@ -1,6 +1,5 @@
 package com.pyralia.arena;
 
-import com.mongodb.BasicDBObject;
 import com.pyralia.api.PyraliaAPI;
 import com.pyralia.api.tech.mongo.MongoProfileCreator;
 import com.pyralia.api.utils.java.CommandUtils;
