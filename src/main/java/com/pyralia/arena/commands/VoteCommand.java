@@ -26,7 +26,7 @@ public class VoteCommand extends Command {
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
         Player player = ((Player) commandSender);
-        ICorePlayer pyraliaPlayer = PyraliaAPI.getInstance().getPlayerManager().getPlayer(player);
+
         if(strings.length == 0){
             player.sendMessage("§cMerci de préciser un nom de carte !");
             return true;

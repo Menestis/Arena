@@ -27,7 +27,7 @@ public class CarteCommand extends Command {
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
         Player player = ((Player) commandSender);
         ICorePlayer pyraliaPlayer = PyraliaAPI.getInstance().getPlayerManager().getPlayer(player);
-        if(pyraliaPlayer.getRank() == Rank.JOUEUR || pyraliaPlayer.getRank() == Rank.STAR){
+        if(pyraliaPlayer.getRank() == Rank.JOUEUR){
             player.sendMessage("§6§lPyralia §8§l» §7Vous devez disposer d'un grade supérieur afin d'user de cette commande (interdit aux joueurs et stars)");
             return true;
         }

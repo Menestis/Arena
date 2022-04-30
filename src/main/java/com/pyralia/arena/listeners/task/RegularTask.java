@@ -1,12 +1,15 @@
 package com.pyralia.arena.listeners.task;
 
+import com.pyralia.api.utils.NumberUtils;
 import com.pyralia.api.utils.packets.ActionBar;
 import com.pyralia.arena.ArenaAPI;
+import com.pyralia.arena.kits.KitSchedule;
 import com.pyralia.arena.kits.release.AkazaKit;
 import com.pyralia.arena.player.KPlayer;
 import com.pyralia.arena.utils.PlayerUtils;
 import fr.ariloxe.api.utils.DirectionnalArrow;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.entity.Player;
@@ -17,7 +20,7 @@ import org.bukkit.entity.Player;
 public class RegularTask extends BukkitRunnable {
 
     public RegularTask() {
-        runTaskTimer(ArenaAPI.getApi(), 20, 7);
+        runTaskTimer(ArenaAPI.getApi(), 20, 15);
     }
 
     @Override
@@ -40,6 +43,14 @@ public class RegularTask extends BukkitRunnable {
                 else
                     actionBar = new ActionBar("§f" + target.getName() + " §l" + DirectionnalArrow.fleche(DirectionnalArrow.angle(player, target.getLocation())) + " §8(§f" + DirectionnalArrow.distance(player.getLocation(), target.getLocation()) + "m§8)");
                 actionBar.sendToPlayer(player);
+            } else {
+                if(kPlayer.getKit() instanceof KitSchedule){
+                    KitSchedule kitSchedule = ((KitSchedule) kPlayer.getKit());
+                    if(kitSchedule.getkPlayerRemainsList().contains(kPlayer))
+                        new ActionBar("§7Rechargement de votre pouvoir §8[" + NumberUtils.getProgressBar(kitSchedule.getPlayerIntegerMap().get(kPlayer), kitSchedule.getSecondsDelay(), 60, '|', ChatColor.WHITE, ChatColor.RED) + "§8]").sendToPlayer(kPlayer.getBukkitPlayer());
+
+                }
+
             }
 
         });

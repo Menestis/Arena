@@ -39,7 +39,7 @@ public class CombatLog implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onAttack(EntityDamageByEntityEvent e) {
-        if (!(e.getEntity() instanceof Player) && !(e.getDamager() instanceof Player))
+        if (!(e.getEntity() instanceof Player) || !(e.getDamager() instanceof Player))
             return;
 
         Player victime = (Player)e.getEntity();

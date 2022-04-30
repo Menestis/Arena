@@ -45,6 +45,7 @@ public class KitManager {
         this.kitList.add(new FurutoKit());
         this.kitList.add(new TercoMusclor());
         this.kitList.add(new ObanaiKit());
+        this.kitList.add(new SasukeKit());
 
         this.defaultKit = defaultKit;
     }

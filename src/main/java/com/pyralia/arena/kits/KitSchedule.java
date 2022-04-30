@@ -54,6 +54,10 @@ public abstract class KitSchedule extends Kit {
         this.secondsDelay = secondsDelay;
     }
 
+    public int getSecondsDelay() {
+        return secondsDelay;
+    }
+
     public List<KPlayer> getkPlayerRemainsList() {
         return kPlayerRemainsList;
     }
