@@ -82,6 +82,12 @@ public final class ArenaAPI extends JavaPlugin {
         File cityWorldFolder = new File(worldContainer, "cityWorldArena");
         File copyCityWorldFolder = new File(worldContainer, "cityWorld");
 
+        File originalv3Folder = new File(worldContainer, "originalV3WorldArena");
+        File copyOriginalv3WorldFolder = new File(worldContainer, "originalV3World");
+
+        File originalv2Folder = new File(worldContainer, "originalV2WorldArena");
+        File copyOriginalv2WorldFolder = new File(worldContainer, "originalV2World");
+
         if(copyFolderNaki.exists()){
             Bukkit.unloadWorld("nakimeArena", false);
             FileUtils.delete(worldFolderNaki);
@@ -124,6 +130,30 @@ public final class ArenaAPI extends JavaPlugin {
             try {
                 FileUtils.copyFolder(copyCityWorldFolder, cityWorldFolder);
                 new WorldCreator("cityWorldArena").createWorld();
+                getLogger().info("World copied.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(copyOriginalv3WorldFolder.exists()){
+            Bukkit.unloadWorld("originalV3WorldArena", false);
+            FileUtils.delete(originalv3Folder);
+            try {
+                FileUtils.copyFolder(copyOriginalv3WorldFolder, originalv3Folder);
+                new WorldCreator("originalV3WorldArena").createWorld();
+                getLogger().info("World copied.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(copyOriginalv2WorldFolder.exists()){
+            Bukkit.unloadWorld("originalV2WorldArena", false);
+            FileUtils.delete(originalv2Folder);
+            try {
+                FileUtils.copyFolder(copyOriginalv2WorldFolder, originalv2Folder);
+                new WorldCreator("originalV2WorldArena").createWorld();
                 getLogger().info("World copied.");
             } catch (IOException e) {
                 e.printStackTrace();

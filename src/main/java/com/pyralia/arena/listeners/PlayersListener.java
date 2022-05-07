@@ -8,6 +8,7 @@ import com.pyralia.api.utils.ItemCreator;
 import com.pyralia.arena.ArenaAPI;
 import com.pyralia.arena.kits.release.GuepKit;
 import com.pyralia.arena.kits.release.LibeKit;
+import com.pyralia.arena.kits.release.MuzanKit;
 import com.pyralia.arena.listeners.task.LeaderboardTask;
 import com.pyralia.arena.player.KPlayer;
 import com.pyralia.arena.uis.PackInventory;
@@ -120,7 +121,7 @@ public class PlayersListener implements Listener {
 
     @EventHandler
     public void onPlace(BlockPlaceEvent blockPlaceEvent){
-        if(blockPlaceEvent.getBlockPlaced().getLocation().getY() > 70){
+        if(blockPlaceEvent.getBlockPlaced().getLocation().getY() > 110){
             blockPlaceEvent.setCancelled(true);
             blockPlaceEvent.getPlayer().sendMessage("§6§lPyralia §8» §cVous ne pouvez pas placer de block si haut !");
             return;
@@ -200,10 +201,9 @@ public class PlayersListener implements Listener {
             player.getKiller().getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 3));
             player.getKiller().getInventory().addItem(new ItemStack(Material.COBBLESTONE, 20));
             if (ArenaAPI.getkPlayer(player.getKiller()).getKit() instanceof GuepKit)
-                player.getKiller().getInventory().addItem(new ItemStack(Material.ARROW, 2));
-            else if (ArenaAPI.getkPlayer(player.getKiller()).getKit() instanceof GuepKit)
                 player.getKiller().getInventory().addItem(new ItemStack(Material.ARROW, 16));
-
+            else if (ArenaAPI.getkPlayer(player.getKiller()).getKit() instanceof MuzanKit && new Random().nextInt(3) == 1)
+                player.getKiller().setMaxHealth(player.getKiller().getMaxHealth() + 1);
 
             player.getKiller().setHealth(Math.min(player.getKiller().getHealth() + 4, player.getKiller().getMaxHealth()));
             int a = new Random().nextInt(3);
@@ -216,9 +216,9 @@ public class PlayersListener implements Listener {
 
                 if(rank == Rank.JOUEUR)
                     multiplicateur = 1.0;
-                else if(rank == Rank.STAR || rank == Rank.NITRO)
+                else if(rank == Rank.GUEST|| rank == Rank.NITRO)
                     multiplicateur = 1.5;
-                else if(rank == Rank.MOON || rank == Rank.ADMIN)
+                else if(rank.isStaff())
                     multiplicateur = 3.0;
                 else
                     multiplicateur = 2.0;

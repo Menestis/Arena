@@ -34,19 +34,19 @@ public class LeaderboardTask {
 
         final int[] place = {1};
         List<String> strings = new ArrayList<>();
-        strings.add("§f(§6⚔§f) §e§lClassement des Kills §f(§6⚔§f)");
+        strings.add("§f(§6⚔§f) §c§lClassement des Kills §f(§6⚔§f)");
 
         for (final Document document : getAllStats().find().sort(Sorts.descending("kills")).limit(10)){
             UUID uuid = UUID.fromString(document.getString("uuid"));
             ICorePlayer iCorePlayer = PyraliaAPI.getInstance().getPlayerManager().loadPlayer(uuid);
             if (iCorePlayer != null)
-                strings.add("§6#" + place[0] + " " + iCorePlayer.getName() + " §8- §e§l" + document.getInteger("kills")  + "");
+                strings.add("§7#" + place[0] + " " + iCorePlayer.getRank().getPrefix() + " " + iCorePlayer.getName() + " §8- §6" + document.getInteger("kills") + " éliminations");
             else
-                strings.add("§6#" + place[0] + " §cCompte introuvable.. §8- §e§l" + document.getInteger("kills") + "");
+                strings.add("§7#" + place[0] + " §cCompte introuvable.. §8- §e§l" + document.getInteger("kills") + " éliminations");
 
             place[0]++;
         }
-        strings.add("§7§oMise à jour toutes les §e§o10§7§o minutes...");
+        strings.add("§7§oMise à jour toutes les §6§o10§7§o minutes...");
 
         hologram = new Hologram(strings, location);
         Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()-> Bukkit.getOnlinePlayers().forEach(player -> hologram.showHologram(player)), 30);

@@ -20,9 +20,9 @@ public class KyogaiKit extends KitSchedule {
                 "§8» §7Mode : §3Démon-Slayer",
                 "§8» §7Pouvoirs:",
                 "§f- §7Vous pouvez retourner de 180 degrés tous les joueurs autours",
-                "    §7de vous. (§a11 de cooldown§7)",
+                "    §7de vous. (§a18 de cooldown§7)",
                 "");
-        super.setSecondsDelay(11);
+        super.setSecondsDelay(18);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class KyogaiKit extends KitSchedule {
         Player player = kPlayer.getBukkitPlayer();
         if(player != null){
             player.playSound(player.getLocation(), Sound.ZOMBIE_WOODBREAK, 1, 1);
-            for(Object target : player.getNearbyEntities(20, 20, 20).stream().filter(entity -> entity instanceof Player).toArray()){
+            for(Object target : player.getNearbyEntities(7, 7, 7).stream().filter(entity -> entity instanceof Player).toArray()){
                 if(target instanceof Player){
                     Player targetPlayer = ((Player) target);
                     if(targetPlayer == player)

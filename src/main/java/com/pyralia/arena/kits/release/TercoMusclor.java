@@ -34,12 +34,12 @@ public class TercoMusclor extends KitSchedule {
         Player player = kPlayer.getBukkitPlayer();
         if(player != null){
             player.addPotionEffect(resistanceEffect);
-            player.addPotionEffect(absorptionEffect);
+            player.addPotionEffect(absorptionEffect, true);
         }
     }
 
     @Override
     public void onEquip(Player player){
-        player.getInventory().setItem(1, new ItemCreator(Material.DEAD_BUSH).name("§7LES MUUUUSCKEES").get());
+        player.getInventory().setItem(1, new ItemCreator(Material.DEAD_BUSH).name("§7LES MUUUUSCLEES").get());
     }
 }

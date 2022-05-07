@@ -58,9 +58,13 @@ public class FurutoKit extends KitSchedule {
     private void swapInv(Player player) {
         Random random = new Random();
         List<Integer> slots = new ArrayList<>();
-        List<ItemStack> items = new ArrayList<>(Arrays.asList(player.getInventory().getContents()));
-        for (int i = 0; i < 36; i++)
-            slots.add(Integer.valueOf(i));
+        List<ItemStack> items = new ArrayList<>();
+        for (int i = 0; i < 8; i++)
+            items.add(player.getInventory().getItem(i));
+
+        for (int i = 0; i < 8; i++)
+            slots.add(i);
+
         Map<Integer, ItemStack> map = new HashMap<>();
         while (!items.isEmpty())
             map.put(slots.remove(random.nextInt(slots.size())), items.remove(random.nextInt(items.size())));

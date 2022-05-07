@@ -25,6 +25,8 @@ public class WorldManager {
         specialWorlds.add(new NakimeWorld());
         specialWorlds.add(new EnferWorld());
         specialWorlds.add(new OriginalWorld());
+        specialWorlds.add(new Original2World());
+        specialWorlds.add(new Original3World());
         specialWorlds.add(new CityWorld());
 
         this.gameManager = gameManager;

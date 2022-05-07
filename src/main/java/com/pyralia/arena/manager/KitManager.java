@@ -41,11 +41,17 @@ public class KitManager {
         this.kitList.add(new GuepKit());
         this.kitList.add(new KiraKit());
         this.kitList.add(new WitchKit());
-        this.kitList.add(new KokushiboKit());
+       // this.kitList.add(new KokushiboKit());
         this.kitList.add(new FurutoKit());
         this.kitList.add(new TercoMusclor());
-        this.kitList.add(new ObanaiKit());
+        //this.kitList.add(new ObanaiKit());
         this.kitList.add(new SasukeKit());
+        this.kitList.add(new Muichiro());
+        this.kitList.add(new VulcanKit());
+        this.kitList.add(new Gyomei());
+        this.kitList.add(new MuzanKit());
+        this.kitList.add(new ZenitsuKit());
+        this.kitList.add(new LoupGarouBlancKit());
 
         this.defaultKit = defaultKit;
     }

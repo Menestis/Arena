@@ -20,7 +20,7 @@ import org.bukkit.potion.PotionEffectType;
  */
 public class SasukeKit extends KitSchedule {
     public SasukeKit() {
-        super("Sasuke", KitType.DPS, new ItemStack(Material.EYE_OF_ENDER),
+        super("Sasuke", KitType.DPS, new ItemStack(Material.BLAZE_POWDER),
                 "§8» §7Mode : §6Naruto",
                 "§8» §7Pouvoirs:",
                 "§f- §7En cliquant sur un joueur avec votre oeil, vous échangerez votre place avec.",
@@ -53,6 +53,6 @@ public class SasukeKit extends KitSchedule {
 
     @Override
     public void onEquip(Player player) {
-        player.getInventory().setItem(1, new ItemCreator(Material.EYE_OF_ENDER).name("§7Téléportation").lore("", "§fVous permet de vous TP sur un mec.").get());
+        player.getInventory().setItem(1, new ItemCreator(Material.BLAZE_POWDER).name("§7Téléportation").get());
     }
 }
