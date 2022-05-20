@@ -35,6 +35,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 
@@ -76,18 +78,19 @@ public class PlayersListener implements Listener {
     }
 
     @EventHandler
-    public void onDamage(EntityDamageEvent entityDamageEvent){
-        if(entityDamageEvent.getEntity().getWorld().getName().contains("Spawn")){
-            entityDamageEvent.setCancelled(true);
+    public void onDamage(EntityDamageByEntityEvent entityDamageByEntityEvent){
+        if(entityDamageByEntityEvent.getEntity().getWorld().getName().contains("Spawn")){
+            entityDamageByEntityEvent.setCancelled(true);
             return;
         }
 
-        if(entityDamageEvent.getEntity().getLocation().getY() > 100)
-            entityDamageEvent.setCancelled(true);
+        if(entityDamageByEntityEvent.getEntity().getLocation().getY() > 100)
+            entityDamageByEntityEvent.setCancelled(true);
 
-        if(entityDamageEvent.getEntity() instanceof Player && !ArenaAPI.getkPlayer(((Player) entityDamageEvent.getEntity())).isDamageable())
-            entityDamageEvent.setCancelled(true);
-
+        if(entityDamageByEntityEvent.getEntity() instanceof Player && !ArenaAPI.getkPlayer(((Player) entityDamageByEntityEvent.getEntity())).isDamageable())
+            entityDamageByEntityEvent.setCancelled(true);
+        else if(entityDamageByEntityEvent.getDamager() instanceof Player && !ArenaAPI.getkPlayer(((Player) entityDamageByEntityEvent.getDamager())).isDamageable())
+            entityDamageByEntityEvent.setCancelled(true);
     }
 
 
@@ -178,6 +181,8 @@ public class PlayersListener implements Listener {
         player.setFoodLevel(20);
     }
 
+    private final Map<KPlayer, Integer> killStreakMap = new HashMap<>();
+
     @EventHandler
     public void onDeath(PlayerDeathEvent playerDeathEvent){
         playerDeathEvent.setDeathMessage(null);
@@ -189,8 +194,34 @@ public class PlayersListener implements Listener {
         if(kPlayer.getKit() instanceof LibeKit)
             IdentityChanger.changeSkin(player, ((LibeKit) kPlayer.getKit()).getSkinsMap().get(kPlayer));
 
+        if(killStreakMap.get(kPlayer) != null)
+            killStreakMap.replace(kPlayer, killStreakMap.get(kPlayer), 0);
+
         if(player.getKiller() != null){
             KPlayer kAttacker = ArenaAPI.getkPlayer(player.getKiller());
+            killStreakMap.putIfAbsent(kAttacker, 0);
+            killStreakMap.put(kAttacker, killStreakMap.get(kAttacker) + 1);
+            int p = killStreakMap.get(kAttacker);
+            if(p == 5){
+                Bukkit.broadcastMessage("");
+                Bukkit.broadcastMessage("§6§lPyralia §8» §b" + kAttacker.getBukkitPlayer().getName() + "§7 possède un KillStreak de §c" + p + "§7 kills !");
+                Bukkit.broadcastMessage("");
+            } else if(p == 10){
+                Bukkit.broadcastMessage("");
+                Bukkit.broadcastMessage("§6§lPyralia §8» §7Incroyable ! §b" + kAttacker.getBukkitPlayer().getName() + "§7 est en furie avec §c" + p + "§7 kills consécutifs !");
+                Bukkit.broadcastMessage("");
+            } else if(p == 15){
+                Bukkit.broadcastMessage("");
+                Bukkit.broadcastMessage("§6§lPyralia §8» §7Impossible ! §b" + kAttacker.getBukkitPlayer().getName() + "§7 fait un carnage avec §c" + p + "§7 kills d'affilés !");
+                Bukkit.broadcastMessage("");
+            } else if(p == 25){
+                Bukkit.broadcastMessage("");
+                Bukkit.broadcastMessage("§6§lPyralia §8» §7Hors-Normes ! §b" + kAttacker.getBukkitPlayer().getName() + "§7 fait un massacre avec §c" + p + "§7 kills sans mourir !");
+                Bukkit.broadcastMessage("");
+            }
+
+
+
             if(kAttacker.getkPlayerPerks().getDeathBroadcast() != null){
                 kAttacker.getkPlayerPerks().getDeathBroadcast().paste(player.getLocation());
             }
