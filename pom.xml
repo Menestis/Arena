@@ -55,7 +55,7 @@
     <repositories>
         <repository>
             <id>spigot-repo</id>
-            <url>http://maven.elmakers.com/repository/</url>
+            <url>https://maven.elmakers.com/repository/</url>
         </repository>
         <repository>
             <id>sonatype</id>
@@ -83,6 +83,11 @@
             <groupId>fr.blendman974</groupId>
             <artifactId>kinventory</artifactId>
             <version>0.4</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.menestis</groupId>
+            <artifactId>commons</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
