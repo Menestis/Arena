@@ -1,0 +1,15 @@
+package fr.ariloxe.arena.kits.power;
+
+import com.mojang.authlib.properties.Property;
+
+/**
+ * @author Ariloxe
+ */
+public class LibeSkin extends Property {
+
+    //EXAMPLE CLASS
+    public LibeSkin() {
+        super("textures", "ewogICJ0aW1lc3RhbXAiIDogMTY0MjM2MjgzMzc2OSwKICAicHJvZmlsZUlkIiA6ICI1MWNmYWMzNGE1MWM0ZDI0YWUyYmQ2NzRhMmFhNzk2ZCIsCiAgInByb2ZpbGVOYW1lIiA6ICJMaWJlXyIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9iMGFlOGRlOTQ4YmVjOGQ4ZjZhYTRjYjNjN2Q3MDZmMGRjMzA1MjA0OWJmODNjZTUxMWY5OTM4Mjk3ZmQzZmIwIgogICAgfQogIH0KfQ==",
+                "aI6sYBahISgVCZZapQeM1Smr04N8ICFAmEwE2kSMMONK4IH7ws0AXjNDhPAEUmZaXw4+oVrt2OkMHSf3BgitGR/r6tbcQn97qEfL+HZab3xSzl1oJjQn+hD8yISEC02WX5jmY/bOGkGcVQT5eEie6k7S5+V5Crsw18oexteps9YCrKbXd71AvUxiRuJYeiWcHOwmKO/liEfe1lz2IeVBgX8B7R2fASJHbUSCZ5Bz4ky4TscnlBjqH2/fiYXJ9/UOLXhGK9r+36W4iekMSvLdk4VQLPlrfYZ5UzoDTir4FOcDeRLkHvcH8cPxyfVwjy5km6/F25sTJLDwrmvSnvTiZqolOTmukM/tCtfWFx+KZN3K83A5mblvfhw68i/Vf/wWN9P+CSq6+C0mANa/YMXHcAw0/7F8NurvR14TgUPYNnscv9EpUTWPrVD/aTjYYEh/djPBLANkF810ofw35hPTZ2laJg5wjJphYv4sIGEiR9dWERZ3PB8Q39WQKtdl/K6cxs/4bb90pc/P0bDdKnkUeByB/RUgdQyUDPMcskLwiTK69N9pfi468AnSEEAsksxNzbBgQHwzBSzXZ0lmEjhaYZQqFCfZY7BBkB/PKq0CN9CgnnuHRI1uYPsTI1vstu+rQdjSIX2gSg3IfJKR4fPTj9U/z+unaxgIBRAs7Rz+X1o=");
+    }
+}
