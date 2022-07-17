@@ -268,6 +268,8 @@ public class PlayersListener implements Listener {
         Bukkit.broadcastMessage("§3§lMenestis §f» §a" + player.getName() + "§7 a rejoint l'Arène.");
         ArenaAPI.registerPlayer(player);
 
+        player.sendMessage("§3§lMenestis §f» §7Il y a §b10€§7 à gagner pour le §a1er§7 au classement !");
+
         Bukkit.getScheduler().runTaskLater(instance, ()->{
             player.teleport(instance.getGameManager().getWorldManager().getLobbyLocation());
             player.setGameMode(GameMode.SURVIVAL);

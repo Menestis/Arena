@@ -58,6 +58,9 @@ public class KitManager {
         this.kitList.add(new EkkoKit());
         this.kitList.add(new NobaraKit());
 
+        this.kitList.add(new GyutaroKit());
+        this.kitList.add(new MiphaKit());
+
         this.defaultKit = defaultKit;
     }
 
