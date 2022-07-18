@@ -45,12 +45,10 @@ public class RegularTask extends BukkitRunnable {
                 if(kPlayer.getKit() instanceof KitSchedule){
                     KitSchedule kitSchedule = ((KitSchedule) kPlayer.getKit());
                     if(kitSchedule.getkPlayerRemainsList().contains(kPlayer))
-                        new ActionBar("§7Rechargement de votre pouvoir : §e" + (kitSchedule.getSecondsDelay() - kitSchedule.getPlayerIntegerMap().get(kPlayer)) + " secondes§7").sendToPlayer(kPlayer.getBukkitPlayer());
+                        new ActionBar("§7Rechargement de votre pouvoir : §e" + kitSchedule.getPlayerIntegerMap().get(kPlayer) + " secondes§7").sendToPlayer(kPlayer.getBukkitPlayer());
 
                 }
-
             }
-
         });
     }
 }

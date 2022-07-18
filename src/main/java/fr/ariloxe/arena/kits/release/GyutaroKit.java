@@ -40,12 +40,12 @@ public class GyutaroKit extends KitSchedule {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    if (p[0] >= 15*7 || player.getLocation() == null){
+                    if (p[0] >= 7 || player.getLocation() == null || player.getWorld().getName().equals("Spawn")){
                         cancel();
                         return;
                     }
 
-                    player.getNearbyEntities(2, 2, 2).stream().filter(entity -> entity instanceof Player).filter(entity -> entity != player).forEach(entity -> ((Player) entity).damage(1));
+                    player.getNearbyEntities(3, 3, 3).stream().filter(entity -> entity instanceof Player).filter(entity -> entity != player).forEach(entity -> ((Player) entity).damage(1));
                     p[0]++;
                 }
             }.runTaskTimer(ArenaAPI.getApi(), 15, 15);
@@ -54,6 +54,6 @@ public class GyutaroKit extends KitSchedule {
 
     @Override
     public void onEquip(Player player) {
-        player.getInventory().setItem(1, new ItemCreator(Material.STICK).name("§cLance Zora §8§l▪ §7Clic-droit").get());
+        player.getInventory().setItem(1, new ItemCreator(Material.GOLD_HOE).name("§eFaucilles §8§l▪ §7Clic-droit").get());
     }
 }
