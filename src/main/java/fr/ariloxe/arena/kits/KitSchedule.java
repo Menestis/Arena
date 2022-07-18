@@ -22,7 +22,7 @@ public abstract class KitSchedule extends Kit {
             @Override
             public void run() {
                 if(!kPlayerRemainsList.isEmpty()){
-                    for (KPlayer kPlayer : kPlayerRemainsList){
+                    for (KPlayer kPlayer : new ArrayList<>(kPlayerRemainsList)){
                         if (playerIntegerMap.get(kPlayer) > 0)
                             playerIntegerMap.replace(kPlayer, playerIntegerMap.get(kPlayer), playerIntegerMap.get(kPlayer) - 1);
                         else {
