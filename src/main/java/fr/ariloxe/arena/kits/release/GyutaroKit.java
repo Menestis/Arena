@@ -45,7 +45,7 @@ public class GyutaroKit extends KitSchedule {
                         return;
                     }
 
-                    player.getNearbyEntities(10, 10, 10).stream().filter(entity -> entity instanceof Player).filter(entity -> entity != player).forEach(entity -> ((Player) entity).damage(1));
+                    player.getNearbyEntities(2, 2, 2).stream().filter(entity -> entity instanceof Player).filter(entity -> entity != player).forEach(entity -> ((Player) entity).damage(1));
                     p[0]++;
                 }
             }.runTaskTimer(ArenaAPI.getApi(), 15, 15);
