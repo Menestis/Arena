@@ -300,36 +300,6 @@ public class PlayersListener implements Listener {
         Bukkit.broadcastMessage("§3§lMenestis §f» §c" + player.getName() + "§7 a quitté l'Arène.");
     }
 
-    private int strengthRate = 30;
-    private int resistanceRate = 15;
-
-    @EventHandler
-    private void onPatchPotion(EntityDamageByEntityEvent event) {
-        event.setDamage(event.getDamage() * 0.90);
-
-        if (!(event.getEntity() instanceof Player))
-            return;
-
-        if (!(event.getDamager() instanceof Player))
-            return;
-        Player damager = (Player) event.getDamager();
-        Player player = (Player) event.getEntity();
-
-        if (damager.hasPotionEffect(PotionEffectType.INCREASE_DAMAGE)) {
-
-            if (damager.getActivePotionEffects().stream().filter(potionEffect -> potionEffect.getType().equals(PotionEffectType.INCREASE_DAMAGE)).map(PotionEffect::getAmplifier).findFirst().orElse(-1) == 0) {
-                event.setDamage(event.getDamage() / 2.3f *
-                        (1 + strengthRate / 100f));
-            } else event.setDamage(event.getDamage() *
-                    (1 + strengthRate / 100f));
-        }
-        if (player.hasPotionEffect(PotionEffectType.DAMAGE_RESISTANCE)) {
-            if (resistanceRate >= 100) {
-                event.setCancelled(true);
-            }
-            event.setDamage(event.getDamage() * (100 - resistanceRate) / 80f);
-        }
-    }
 
     @EventHandler
     public void onPlayerDamaging(EntityDamageByEntityEvent entityDamageByEntityEvent){
