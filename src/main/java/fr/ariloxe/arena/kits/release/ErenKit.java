@@ -41,7 +41,7 @@ public class ErenKit extends KitSchedule {
             if(player.getHealth() + 6 < player.getMaxHealth())
                 player.setHealth(player.getHealth() + 6);
             else
-                player.setHealth(20);
+                player.setHealth(player.getMaxHealth()  );
 
             Bukkit.getOnlinePlayers().stream().filter(target -> target.getWorld().getName().equals(player.getWorld().getName())).filter(target -> target.getLocation().distance(player.getLocation()) < 10).filter(target -> target != player).forEach(target -> {
                 target.addPotionEffect(slownessEffect);

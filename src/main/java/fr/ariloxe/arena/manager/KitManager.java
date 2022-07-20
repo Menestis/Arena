@@ -46,7 +46,7 @@ public class KitManager {
        // this.kitList.add(new KokushiboKit());
         this.kitList.add(new FurutoKit());
         this.kitList.add(new TercoMusclor());
-        //this.kitList.add(new ObanaiKit());
+        this.kitList.add(new ObanaiKit());
         //this.kitList.add(new SasukeKit());
         this.kitList.add(new MuichiroKit());
         this.kitList.add(new VulcanKit());
@@ -56,7 +56,7 @@ public class KitManager {
         this.kitList.add(new LoupGarouBlancKit());
         this.kitList.add(new JinxKit());
         this.kitList.add(new EkkoKit());
-        this.kitList.add(new NobaraKit());
+        //this.kitList.add(new NobaraKit());
 
         this.kitList.add(new GyutaroKit());
         this.kitList.add(new MiphaKit());
