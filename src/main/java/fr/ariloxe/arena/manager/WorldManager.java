@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class WorldManager {
 
-    private List<SpecialWorld> specialWorlds = new ArrayList<>();
+    private final List<SpecialWorld> specialWorlds = new ArrayList<>();
     private final GameManager gameManager;
     private final Location lobbyLocation;
 
@@ -31,6 +31,7 @@ public class WorldManager {
         specialWorlds.add(new Original2World());
         specialWorlds.add(new Original3World());
         specialWorlds.add(new CityWorld());
+        specialWorlds.add(new Naruto());
 
         this.gameManager = gameManager;
         this.lobbyLocation = new Location(Bukkit.getWorld("Spawn"), 190.354, 126, -198.449, 47, 0);

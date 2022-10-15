@@ -55,7 +55,7 @@
     <repositories>
         <repository>
             <id>spigot-repo</id>
-            <url>http://maven.elmakers.com/repository/</url>
+            <url>https://maven.elmakers.com/repository/</url>
         </repository>
         <repository>
             <id>sonatype</id>
