@@ -24,7 +24,7 @@ public class WitchKit extends Kit {
     public void onEquip(Player player){
         Potion pa = new Potion(PotionType.INSTANT_HEAL, 1).splash();
         ItemStack itema = pa.toItemStack(6);
-        player.getInventory().setItem(1, itema);
+        player.getInventory().addItem(itema);
     }
 
 }

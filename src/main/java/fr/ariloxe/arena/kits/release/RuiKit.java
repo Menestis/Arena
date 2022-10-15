@@ -52,8 +52,8 @@ public class RuiKit extends KitSchedule {
 
     @Override
     public void onEquip(Player player){
-        player.getInventory().setItem(1, new ItemCreator(Material.STRING).name("§fCage de l'Araignée §8§l▪ §7Clic-droit").get());
-        player.getInventory().setItem(3, new ItemCreator(Material.WEB).amount(7).get());
+        player.getInventory().addItem(new ItemCreator(Material.STRING).name("§fCage de l'Araignée §8§l▪ §7Clic-droit").get());
+        //player.getInventory().setItem(3, new ItemCreator(Material.WEB).amount(7).get());
     }
 
     private List<Location> getSphere(KPlayer kPlayer, int radius, boolean hollow){

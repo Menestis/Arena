@@ -41,6 +41,6 @@ public class NamiKit extends KitSchedule {
 
     @Override
     public void onEquip(Player player){
-        player.getInventory().setItem(1, new ItemCreator(Material.WATCH).name("§eFoudre §8§l▪ §7Clic-droit").get());
+        player.getInventory().addItem(new ItemCreator(Material.WATCH).name("§eFoudre §8§l▪ §7Clic-droit").get());
     }
 }

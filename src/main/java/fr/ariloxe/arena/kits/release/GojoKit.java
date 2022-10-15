@@ -60,6 +60,6 @@ public class GojoKit extends KitSchedule {
     public void onEquip(Player player){
         if(!kPlayerList.contains(ArenaAPI.getkPlayer(player)))
             kPlayerList.add(ArenaAPI.getkPlayer(player));
-        player.getInventory().setItem(1, new ItemCreator(Material.NETHER_STAR).name("§5Extension du Territoire §8§l▪ §7Clic-droit").lore("", "§fVous permet d'invoquer une extension du territoire.").get());
+        player.getInventory().addItem(new ItemCreator(Material.NETHER_STAR).name("§5Extension du Territoire §8§l▪ §7Clic-droit").lore("", "§fVous permet d'invoquer une extension du territoire.").get());
     }
 }

@@ -18,6 +18,8 @@ public class DefaultKit extends Kit {
     }
 
     @Override
-    public void onEquip(Player player) {}
+    public void onEquip(Player player) {
+        player.getInventory().addItem(new ItemStack(Material.FISHING_ROD));
+    }
 
 }

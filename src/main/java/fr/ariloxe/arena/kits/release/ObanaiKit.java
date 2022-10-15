@@ -28,7 +28,7 @@ public class ObanaiKit extends KitSchedule {
 
     @Override
     public void onEquip(Player player) {
-        player.getInventory().setItem(1, new ItemCreator(Material.SUGAR).name("§b§lInvisibilité §8§l▪ §7Clic-droit").get());
+        player.getInventory().addItem(new ItemCreator(Material.SUGAR).name("§b§lInvisibilité §8§l▪ §7Clic-droit").get());
     }
 
 

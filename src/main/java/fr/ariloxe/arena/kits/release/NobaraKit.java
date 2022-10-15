@@ -91,6 +91,6 @@ public class NobaraKit extends KitSchedule {
     @Override
     public void onEquip(Player player) {
         getPlayerPlayerIntegerMap().put(ArenaAPI.getkPlayer(player), new HashMap<>());
-        player.getInventory().setItem(1, new ItemCreator(Material.FLOWER_POT_ITEM).name("§ePoupée Vaudou §8§l▪ §7Clic-droit").get());
+        player.getInventory().addItem(new ItemCreator(Material.FLOWER_POT_ITEM).name("§ePoupée Vaudou §8§l▪ §7Clic-droit").get());
     }
 }

@@ -46,6 +46,6 @@ public class EkkoKit extends KitSchedule {
 
     @Override
     public void onEquip(Player player) {
-        player.getInventory().setItem(1, new ItemCreator(Material.FLINT).name("§cBriquet Zaunien §8§l▪ §7Clic-droit").get());
+        player.getInventory().addItem(new ItemCreator(Material.FLINT).name("§cBriquet Zaunien §8§l▪ §7Clic-droit").get());
     }
 }

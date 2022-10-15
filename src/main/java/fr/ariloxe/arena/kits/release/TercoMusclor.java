@@ -38,6 +38,6 @@ public class TercoMusclor extends KitSchedule {
 
     @Override
     public void onEquip(Player player){
-        player.getInventory().setItem(1, new ItemCreator(Material.DEAD_BUSH).name("§2Les Muscles §8§l▪ §7Clic-droit").get());
+        player.getInventory().addItem(new ItemCreator(Material.DEAD_BUSH).name("§2Les Muscles §8§l▪ §7Clic-droit").get());
     }
 }

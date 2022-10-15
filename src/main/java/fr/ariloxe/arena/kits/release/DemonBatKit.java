@@ -42,6 +42,6 @@ public class DemonBatKit extends KitSchedule {
     @Override
     public void onEquip(Player player) {
         player.setMaxHealth(16);
-        player.getInventory().setItem(1, new ItemCreator(Material.FEATHER).name("§fFly §8§l▪ §7Clic-droit").get());
+        player.getInventory().addItem(new ItemCreator(Material.FEATHER).name("§fFly §8§l▪ §7Clic-droit").get());
     }
 }

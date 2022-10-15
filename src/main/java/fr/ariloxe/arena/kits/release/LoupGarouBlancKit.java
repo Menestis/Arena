@@ -18,7 +18,7 @@ public class LoupGarouBlancKit extends Kit {
         super("Kit de Loup-Garou Blanc", KitType.TANK, new ItemStack(Material.REDSTONE),
                 "§8» §7Mode : §9Loup-Garou UHC",
                 "§8» §7Pouvoirs:",
-                "§f- §7Vous possedez l'effet force 1 de façon permanente, ainsi que 15 coeurs",
+                "§f- §7Vous possedez 15 coeurs",
                 "§f- §c§lNéanmoins§7, seul votre plastron et vos bottes seront en diamant.");
     }
 
@@ -28,7 +28,7 @@ public class LoupGarouBlancKit extends Kit {
         player.setMaxHealth(30);
         player.setHealth(player.getMaxHealth());
         player.getInventory().setHelmet(new ItemCreator(Material.IRON_HELMET).unbreakable(true).enchant(Enchantment.PROTECTION_ENVIRONMENTAL,2).get());
-        player.getInventory().setItem(1, new ItemStack(Material.WATER_BUCKET));
+        player.getInventory().addItem(new ItemStack(Material.WATER_BUCKET));
     }
 
 }

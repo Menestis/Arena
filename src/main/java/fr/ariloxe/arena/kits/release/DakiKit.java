@@ -49,6 +49,6 @@ public class DakiKit extends KitSchedule {
 
     @Override
     public void onEquip(Player player) {
-        player.getInventory().setItem(1, new ItemCreator(Material.RED_ROSE).name("§dOniisan §8§l▪ §7Clic-droit").get());
+        player.getInventory().addItem(new ItemCreator(Material.RED_ROSE).name("§dOniisan §8§l▪ §7Clic-droit").get());
     }
 }

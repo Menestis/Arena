@@ -4,6 +4,7 @@ import fr.ariloxe.arena.ArenaAPI;
 import fr.ariloxe.arena.kits.KitType;
 import fr.ariloxe.arena.utils.PlayerUtils;
 import fr.ariloxe.arena.utils.ItemCreator;
+import fr.ariloxe.arena.utils.inventory.InvUtils;
 import fr.blendman974.kinventory.inventories.KInventory;
 import fr.blendman974.kinventory.inventories.KItem;
 import org.bukkit.Location;

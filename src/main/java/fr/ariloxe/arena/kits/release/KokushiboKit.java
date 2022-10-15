@@ -24,7 +24,7 @@ public class KokushiboKit extends Kit {
     public void onEquip(Player player){
         player.setMaxHealth(22);
         player.setHealth(player.getMaxHealth());
-        player.getInventory().setItem(1, new ItemCreator(Material.WATER_BUCKET).get());
+        player.getInventory().addItem(new ItemCreator(Material.WATER_BUCKET).get());
     }
 
 }

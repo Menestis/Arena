@@ -43,6 +43,6 @@ public class TanjiroKit extends KitSchedule {
 
     @Override
     public void onEquip(Player player){
-        player.getInventory().setItem(1, new ItemCreator(Material.BLAZE_ROD).name("§6Danse du dieu du feu §8§l▪ §7Clic-droit").lore("", "§fVous permet d'activer le pouvoir de la danse", "§fdu dieu du feu toutes les 55s.").get());
+        player.getInventory().addItem(new ItemCreator(Material.BLAZE_ROD).name("§6Danse du dieu du feu §8§l▪ §7Clic-droit").lore("", "§fVous permet d'activer le pouvoir de la danse", "§fdu dieu du feu toutes les 55s.").get());
     }
 }

@@ -35,7 +35,7 @@ public class LibeKit extends Kit {
     @Override
     public void onEquip(Player player){
         kPlayerPropertyMap.put(ArenaAPI.getkPlayer(player), IdentityChanger.getPlayerTextures(player));
-        player.getInventory().setItem(1, new ItemCreator(Material.WATER_BUCKET).get());
+        player.getInventory().addItem(new ItemCreator(Material.WATER_BUCKET).get());
         Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()->{
             IdentityChanger.changeSkin(player, libeSkin);
         }, 20);

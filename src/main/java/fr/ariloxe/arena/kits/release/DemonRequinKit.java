@@ -69,10 +69,9 @@ public class DemonRequinKit extends KitSchedule {
 
     @Override
     public void onEquip(Player player) {
-        player.getInventory().setItem(0, new ItemCreator(Material.DIAMOND_SWORD).enchant(Enchantment.DAMAGE_ALL, 3).get());
-        player.getInventory().setItem(1, new ItemCreator(Material.WATER_LILY).name("§3Bulle d'Eau §8§l▪ §7Clic-droit").get());
+        player.getInventory().addItem(new ItemCreator(Material.WATER_LILY).name("§3Bulle d'Eau §8§l▪ §7Clic-droit").get());
 
         player.getInventory().setHelmet(new ItemCreator(Material.DIAMOND_HELMET).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).enchant(Enchantment.OXYGEN, 9).unbreakable(true).get());
-       player.getInventory().setBoots(new ItemCreator(Material.DIAMOND_BOOTS).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).enchant(Enchantment.DEPTH_STRIDER, 5).unbreakable(true).get());
+        player.getInventory().setBoots(new ItemCreator(Material.DIAMOND_BOOTS).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).enchant(Enchantment.DEPTH_STRIDER, 5).unbreakable(true).get());
     }
 }

@@ -54,6 +54,6 @@ public class TengenKit extends KitSchedule {
 
     @Override
     public void onEquip(Player player) {
-        player.getInventory().setItem(1, new ItemCreator(Material.RED_ROSE).name("§dTéléportation §8§l▪ §7Clic-droit").lore("", "§fVous permet de vous TP sur un mec.").get());
+        player.getInventory().addItem(new ItemCreator(Material.RED_ROSE).name("§dTéléportation §8§l▪ §7Clic-droit").lore("", "§fVous permet de vous TP sur un mec.").get());
     }
 }

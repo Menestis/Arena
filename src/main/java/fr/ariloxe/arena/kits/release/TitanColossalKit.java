@@ -54,7 +54,7 @@ public class TitanColossalKit extends KitSchedule {
 
     @Override
     public void onEquip(Player player){
-        player.getInventory().setItem(1, new ItemCreator(Material.NETHER_STAR).name("§fSouffle Colossal §8§l▪ §7Clic-droit").get());
+        player.getInventory().addItem(new ItemCreator(Material.NETHER_STAR).name("§fSouffle Colossal §8§l▪ §7Clic-droit").get());
     }
 
     private Vector getVectorForPoints(Location l1, Location l2) {

@@ -1,5 +1,7 @@
 package fr.ariloxe.arena.utils;
 
+import fr.ariloxe.arena.ArenaAPI;
+import fr.ariloxe.arena.player.KPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -23,8 +25,35 @@ public class PlayerUtils {
         player.setMaxHealth(20);
         player.setHealth(player.getMaxHealth());
 
+        KPlayer kPlayer = ArenaAPI.getkPlayer(player);
+
+        if(kPlayer.getPlayerInventory() == null){
+            player.getInventory().setItem(0, new ItemCreator(Material.DIAMOND_SWORD).enchant(Enchantment.DAMAGE_ALL, 3).unbreakable(true).get());
+            player.getInventory().setItem(1, new ItemCreator(Material.NETHER_STAR).get());
+            player.getInventory().setItem(2, new ItemStack(Material.GOLDEN_APPLE, 9));
+            player.getInventory().setItem(3, new ItemCreator(Material.DIAMOND_PICKAXE).enchant(Enchantment.DIG_SPEED, 3).get());
+            player.getInventory().setItem(4, new ItemStack(Material.WATER_BUCKET));
+            player.getInventory().setItem(5, new ItemStack(Material.COBBLESTONE, 64));
+            player.getInventory().setItem(6, new ItemStack(Material.ARROW, 32));
+            player.getInventory().setItem(7, new ItemCreator(Material.BOW).enchant(Enchantment.ARROW_DAMAGE, 2).get());
+            player.getInventory().setItem(8, new ItemStack(Material.COBBLESTONE, 64));
+        } else {
+            player.getInventory().setContents(kPlayer.getPlayerInventory().getContents());
+        }
+
+        player.getInventory().setHelmet(new ItemCreator(Material.DIAMOND_HELMET).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).unbreakable(true).get());
+        player.getInventory().setChestplate(new ItemCreator(Material.DIAMOND_CHESTPLATE).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).unbreakable(true).get());
+        player.getInventory().setLeggings(new ItemCreator(Material.IRON_LEGGINGS).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).unbreakable(true).get());
+        player.getInventory().setBoots(new ItemCreator(Material.DIAMOND_BOOTS).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).unbreakable(true).get());
+
+    }
+    public static void giveDefaultKitEdit(Player player){
+        player.getInventory().clear();
+        player.setMaxHealth(20);
+        player.setHealth(player.getMaxHealth());
+
         player.getInventory().setItem(0, new ItemCreator(Material.DIAMOND_SWORD).enchant(Enchantment.DAMAGE_ALL, 3).unbreakable(true).get());
-        player.getInventory().setItem(1, new ItemCreator(Material.FISHING_ROD).get());
+        player.getInventory().setItem(1, new ItemCreator(Material.NETHER_STAR).name("§3✦ §bObjet Spécial §3✦").get());
         player.getInventory().setItem(2, new ItemStack(Material.GOLDEN_APPLE, 9));
         player.getInventory().setItem(3, new ItemCreator(Material.DIAMOND_PICKAXE).enchant(Enchantment.DIG_SPEED, 3).get());
         player.getInventory().setItem(4, new ItemStack(Material.WATER_BUCKET));
@@ -33,11 +62,22 @@ public class PlayerUtils {
         player.getInventory().setItem(7, new ItemCreator(Material.BOW).enchant(Enchantment.ARROW_DAMAGE, 2).get());
         player.getInventory().setItem(8, new ItemStack(Material.COBBLESTONE, 64));
 
-        player.getInventory().setHelmet(new ItemCreator(Material.DIAMOND_HELMET).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).unbreakable(true).get());
-        player.getInventory().setChestplate(new ItemCreator(Material.DIAMOND_CHESTPLATE).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).unbreakable(true).get());
-        player.getInventory().setLeggings(new ItemCreator(Material.IRON_LEGGINGS).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).unbreakable(true).get());
-        player.getInventory().setBoots(new ItemCreator(Material.DIAMOND_BOOTS).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).unbreakable(true).get());
     }
+
+    public static void giveDefaultInventory(Player player){
+        player.getInventory().clear();
+
+        ItemStack air = new ItemStack(Material.AIR);
+        player.getInventory().setHelmet(air);
+        player.getInventory().setChestplate(air);
+        player.getInventory().setLeggings(air);
+        player.getInventory().setBoots(air);
+
+        player.getInventory().setItem(0, new ItemCreator(Material.REDSTONE_COMPARATOR).name("§b§lSettings §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour changer vos options !").get());
+        player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§a§lChoisir son Kit §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
+        player.getInventory().setItem(8, new ItemCreator(Material.BED).name("§c§lRetourner au Lobby §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour retourner au lobby !").get());
+    }
+
 
     public static Player getTarget(Player player, int maxRange, double aiming, boolean wallHack) {
         Player target = null;

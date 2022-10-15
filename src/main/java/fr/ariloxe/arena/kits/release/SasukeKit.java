@@ -51,6 +51,6 @@ public class SasukeKit extends KitSchedule {
 
     @Override
     public void onEquip(Player player) {
-        player.getInventory().setItem(1, new ItemCreator(Material.BLAZE_POWDER).name("§7Téléportation").get());
+        player.getInventory().addItem(new ItemCreator(Material.BLAZE_POWDER).name("§7Téléportation").get());
     }
 }

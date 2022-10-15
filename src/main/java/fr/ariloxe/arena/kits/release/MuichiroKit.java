@@ -33,8 +33,6 @@ public class MuichiroKit extends KitSchedule {
         Player player = kPlayer.getBukkitPlayer();
 
         if(player != null){
-            player.addPotionEffect(potionEffect);
-
             player.getWorld().getNearbyEntities(player.getLocation(), 10, 10, 10).stream().filter(entity -> entity instanceof Player).filter(entity -> entity != player).forEach(entity -> {
                 ((Player) entity).addPotionEffect(potionEffect);
             });
@@ -43,6 +41,6 @@ public class MuichiroKit extends KitSchedule {
 
     @Override
     public void onEquip(Player player) {
-        player.getInventory().setItem(1, new ItemCreator(Material.FEATHER).name("§bSouffle de la Brume §8§l▪ §7Clic-droit").get());
+        player.getInventory().addItem(new ItemCreator(Material.FEATHER).name("§bSouffle de la Brume §8§l▪ §7Clic-droit").get());
     }
 }

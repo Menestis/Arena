@@ -65,6 +65,6 @@ public class OursKit extends KitSchedule {
         player.setMaxHealth(22);
         player.setHealth(player.getMaxHealth());
 
-        player.getInventory().setItem(1, new ItemCreator(Material.STICK).name("§6Retournée de l'Ours §8§l▪ §7Clic-droit").get());
+        player.getInventory().addItem(new ItemCreator(Material.STICK).name("§6Retournée de l'Ours §8§l▪ §7Clic-droit").get());
     }
 }

@@ -1,5 +1,6 @@
 package fr.ariloxe.arena.kits;
 
+import fr.ariloxe.arena.utils.inventory.InvUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

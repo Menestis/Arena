@@ -1,6 +1,10 @@
 package fr.ariloxe.arena.listeners;
 
+import fr.ariloxe.arena.uis.settings.SettingsInventory;
 import fr.ariloxe.arena.utils.ItemCreator;
+import fr.ariloxe.arena.utils.PlayerUtils;
+import fr.ariloxe.arena.utils.inventory.InventoryConvertor;
+import fr.ariloxe.arena.utils.inventory.PlayerInventory;
 import fr.ariloxe.arena.utils.skull.SkullList;
 import fr.ariloxe.arena.ArenaAPI;
 import fr.ariloxe.arena.kits.release.GuepKit;
@@ -11,6 +15,8 @@ import fr.ariloxe.arena.uis.PackInventory;
 import fr.ariloxe.arena.utils.IdentityChanger;
 
 import fr.blendman.magnet.api.MagnetApi;
+import fr.blendman.magnet.api.server.ServerCacheHandler;
+import fr.blendman.skynet.models.ServerLoginPlayerInfo;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -19,6 +25,7 @@ import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -44,6 +51,7 @@ public class PlayersListener implements Listener {
 
     private final ArenaAPI instance;
     private final PackInventory packInventory = new PackInventory();
+    private final SettingsInventory settingsInventory = new SettingsInventory();
 
     public PlayersListener(ArenaAPI instance){
         this.instance = instance;
@@ -56,11 +64,7 @@ public class PlayersListener implements Listener {
 
     @EventHandler
     public void onDrop(PlayerDropItemEvent playerDropItemEvent){
-        if(playerDropItemEvent.getPlayer().getWorld().getName().contains("Spawn")){
-            playerDropItemEvent.setCancelled(true);
-            return;
-        }
-        if(playerDropItemEvent.getPlayer().getLocation().getY() > 100)
+        if(playerDropItemEvent.getPlayer().getWorld().getName().contains("Spawn"))
             playerDropItemEvent.setCancelled(true);
     }
 
@@ -71,7 +75,8 @@ public class PlayersListener implements Listener {
 
     @EventHandler
     public void onSpawn(EntitySpawnEvent entitySpawnEvent){
-        entitySpawnEvent.setCancelled(true);
+        if(!(entitySpawnEvent.getEntity() instanceof Item))
+            entitySpawnEvent.setCancelled(true);
     }
 
     @EventHandler
@@ -80,9 +85,6 @@ public class PlayersListener implements Listener {
             entityDamageByEntityEvent.setCancelled(true);
             return;
         }
-
-        if(entityDamageByEntityEvent.getEntity().getLocation().getY() > 100)
-            entityDamageByEntityEvent.setCancelled(true);
 
         if(entityDamageByEntityEvent.getEntity() instanceof Player && !ArenaAPI.getkPlayer(((Player) entityDamageByEntityEvent.getEntity())).isDamageable())
             entityDamageByEntityEvent.setCancelled(true);
@@ -114,12 +116,14 @@ public class PlayersListener implements Listener {
                 MagnetApi.MagnetStore.getApi().getPlayerHandle().movePlayerToServer(playerInteractEvent.getPlayer().getUniqueId(), "lobby");
             else if(playerInteractEvent.getItem().getType() == Material.SKULL_ITEM)
                 packInventory.open(playerInteractEvent.getPlayer());
+            else if(playerInteractEvent.getItem().getType() == Material.REDSTONE_COMPARATOR)
+                settingsInventory.open(playerInteractEvent.getPlayer());
         }
     }
 
     @EventHandler
     public void onPlace(BlockPlaceEvent blockPlaceEvent){
-        if(blockPlaceEvent.getBlockPlaced().getLocation().getY() > 110){
+        if(blockPlaceEvent.getBlockPlaced().getLocation().getY() > 130){
             blockPlaceEvent.setCancelled(true);
             blockPlaceEvent.getPlayer().sendMessage("§3§lMenestis §f» §cVous ne pouvez pas placer de block si haut !");
             return;
@@ -154,20 +158,10 @@ public class PlayersListener implements Listener {
 
         player.teleport(instance.getGameManager().getWorldManager().getLobbyLocation());
 
-        player.getInventory().clear();
-        ItemStack air = new ItemStack(Material.AIR);
-        player.getInventory().setHelmet(air);
-        player.getInventory().setChestplate(air);
-        player.getInventory().setLeggings(air);
-        player.getInventory().setBoots(air);
-
         player.getInventory().setHeldItemSlot(4);
 
         player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
-
-        //     player.getInventory().setItem(2, new ItemCreator(SkullList.CAMERA.getItemStack()).name("§e§lPack de Texture §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour télécharger le pack !").get());
-        player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§a§lChoisir son Kit §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
-        player.getInventory().setItem(8, new ItemCreator(Material.BED).name("§c§lRetourner au Lobby §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour retourner au lobby !").get());
+        PlayerUtils.giveDefaultInventory(player);
 
         player.setMaxHealth(20);
         player.setHealth(player.getMaxHealth());
@@ -184,7 +178,6 @@ public class PlayersListener implements Listener {
 
         Player player = playerDeathEvent.getEntity();
         KPlayer kPlayer = ArenaAPI.getkPlayer(player);
-        kPlayer.setDeaths(ArenaAPI.getkPlayer(player).getDeaths() + 1);
         if(kPlayer.getKit() instanceof LibeKit)
             IdentityChanger.changeSkin(player, ((LibeKit) kPlayer.getKit()).getSkinsMap().get(kPlayer));
 
@@ -217,7 +210,6 @@ public class PlayersListener implements Listener {
 
             Bukkit.broadcastMessage("§3§lMenestis §f» §c" + player.getName() + "§7 est mort par §a" + player.getKiller().getName() + " §8[§f" + ((int) player.getKiller().getHealth()) / 2 + "§f ❤§8]");
 
-            ArenaAPI.getkPlayer(player.getKiller()).setKills(ArenaAPI.getkPlayer(player.getKiller()).getKills() + 1);
             player.getKiller().getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 3));
             player.getKiller().getInventory().addItem(new ItemStack(Material.COBBLESTONE, 20));
             if (ArenaAPI.getkPlayer(player.getKiller()).getKit() instanceof GuepKit)
@@ -234,22 +226,12 @@ public class PlayersListener implements Listener {
             player.spigot().respawn();
 
             player.teleport(instance.getGameManager().getWorldManager().getLobbyLocation());
-            player.getInventory().clear();
-            ItemStack air = new ItemStack(Material.AIR);
-            player.getInventory().setHelmet(air);
-            player.getInventory().setChestplate(air);
-            player.getInventory().setLeggings(air);
-            player.getInventory().setBoots(air);
-
             player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
-
-            //     player.getInventory().setItem(2, new ItemCreator(SkullList.CAMERA.getItemStack()).name("§e§lPack de Texture §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour télécharger le pack !").get());
-            player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§a§lChoisir son Kit §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
-            player.getInventory().setItem(8, new ItemCreator(Material.BED).name("§c§lRetourner au Lobby §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour retourner au lobby !").get());
-
             player.setMaxHealth(20);
             player.setHealth(player.getMaxHealth());
             player.setAllowFlight(false);
+
+            PlayerUtils.giveDefaultInventory(player);
 
             player.setFoodLevel(20);
 
@@ -270,19 +252,16 @@ public class PlayersListener implements Listener {
 
         Bukkit.getScheduler().runTaskLater(instance, ()->{
             player.teleport(instance.getGameManager().getWorldManager().getLobbyLocation());
-            player.setGameMode(GameMode.SURVIVAL);
-            player.getInventory().clear();
-            ItemStack air = new ItemStack(Material.AIR);
-            player.getInventory().setHelmet(air);
-            player.getInventory().setChestplate(air);
-            player.getInventory().setLeggings(air);
-            player.getInventory().setBoots(air);
+            player.setGameMode(GameMode.ADVENTURE);
+
+            ServerLoginPlayerInfo playerInfo =  ServerCacheHandler.ServerCacheHandlerStore.getServerCacheHandler().getInfo(player.getUniqueId());
+            if(playerInfo.getProperties().containsKey("ARENA_STUFF"))
+                ArenaAPI.getkPlayer(player).setPlayerInventory(new PlayerInventory(InventoryConvertor.inventoryFromBase64(playerInfo.getProperties().get("ARENA_STUFF"))));
+
+
+            PlayerUtils.giveDefaultInventory(player);
 
             player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
-
-    //        player.getInventory().setItem(0, new ItemCreator(SkullList.CAMERA.getItemStack()).name("§e§lPack de Texture §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour télécharger le pack !").get());
-            player.getInventory().setItem(4, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§a§lChoisir son Kit §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour choisir un kit !").get());
-            player.getInventory().setItem(8, new ItemCreator(Material.BED).name("§c§lRetourner au Lobby §8§l▪ §7§lClic-droit").lore("", "§8» §7Cliquez ici pour retourner au lobby !").get());
 
             player.setMaxHealth(20);
             player.setHealth(player.getMaxHealth());
@@ -295,7 +274,16 @@ public class PlayersListener implements Listener {
     public void onQuit(PlayerQuitEvent playerQuitEvent){
         playerQuitEvent.setQuitMessage(null);
         Player player = playerQuitEvent.getPlayer();
+        KPlayer kPlayer = ArenaAPI.getkPlayer(player);
+
         Bukkit.broadcastMessage("§3§lMenestis §f» §c" + player.getName() + "§7 a quitté l'Arène.");
+
+        if(kPlayer.getPlayerInventory() != null && kPlayer.getPlayerInventory().isChanged()){
+            ServerLoginPlayerInfo playerInfo =  ServerCacheHandler.ServerCacheHandlerStore.getServerCacheHandler().getInfo(player.getUniqueId());
+            Map<String, String> properties = playerInfo.getProperties();
+            properties.put("ARENA_STUFF", InventoryConvertor.inventoryToBase64(kPlayer.getPlayerInventory().getContents()));
+            playerInfo.setProperties(properties);
+        }
     }
 
     private int strengthRate = 30;

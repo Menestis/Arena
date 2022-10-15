@@ -67,8 +67,8 @@ public class ChainsawKit extends KitSchedule {
         Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()-> {
             player.setMaxHealth(22);
             player.setHealth(player.getMaxHealth());
-            player.getInventory().setItem(1, new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§eChangement de Forme §8§l▪ §7Clic-droit").get());
-            player.getInventory().setItem(3, new ItemCreator(Material.FEATHER).name("§fDash §8§l▪ §7Clic-droit").get());
+
+            player.getInventory().addItem(new ItemCreator(Material.ENDER_PORTAL_FRAME).name("§eChangement de Forme §8§l▪ §7Clic-droit").get());
         }, 3);
     }
 }

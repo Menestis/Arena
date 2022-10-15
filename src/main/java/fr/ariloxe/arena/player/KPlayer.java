@@ -1,6 +1,7 @@
 package fr.ariloxe.arena.player;
 
 import fr.ariloxe.arena.kits.Kit;
+import fr.ariloxe.arena.utils.inventory.PlayerInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -16,21 +17,24 @@ public class KPlayer {
 
     private boolean damageable = true;
     private Kit kit;
-
-    private int kills;
-    private int deaths;
+    private PlayerInventory playerInventory;
 
 
     public KPlayer(UUID uuid, String name, int kills, int deaths) {
         this.uuid = uuid;
         this.name = name;
-
-        this.kills = kills;
-        this.deaths = deaths;
     }
 
     public Player getBukkitPlayer(){
         return Bukkit.getPlayer(uuid);
+    }
+
+    public PlayerInventory getPlayerInventory() {
+        return playerInventory;
+    }
+
+    public void setPlayerInventory(PlayerInventory playerInventory) {
+        this.playerInventory = playerInventory;
     }
 
     public void sendMessage(String message){
@@ -46,23 +50,6 @@ public class KPlayer {
     public void setKit(Kit kit) {
         this.kit = kit;
     }
-
-    public void setKills(int kills) {
-        this.kills = kills;
-    }
-
-    public int getKills() {
-        return kills;
-    }
-
-    public int getDeaths() {
-        return deaths;
-    }
-
-    public void setDeaths(int deaths) {
-        this.deaths = deaths;
-    }
-
 
     public void setDamageable(boolean damageable) {
         this.damageable = damageable;
