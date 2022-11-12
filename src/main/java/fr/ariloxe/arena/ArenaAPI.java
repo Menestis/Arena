@@ -15,6 +15,7 @@ import fr.ariloxe.arena.utils.scoreboard.ScoreboardManager;
 import fr.ariloxe.arena.manager.GameManager;
 import fr.ariloxe.arena.manager.KitManager;
 import fr.blendman.magnet.api.MagnetApi;
+import fr.blendman.magnet.api.server.ServerCacheHandler;
 import fr.blendman974.kinventory.KInventoryManager;
 import fr.menestis.commons.bukkit.TabTask;
 import org.bukkit.Bukkit;
@@ -85,7 +86,7 @@ public final class ArenaAPI extends JavaPlugin {
         CommandUtils.registerCommand("arena", new CarteCommand());
         CommandUtils.registerCommand("arena", new VoteCommand());
 
-        MagnetApi.MagnetStore.getApi().setServerState("Waiting");
+        ServerCacheHandler.ServerCacheHandlerStore.getServerCacheHandler().setServerState("Waiting");
         new TabTask(this);
 
         Tasks.runLater(()-> Bukkit.getWorlds().forEach(world -> world.setGameRuleValue("doFireTick", "false")), 20*10);
