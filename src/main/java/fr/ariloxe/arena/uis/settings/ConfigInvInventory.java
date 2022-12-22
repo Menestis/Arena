@@ -39,6 +39,11 @@ public class ConfigInvInventory implements KInventoryGui {
         delete.addCallback((kInventoryRepresentation, itemStack, player, kInventoryClickContext) -> {
             player.closeInventory();
 
+            if(player.getLocation() != null){
+                player.sendMessage("§cça arrive bientôt (promis)");
+                return;
+            }
+
             if(ArenaAPI.getkPlayer(player).getPlayerInventory() != null){
                 ArenaAPI.getkPlayer(player).setPlayerInventory(null);
 
@@ -69,6 +74,11 @@ public class ConfigInvInventory implements KInventoryGui {
 
         config.addCallback((kInventoryRepresentation, itemStack, player, kInventoryClickContext) -> {
             player.closeInventory();
+
+            if(player.getLocation() != null){
+                player.sendMessage("§cça arrive bientôt (promis)");
+                return;
+            }
 
             player.sendMessage("");
             player.sendMessage("§8» §6Vous configurez actuellement votre inventaire par défaut.");

@@ -31,13 +31,12 @@ public class DemonRequinKit extends KitSchedule {
                 "§8» §7Mode : §cChainsawMan-UHC",
                 "§8» §7Pouvoirs:",
                 "§f- §7Vous pouvez créer une sphère d'§3eau§7 pendant §b25 secondes§7. Dedans, vous",
-                "    §7aurez Force I. (§a81 secondes de cooldown§7)",
+                "    §7aurez Force I. (§a53 secondes de cooldown§7)",
                 "§f- §7Vous avez l'enchantement Depth Strider V sur vos bottes.",
-                "§f- §7Vous avez l'enchantement Respiration V sur vos bottes.",
-                "§f- §7Vous avez une épée en fer Sharpness III à la place."
+                "§f- §7Vous avez l'enchantement Respiration V sur vos bottes."
 
         );
-        super.setSecondsDelay(81);
+        super.setSecondsDelay(53);
     }
 
     private final PotionEffect strenghtEffect = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 25*20, 0, false, false);

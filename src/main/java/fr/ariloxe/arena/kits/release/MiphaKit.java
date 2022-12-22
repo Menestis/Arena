@@ -24,9 +24,9 @@ public class MiphaKit extends KitSchedule {
                 "§f- §7Vous êtes soigné(e) d’une manière différente selon votre",
                 "    §7vie actuelle :",
                 "    §7Plus de 5 coeurs : §c2",
-                "    §7Entre 5 et 3 : §c3.5",
-                "    §7Entre 5 et 1 : §c6",
-                "    §7Moins de 1 : §cfull",
+                "    §7Entre 5 et 3 : §c3",
+                "    §7Entre 5 et 1 : §c4",
+                "    §7Moins de 1 : §c6",
                 "§8(§639 secondes de cooldown§8)"
         );
         super.setSecondsDelay(39);
@@ -44,11 +44,11 @@ public class MiphaKit extends KitSchedule {
             if (player.getHealth() > 10) {
                 safeHeal(player, 4);
             } else if (player.getHealth() > 6) {
-                safeHeal(player, 7);
+                safeHeal(player, 6);
             } else if (player.getHealth() > 2) {
-                safeHeal(player, 12);
+                safeHeal(player, 8);
             } else {
-                safeHeal(player, 20);
+                safeHeal(player, 12);
             }
 
 

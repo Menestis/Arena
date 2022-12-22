@@ -22,7 +22,7 @@ public class ZenitsuKit extends KitSchedule {
                 "§8» §7Mode : §3Démon-Slayer",
                 "§8» §7Pouvoirs:",
                 "§f- §c9 coeurs§7 permanent maximum.",
-                "§f- §7Vous aurez §bSpeed II§7 pendant 15 secondes. (§a49 secondes de cooldownn§7)",
+                "§f- §7Vous aurez §bSpeed II§7 pendant 15 secondes. (§a49 secondes de cooldown§7)",
                 "§f- §7Puis, vous aurez §9Slowness II§7 pendant §b5 secondes§7 à la fin de votre sprint.",
                 "");
 

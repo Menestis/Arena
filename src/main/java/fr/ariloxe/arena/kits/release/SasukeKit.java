@@ -33,7 +33,15 @@ public class SasukeKit extends KitSchedule {
 
         if(player != null){
             Player target = PlayerUtils.getTarget(player, 60, 1.4D, true);
-            if (target != null) {
+            Material material = player.getLocation().add(0, 1, 0).getBlock().getType();
+            if(material != Material.AIR){
+                player.sendMessage("§3§lMenestis §f» §cVous ne devez pas avoir de bloc au dessus de vous pour user de ce pouvoir.");
+
+                Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()->{
+                    getkPlayerRemainsList().remove(kPlayer);
+                    getPlayerIntegerMap().remove(kPlayer);
+                }, 10);
+            } else if (target != null) {
                 Location targetLocation = target.getLocation().clone();
                 target.teleport(player);
                 player.teleport(targetLocation);

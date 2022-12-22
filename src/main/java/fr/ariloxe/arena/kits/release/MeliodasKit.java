@@ -28,7 +28,7 @@ public class MeliodasKit extends KitSchedule {
                 "§f- §7Vous avez un item qui vous permet de renvoyer 50% des",
                 "    §7dégâts obtenus pendant 3 secondes. (§a53 secondes de cooldown§7)",
                 "");
-        super.setSecondsDelay(53);
+        super.setSecondsDelay(39);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class MeliodasKit extends KitSchedule {
         Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(), ()->{
             kPlayerIntegerMap.get(kPlayer).forEach((kPlayer1, integer) -> {
                 if(kPlayer1.getBukkitPlayer() != null)
-                    kPlayer1.getBukkitPlayer().damage(integer / 8);
+                    kPlayer1.getBukkitPlayer().damage(integer / 8, kPlayer.getBukkitPlayer());
             });
 
             new Title("", "§c§lCONTRE TOTAL !!").sendToPlayer(kPlayer.getBukkitPlayer());

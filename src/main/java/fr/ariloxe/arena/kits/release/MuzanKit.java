@@ -21,7 +21,7 @@ public class MuzanKit extends KitSchedule {
                 "§8» §7Pouvoirs:",
                 "§f- §7Lors de chaque élimination, vous aurez §c1/3§7 chance d'obtenir un demi-coeur",
                 "    §7permanent supplémentaire.",
-                "§f- §7Vous aurez l'effet  §bForce 1 pendant 12 seconde. (§a36 secondes de cooldownn§7)");
+                "§f- §7Vous aurez l'effet  §bForce 1 pendant 12 seconde. (§a36 secondes de cooldown§7)");
 
         super.setSecondsDelay(44);
     }

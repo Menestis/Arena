@@ -17,7 +17,7 @@ import org.bukkit.potion.PotionEffectType;
 public class ErenKit extends KitSchedule {
 
     private final PotionEffect resistanceEffect = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 23*20, 0, false, false);
-    private final PotionEffect slownessEffect = new PotionEffect(PotionEffectType.SLOW, 2*20, 200, false, false);
+    private final PotionEffect slownessEffect = new PotionEffect(PotionEffectType.SLOW, 20, 200, false, false);
     private final PotionEffect jumpEffect = new PotionEffect(PotionEffectType.JUMP, 2*20, 240, false, false);
 
     public ErenKit(){
@@ -26,7 +26,7 @@ public class ErenKit extends KitSchedule {
                 "§8» §7Pouvoirs:",
                 "§f- §7Gagnez les effets §fRésistance 1§7 pendant §e23 secondes§7. (§a48s de cooldown§7)",
                 "§f- §7Quand vous utiliserez vos effets, vous §cempêcherez§7 les joueurs dans un rayon de 10 blocs",
-                " §7de bouger pendant §e2 secondes§7, et vous serez §dsoigné§7 de 3 coeurs.");
+                " §7de bouger pendant §e1 secondes7, et vous serez §dsoigné§7 de 2 coeurs.");
         super.setSecondsDelay(48);
     }
 
@@ -38,10 +38,7 @@ public class ErenKit extends KitSchedule {
 
             player.getWorld().strikeLightningEffect(player.getLocation());
             player.addPotionEffect(resistanceEffect);
-            if(player.getHealth() + 6 < player.getMaxHealth())
-                player.setHealth(player.getHealth() + 6);
-            else
-                player.setHealth(player.getMaxHealth()  );
+            player.setHealth(Math.min(player.getHealth() + 4, player.getMaxHealth()));
 
             Bukkit.getOnlinePlayers().stream().filter(target -> target.getWorld().getName().equals(player.getWorld().getName())).filter(target -> target.getLocation().distance(player.getLocation()) < 10).filter(target -> target != player).forEach(target -> {
                 target.addPotionEffect(slownessEffect);

@@ -23,7 +23,7 @@ public class KitManager {
         this.kitList.add(new DemonBatKit());
         this.kitList.add(new TanjiroKit());
         this.kitList.add(new ChainsawKit());
-//        this.kitList.add(new ErenKit());
+        this.kitList.add(new ErenKit());
         this.kitList.add(new RuiKit());
         this.kitList.add(new FreezKit());
         this.kitList.add(new SukunaKit());
@@ -47,7 +47,7 @@ public class KitManager {
         this.kitList.add(new FurutoKit());
         this.kitList.add(new TercoMusclor());
         this.kitList.add(new ObanaiKit());
-        //this.kitList.add(new SasukeKit());
+        this.kitList.add(new SasukeKit());
         this.kitList.add(new MuichiroKit());
         this.kitList.add(new VulcanKit());
         this.kitList.add(new GyomeiKit());
@@ -60,6 +60,13 @@ public class KitManager {
 
         this.kitList.add(new GyutaroKit());
         this.kitList.add(new MiphaKit());
+        this.kitList.add(new SageKit());
+        this.kitList.add(new CharetteKit());
+        this.kitList.add(new DemonGorilleKit());
+        this.kitList.add(new SengokuKit());
+        this.kitList.add(new BrookKit());
+
+
 
         this.defaultKit = defaultKit;
     }

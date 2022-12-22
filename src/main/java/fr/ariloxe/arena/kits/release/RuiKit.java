@@ -24,10 +24,10 @@ public class RuiKit extends KitSchedule {
         super("Rui", KitType.DEFENSIVE, new ItemStack(Material.WEB),
                 "§8» §7Mode : §3Démon-Slayer",
                 "§8» §7Pouvoirs:",
-                "§f- §7Crée une sphère de Cobweb autour de soi pendant 8 secondes. (§a48s de cooldown§7)",
+                "§f- §7Crée une sphère de Cobweb autour de soi pendant 8 secondes. (§a38s de cooldown§7)",
                 "§f- §7Vous offre des cobweb dans votre kit.");
 
-        setSecondsDelay(48);
+        setSecondsDelay(38);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package fr.ariloxe.arena.uis.kits;
 
 import fr.ariloxe.arena.ArenaAPI;
+import fr.ariloxe.arena.kits.Kit;
 import fr.ariloxe.arena.kits.KitType;
 import fr.ariloxe.arena.utils.PlayerUtils;
 import fr.ariloxe.arena.utils.skull.SkullList;
@@ -41,7 +42,20 @@ public class SelectMainInventory {
             ArenaAPI.getApi().getGameManager().joinArena(player);
             player.teleport(location);
         });
-        this.kInventory.setElement(4, reUse);
+        this.kInventory.setElement(3, reUse);
+
+        KItem randomUse = new KItem(new ItemCreator(SkullList.WHITE_BALL.getItemStack()).name("§8§l» §7Kit Aléatoire §8§l«").lore("", "§8§l» §7Cette option vous permet d'utiliser un kit aléatoire", "§7dans tous ceux disponible.", "", "§8§l» §7Cliquez pour choisir.").get());
+        randomUse.addCallback((kInventoryRepresentation, itemStack, player, kInventoryClickContext) -> {
+            Kit kit = ArenaAPI.getApi().getKitManager().getKitList().get(new Random().nextInt(ArenaAPI.getApi().getKitManager().getKitList().size()));
+
+            player.sendMessage("§3§lMenestis §f» §7Vous avez §e§léquipé avec succès§7 le kit " + kit.getName());
+            Location location = ArenaAPI.getApi().getGameManager().getSpecialWorld().getArenaLocations().get(new Random().nextInt(ArenaAPI.getApi().getGameManager().getSpecialWorld().getArenaLocations().size()));
+
+            PlayerUtils.giveDefaultKit(player);
+            ArenaAPI.getApi().getGameManager().joinArena(player);
+            player.teleport(location);
+        });
+        this.kInventory.setElement(5, randomUse);
 
         KItem retour = new KItem(new ItemCreator(Material.ARROW).name("§8§l» §7Fermer ce menu §8§l«").lore("", "§8§l» §7Cette option vous permet de §cfermer§7 ce menu.", "", "§8§l» §7Cliquez pour fermer").get());
         retour.addCallback((kInventoryRepresentation, itemStack, player, kInventoryClickContext) -> player.closeInventory());

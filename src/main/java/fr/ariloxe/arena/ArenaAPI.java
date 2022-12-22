@@ -16,6 +16,7 @@ import fr.ariloxe.arena.utils.scoreboard.ScoreboardManager;
 import fr.ariloxe.arena.manager.GameManager;
 import fr.ariloxe.arena.manager.KitManager;
 import fr.blendman.magnet.api.MagnetApi;
+import fr.blendman.magnet.api.server.ServerCacheHandler;
 import fr.blendman974.kinventory.KInventoryManager;
 import fr.menestis.commons.bukkit.moderation.ModerationManager;
 import org.bukkit.Bukkit;
@@ -87,10 +88,13 @@ public final class ArenaAPI extends JavaPlugin {
         CommandUtils.registerCommand("arena", new VoteCommand());
         CommandUtils.registerCommand("arena", new ArenaCommand());
 
-        MagnetApi.MagnetStore.getApi().setServerState("Waiting");
         ModerationManager.getInstance().init(this);
 
-        Tasks.runLater(()-> Bukkit.getWorlds().forEach(world -> world.setGameRuleValue("doFireTick", "false")), 20*10);
+        informMagnetReady();
+
+        Tasks.runLater(()-> {
+            Bukkit.getWorlds().forEach(world -> world.setGameRuleValue("doFireTick", "false"));
+        }, 20*10);
     }
 
     @Override
@@ -99,7 +103,7 @@ public final class ArenaAPI extends JavaPlugin {
             getGameManager().getLocationList().forEach(location -> location.getBlock().setType(Material.AIR));
     }
 
-    private static Map<UUID, KPlayer> uuidkPlayerMap = new HashMap<>();
+    private final static Map<UUID, KPlayer> uuidkPlayerMap = new HashMap<>();
 
     public static void registerPlayer(Player player){
         UUID uuid = player.getUniqueId();
@@ -140,4 +144,19 @@ public final class ArenaAPI extends JavaPlugin {
     public static ArenaAPI getApi() {
         return instance;
     }
+
+    private void informMagnetReady() {
+        if (MagnetApi.MagnetStore.getApi() != null) {
+            ServerCacheHandler.ServerCacheHandlerStore.getServerCacheHandler().setServerState("Waiting").thenAccept(unused -> getLogger().info("Server is now waiting for players !")).exceptionally(throwable -> {
+                throwable.printStackTrace();
+                return null;
+            }).exceptionally(throwable -> {
+                throwable.printStackTrace();
+                return null;
+            });
+        } else {
+            getLogger().info("Magnet not running, state waiting was not propagated");
+        }
+    }
+
 }

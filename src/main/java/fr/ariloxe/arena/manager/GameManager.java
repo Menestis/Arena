@@ -7,6 +7,7 @@ import fr.ariloxe.arena.maps.SpecialWorld;
 import fr.ariloxe.arena.player.KPlayer;
 import fr.ariloxe.arena.utils.inventory.InvUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -47,6 +48,7 @@ public class GameManager {
     public void joinArena(Player player){
         KPlayer kPlayer = ArenaAPI.getkPlayer(player);
         kPlayer.setDamageable(false);
+        kPlayer.getBukkitPlayer().setGameMode(GameMode.SURVIVAL);
         kPlayer.sendMessage("§3§lMenestis §f» §cVous êtes désormais invulnérable aux dégâts pendant §l6 secondes§c.");
 
         Tasks.runLater(()->{

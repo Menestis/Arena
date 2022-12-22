@@ -15,15 +15,15 @@ import org.bukkit.potion.PotionEffectType;
  */
 public class TercoMusclor extends KitSchedule {
 
-    private final PotionEffect resistanceEffect = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 30*20, 0, false, false);
-    private final PotionEffect absorptionEffect = new PotionEffect(PotionEffectType.ABSORPTION, 4*20, 1, false, false);
+    private final PotionEffect resistanceEffect = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 23*20, 0, false, false);
+    private final PotionEffect absorptionEffect = new PotionEffect(PotionEffectType.ABSORPTION, 4*20, 0, false, false);
 
     public TercoMusclor(){
         super("Terco Musclor", KitType.DPS, new ItemStack(Material.DEAD_BUSH),
                 "§8» §7Mode : §6Pyralien",
                 "§8» §7Pouvoirs:",
-                "§f- §7Gagnez les effets §fRésistance 1§7 pendant §e30 secondes§7 et",
-                "    §7possède 4 coeurs d'absorption. (§a48s de cooldown§7)");
+                "§f- §7Gagnez les effets §fRésistance 1§7 pendant §e23 secondes§7 et",
+                "    §7possède 2 coeurs d'absorption. (§a48s de cooldown§7)");
         super.setSecondsDelay(48);
     }
 
