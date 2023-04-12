@@ -25,9 +25,7 @@ public class KitManager {
         this.kitList.add(new ChainsawKit());
         this.kitList.add(new ErenKit());
         this.kitList.add(new RuiKit());
-        this.kitList.add(new FreezKit());
         this.kitList.add(new SukunaKit());
-        this.kitList.add(new InosukeKit());
         this.kitList.add(new DemonRequinKit());
         this.kitList.add(new OursKit());
         this.kitList.add(new TengenKit());
@@ -40,21 +38,17 @@ public class KitManager {
         this.kitList.add(new GojoKit());
         this.kitList.add(new NamiKit());
         this.kitList.add(new MeliodasKit());
-        this.kitList.add(new GuepKit());
         this.kitList.add(new KiraKit());
         this.kitList.add(new WitchKit());
        // this.kitList.add(new KokushiboKit());
-        this.kitList.add(new FurutoKit());
         this.kitList.add(new TercoMusclor());
         this.kitList.add(new ObanaiKit());
         this.kitList.add(new SasukeKit());
         this.kitList.add(new MuichiroKit());
-        this.kitList.add(new VulcanKit());
         this.kitList.add(new GyomeiKit());
         this.kitList.add(new MuzanKit());
         this.kitList.add(new ZenitsuKit());
         this.kitList.add(new LoupGarouBlancKit());
-        this.kitList.add(new JinxKit());
         this.kitList.add(new EkkoKit());
         //this.kitList.add(new NobaraKit());
 

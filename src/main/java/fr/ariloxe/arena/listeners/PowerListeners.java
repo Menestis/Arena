@@ -62,32 +62,6 @@ public class PowerListeners implements Listener {
         }
     }
 
-    //MADARA
-    @EventHandler
-    public void onBlockUpdate(EntityChangeBlockEvent event) {
-        Block block = event.getBlock();
-        if (event.getEntity() instanceof FallingBlock) {
-            FallingBlock fallingBlock = (FallingBlock) event.getEntity();
-            if (fallingBlock.getCustomName() != null) {
-                if (fallingBlock.getCustomName().equals(MadaraKit.METEORE_KEY)) {
-                    block.setType(Material.AIR);
-                    Bukkit.getScheduler().runTaskLater(ArenaAPI.getApi(),()-> BlockUtils.getBlocksInRadius(block.getLocation().clone().subtract(0, 5, 0), 20, false).stream().filter(block1 -> block1.getType() == Material.BEDROCK).forEach(block1 -> block1.setType(Material.AIR)), 20*2);
-
-                    for (Player players : Bukkit.getOnlinePlayers()) {
-                        if (players.getWorld() == fallingBlock.getWorld()) {
-                            if (players.getGameMode() != GameMode.SPECTATOR) {
-                                if (players.getLocation().distance(fallingBlock.getLocation()) <= 10){
-                                    players.damage(10);
-                                    players.playSound(players.getLocation(), Sound.EXPLODE, 1, 1);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     //LIBE
     private final Map<UUID, Double> lastDamage = new HashMap<>();
     private final Map<UUID, Boolean> canHit = new HashMap<>();
@@ -158,64 +132,6 @@ public class PowerListeners implements Listener {
                 }
                 ((NobaraKit) kAttacker.getKit()).getPlayerPlayerIntegerMap().get(kAttacker).put(kPlayer, ((NobaraKit) kAttacker.getKit()).getPlayerPlayerIntegerMap().get(kAttacker).get(kPlayer) + 1);
 
-            }
-        }
-    }
-
-    @EventHandler
-    public void onClick(PlayerInteractEvent playerInteractEvent){
-        KPlayer kPlayer = ArenaAPI.getkPlayer(playerInteractEvent.getPlayer());
-        if(kPlayer.getKit() instanceof GuepKit && kPlayer.getBukkitPlayer().getItemInHand().getType() == Material.BOW){
-            if(playerInteractEvent.getAction().name().contains("LEFT")){
-                Entity entity = PlayerUtils.getTarget(playerInteractEvent.getPlayer(), 50, 3.4D, true);
-                if(entity != null){
-                    ((GuepKit) kPlayer.getKit()).getkPlayerEntityMap().put(kPlayer, entity);
-                    playerInteractEvent.getPlayer().sendMessage("§3§lMenestis §f» §7Cible séléctionnée: §c" + entity.getName());
-                }
-
-            }
-        }
-    }
-
-    @EventHandler
-    public void onShootBow(EntityShootBowEvent e) {
-        if(!(e.getEntity() instanceof Player))
-            return;
-
-        KPlayer kPlayer = ArenaAPI.getkPlayer(((Player) e.getEntity()));
-        if(kPlayer.getKit() instanceof GuepKit){
-            if (e.getEntity() instanceof Player && e.getProjectile() instanceof org.bukkit.entity.Arrow) {
-                if (((GuepKit) kPlayer.getKit()).getkPlayerEntityMap().get(kPlayer) != null){
-                    final Entity minEntity = ((GuepKit) kPlayer.getKit()).getkPlayerEntityMap().get(kPlayer);
-                    (new BukkitRunnable() {
-                        final Entity arrow = e.getProjectile();
-
-                        public void run() {
-                            Vector newVelocity;
-                            double speed = this.arrow.getVelocity().length();
-                            if (this.arrow.isOnGround() || this.arrow.isDead() || minEntity.isDead() || minEntity.getLocation().getWorld() != kPlayer.getBukkitPlayer().getLocation().getWorld()) {
-                                cancel();
-                                return;
-                            }
-                            Vector toTarget = minEntity.getLocation().clone().add(new Vector(0.0D, 0.5D, 0.0D))
-                                    .subtract(this.arrow.getLocation()).toVector();
-                            Vector dirVelocity = this.arrow.getVelocity().clone().normalize();
-                            Vector dirToTarget = toTarget.clone().normalize();
-                            double angle = dirVelocity.angle(dirToTarget);
-                            double newSpeed = 0.9D * speed + 0.14D;
-
-                            if (angle < 0.12D) {
-                                newVelocity = dirVelocity.clone().multiply(newSpeed);
-                            } else {
-                                Vector newDir = dirVelocity.clone().multiply((angle - 0.12D) / angle)
-                                        .add(dirToTarget.clone().multiply(0.12D / angle));
-                                newDir.normalize();
-                                newVelocity = newDir.clone().multiply(newSpeed);
-                            }
-                            this.arrow.setVelocity(newVelocity.add(new Vector(0.0D, 0.03D, 0.0D)));
-                        }
-                    }).runTaskTimer(ArenaAPI.getApi(), 1L, 1L);
-                }
             }
         }
     }

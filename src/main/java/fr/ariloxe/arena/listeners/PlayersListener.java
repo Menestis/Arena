@@ -7,7 +7,6 @@ import fr.ariloxe.arena.utils.inventory.InventoryConvertor;
 import fr.ariloxe.arena.utils.inventory.PlayerInventory;
 import fr.ariloxe.arena.utils.skull.SkullList;
 import fr.ariloxe.arena.ArenaAPI;
-import fr.ariloxe.arena.kits.release.GuepKit;
 import fr.ariloxe.arena.kits.release.LibeKit;
 import fr.ariloxe.arena.kits.release.MuzanKit;
 import fr.ariloxe.arena.player.KPlayer;
@@ -212,9 +211,7 @@ public class PlayersListener implements Listener {
 
             player.getKiller().getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 3));
             player.getKiller().getInventory().addItem(new ItemStack(Material.COBBLESTONE, 20));
-            if (ArenaAPI.getkPlayer(player.getKiller()).getKit() instanceof GuepKit)
-                player.getKiller().getInventory().addItem(new ItemStack(Material.ARROW, 16));
-            else if (ArenaAPI.getkPlayer(player.getKiller()).getKit() instanceof MuzanKit && new Random().nextInt(3) == 1)
+            if (ArenaAPI.getkPlayer(player.getKiller()).getKit() instanceof MuzanKit && new Random().nextInt(3) == 1)
                 player.getKiller().setMaxHealth(player.getKiller().getMaxHealth() + 1);
 
             player.getKiller().setHealth(Math.min(player.getKiller().getHealth() + 4, player.getKiller().getMaxHealth()));
