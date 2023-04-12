@@ -71,6 +71,14 @@
         </repository>
     </repositories>
 
+    <distributionManagement>
+        <repository>
+            <id>UndefinedDev</id>
+            <name>UndefinedDev</name>
+            <url>https://nexus.undefined-dev.fr/repository/maven/</url>
+        </repository>
+    </distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
