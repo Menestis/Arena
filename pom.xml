@@ -62,8 +62,12 @@
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
         <repository>
-            <id>aspaku</id>
-            <url>https://nexus.aspaku.com/repository/maven/</url>
+            <id>codemc-snapshots</id>
+            <url>https://repo.codemc.io/repository/maven-snapshots/</url>
+        </repository>
+        <repository>
+            <id>UndefinedDev</id>
+            <url>https://nexus.undefined-dev.fr/repository/maven/</url>
         </repository>
     </repositories>
 
