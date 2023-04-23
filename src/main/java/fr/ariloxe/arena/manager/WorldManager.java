@@ -22,16 +22,14 @@ public class WorldManager {
     private final GameManager gameManager;
     private final Location lobbyLocation;
 
-    public WorldManager(GameManager gameManager, ForestWorld forestWorld){
-        specialWorlds.add(forestWorld);
+    public WorldManager(GameManager gameManager, SpecialWorld firstWorld){
+        specialWorlds.add(firstWorld);
+        specialWorlds.add(new EnferWorld());
         specialWorlds.add(new NakimeWorld());
         specialWorlds.add(new NakimeV2World());
-        specialWorlds.add(new EnferWorld());
         specialWorlds.add(new OriginalWorld());
         specialWorlds.add(new Original2World());
         specialWorlds.add(new Original3World());
-        specialWorlds.add(new CityWorld());
-        specialWorlds.add(new Naruto());
 
         this.gameManager = gameManager;
         this.lobbyLocation = new Location(Bukkit.getWorld("Spawn"), 190.354, 126, -198.449, 47, 0);

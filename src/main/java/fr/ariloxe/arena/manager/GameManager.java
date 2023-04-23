@@ -31,10 +31,8 @@ public class GameManager {
     }
 
     public GameManager(){
-        ForestWorld forestWorld = new ForestWorld();
-        specialWorld = forestWorld;
-
-        worldManager = new WorldManager(this, forestWorld);
+        specialWorld = new ForestWorld();
+        worldManager = new WorldManager(this, specialWorld);
     }
 
     public SpecialWorld getSpecialWorld() {

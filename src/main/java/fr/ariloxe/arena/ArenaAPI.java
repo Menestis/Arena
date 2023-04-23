@@ -57,12 +57,12 @@ public final class ArenaAPI extends JavaPlugin {
         KInventoryManager.init(this);
 
 
-        try {
-            ZipUtils.unzip(Paths.get("Arenas.zip"), Bukkit.getWorldContainer().toPath());
-            ZipUtils.unzip(Paths.get("Spawn.zip"), Bukkit.getWorldContainer().toPath());
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+//        try {
+//            ZipUtils.unzip(Paths.get("Arenas.zip"), Bukkit.getWorldContainer().toPath());
+//            ZipUtils.unzip(Paths.get("Spawn.zip"), Bukkit.getWorldContainer().toPath());
+//        } catch (IOException e){
+//            e.printStackTrace();
+//        }
 
         new WorldCreator("Spawn").createWorld();
         new WorldCreator("arenas").createWorld();
